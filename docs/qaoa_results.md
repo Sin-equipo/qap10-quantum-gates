@@ -31,7 +31,7 @@ Simulación ideal (Aer statevector, sin ruido), COBYLA hasta 100 evaluaciones, 2
 | Intercambio | 2 | 100 % | 38.0 % (por semilla: 0, 38, 0, 38, 100 %) | 4.6× | 6.3 s |
 | Intercambio | 3 | 100 % | **36.8 %** (por semilla: 10, 37, 31, 37, 100 %) | **4.4×** | 14.0 s |
 
-**Ojo con p=2:** su mediana de 38 % depende de qué semillas se tomen. Con las semillas 0–2, la mediana es 0 % (lo confirmó el estudio de escalamiento, `scaling_study.py`). **p=3 es la configuración robusta:** todas las semillas dan más de 0 %, 4 de 5 superan al azar y la media es 43 %. Es la que usamos como resultado principal.
+**Ojo con p=2:** su mediana de 38 % depende de qué semillas se tomen. Con las semillas 0–2, la mediana es 0 % (lo confirmó el estudio de escalamiento, `scaling_study.py`). **p=3 es la configuración robusta:** las 5 semillas superan al azar (la peor por poco: 10 % contra 8.3 %) y la media es 43 %. Es la que usamos como resultado principal.
 
 En N=3, 2 de las 6 permutaciones son óptimas, así que en 3 de las 5 semillas el arranque ya era óptimo. Esas corridas se excluyen del resumen. En las 2 restantes, el intercambio con p=3 alcanza P(óptimo) = 43.6 % frente al 33.3 % del azar (1.3×).
 
