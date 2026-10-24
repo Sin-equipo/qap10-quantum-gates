@@ -48,6 +48,8 @@ def _qubo(instance: QAPInstance, penalty: float) -> tuple[float, np.ndarray, dic
             quadratic[key] = quadratic.get(key, 0.0) + value
 
     offset = 0.0
+    if instance.linear is not None:
+        linear += instance.linear.reshape(-1).astype(float)
     for i in range(n):
         for k in range(i + 1, n):
             for j in range(n):
@@ -97,9 +99,13 @@ def certified_penalty(instance: QAPInstance) -> float:
     Leaving flight i unassigned saves at most sum_k F_ik * max(D) of assignment
     cost, while it costs at least ``penalty`` in the row term. With F, D >= 0,
     adding extra ones never lowers the cost, so any penalty above this bound
-    makes the QUBO ground state a valid permutation.
+    makes the QUBO ground state a valid permutation. A non-negative linear term
+    adds at most max_j L_ij to what an empty row can save.
     """
-    return float(instance.flows.sum(axis=1).max() * instance.distances.max()) + 1.0
+    per_row = instance.flows.sum(axis=1) * instance.distances.max()
+    if instance.linear is not None:
+        per_row = per_row + instance.linear.max(axis=1)
+    return float(per_row.max()) + 1.0
 
 
 def _energies(n_qubits: int, constant: float, h: np.ndarray, zz: dict) -> np.ndarray:

@@ -14,6 +14,9 @@ class QAPInstance:
     flows: np.ndarray
     distances: np.ndarray
     name: str = "qap10"
+    # Optional linear term L[i, j]: extra cost of placing flight i at gate j.
+    # Zero for the benchmark; used by LNS subproblems (interaction with fixed flights).
+    linear: np.ndarray | None = None
 
     @property
     def n(self) -> int:
@@ -22,17 +25,21 @@ class QAPInstance:
     def subinstance(self, n: int) -> "QAPInstance":
         if not 1 <= n <= self.n:
             raise ValueError(f"N debe estar entre 1 y {self.n}")
-        return QAPInstance(self.flows[:n, :n], self.distances[:n, :n], f"{self.name}-N{n}")
+        linear = None if self.linear is None else self.linear[:n, :n]
+        return QAPInstance(self.flows[:n, :n], self.distances[:n, :n], f"{self.name}-N{n}", linear)
 
     def cost(self, assignment: tuple[int, ...] | list[int]) -> int:
         """Cost under the challenge convention: each flight pair i < k once."""
         if len(assignment) != self.n or set(assignment) != set(range(self.n)):
             raise ValueError("La asignación debe ser una permutación de las puertas")
-        return sum(
+        total = sum(
             int(self.flows[i, k]) * int(self.distances[assignment[i], assignment[k]])
             for i in range(self.n)
             for k in range(i + 1, self.n)
         )
+        if self.linear is not None:
+            total += sum(int(self.linear[i, assignment[i]]) for i in range(self.n))
+        return total
 
 
 def load_qap10() -> QAPInstance:
