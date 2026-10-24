@@ -1,0 +1,5 @@
+method,runs,best_cost,median_cost,median_gap_percent,runs_reaching_340,all_feasible,median_seconds,qubits_per_call,qaoa_calls_total,median_subproblem_hit_rate,median_p_optimal_per_call
+qaoa,5,360,374,10.0,0,True,82.864785999991,9,750,0.8933333333333333,0.48188108869684126
+exact,5,358,368,8.235294117647058,0,True,0.02017489995341748,,,,
+random,5,364,374,10.0,0,True,0.017437999951653183,,,,
+scipy_faq,5,364,380,11.764705882352942,0,True,0.0019490999984554946,,,,

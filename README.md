@@ -31,7 +31,7 @@ Con el entorno activado, desde la raíz del repo. Todo usa semillas fijas.
 | 2. N=4: clásico exacto + un QAOA | `python run_experiment.py --n 4 --qaoa` | ~15 s | `results/first_attempt_n4.json` |
 | 3. Barrido QAOA N=3/4 (140 corridas) | `python qaoa_sweep.py` | ~20 min | `results/qaoa_sweep.csv`, `qaoa_sweep_summary.json` |
 | 4. Gráfica QAOA N=4 | `python tools\plot_qaoa.py` | ~3 s | `results/qaoa_n4.png` |
-| 5. N=10: híbrido LNS + QAOA vs. controles | `python hybrid_experiment.py` | ~6 min | `results/hybrid_n10.json`, `hybrid_n10_summary.csv` |
+| 5. N=10: híbrido LNS + QAOA vs. controles | `python hybrid_experiment.py` | ~8 min | `results/hybrid_n10.json`, `hybrid_n10_summary.csv` |
 | 6. Gráficas N=10 | `python tools\plot_hybrid.py` | ~5 s | `results/hybrid_convergence.png`, `hybrid_final.png`, `terminal_map.png` |
 
 Los pasos 3 y 5 ya tienen sus resultados en `results/`. Para revisar no hace falta volver a correrlos: los pasos 4 y 6 regeneran las gráficas desde esos archivos. Versión rápida del paso 5: `python hybrid_experiment.py --seeds 2 --iterations 40`.
