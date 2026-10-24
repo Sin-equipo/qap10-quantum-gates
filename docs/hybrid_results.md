@@ -46,7 +46,7 @@ En el mapa se ve el efecto de la optimización. Con el inicio aleatorio, las con
 
 - **El híbrido funciona de punta a punta:** produce asignaciones válidas para N=10, con un gap del 6–10 % (mejor caso: 360), y usa Qiskit de forma sustantiva en cada iteración.
 - **No supera al clásico.** Con K=3, el LNS con subsolver exacto queda un poco mejor (mediana 368 contra 374), y QAOA empata en mediana con el subsolver aleatorio. Con 5 semillas, esas diferencias caen dentro del ruido entre semillas.
-- **La razón:** con vecindarios de 3 vuelos, el cuello de botella es el **bucle externo**, no el subsolver. Un subproblema de 3! = 6 opciones es tan pequeño que hasta elegir al azar acierta 1 de cada 6 veces. En la primera corrida, sin patadas, todas las variantes se estancaban en 364–392. Con las patadas ILS, el subsolver exacto empezó a separarse del aleatorio.
+- **Hipótesis sobre el límite observado:** con vecindarios de 3 vuelos, el bucle externo puede limitar la calidad global: cada subproblema solo tiene 3! = 6 opciones y aun así el método no llegó a 340. La tasa alta de acierto local de QAOA no demuestra por sí sola que el bucle externo sea la causa; también influyen K, inicialización, patadas, regla de aceptación y variación entre semillas. En la primera corrida, sin patadas, todas las variantes se estancaban en 364–392. Con las patadas ILS, el subsolver exacto empezó a separarse del aleatorio.
 - **Ningún método de búsqueda local llegó a 340** en 150 iteraciones. La enumeración exacta sí, en 2.4 s. Para N=10, la respuesta correcta en producción es clásica.
 
 ## Escalabilidad (pregunta del Día 2, N ≥ 14)
@@ -54,11 +54,11 @@ En el mapa se ve el efecto de la optimización. Con el inicio aleatorio, las con
 | | N=10 | N=14 |
 |---|---|---|
 | Permutaciones | 3.6 × 10^6 | 8.7 × 10^10 |
-| Enumeración exacta (a la velocidad medida) | 2.4 s | ≈ 16 h (24 024 veces más) |
+| Enumeración exacta (proyección ingenua a velocidad constante) | 2.4 s | ≈ 16 h (24 024 veces más; no medido) |
 | Statevector del QUBO completo | 2^100 amplitudes | 2^196 amplitudes |
-| Una iteración del LNS + QAOA | 9 qubits, ~0.55 s | **9 qubits, ~0.55 s** (solo crece el cálculo del término lineal, O(N)) |
+| Una iteración del LNS + QAOA | 9 qubits, ~0.55 s de mediana observada | No medido para N=14; 9 qubits si se mantiene K=3, pero el tiempo total puede cambiar |
 
-Este es el argumento del híbrido: el componente cuántico se queda en K² qubits sin importar N. Lo que crece es el número de iteraciones necesarias, no el tamaño del circuito.
+Con K fijo, el subcircuito conserva K² qubits al crecer N; eso no garantiza tiempo total constante. La proyección de 16 horas solo extrapola el conteo de permutaciones a partir de N=10 y supone velocidad constante. La implementación exacta actual usa bloques vectorizados que también crecen en memoria, así que el tiempo y la memoria de N=14 deben medirse con una instancia definida y un baseline que pueda procesarla.
 
 Siguientes pasos:
 - vecindarios más grandes (K=4, 16 qubits; ~6 s por llamada en simulación);

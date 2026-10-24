@@ -33,10 +33,12 @@ Con el entorno activado, desde la raíz del repo. Todo usa semillas fijas.
 | 4. Gráfica QAOA N=4 | `python tools\plot_qaoa.py` | ~3 s | `results/qaoa_n4.png` |
 | 5. N=10: híbrido LNS + QAOA vs. controles | `python hybrid_experiment.py` | ~8 min | `results/hybrid_n10.json`, `hybrid_n10_summary.csv` |
 | 6. Gráficas N=10 | `python tools\plot_hybrid.py` | ~5 s | `results/hybrid_convergence.png`, `hybrid_final.png`, `terminal_map.png` |
+| 7. Corroboración N=1…10 (exacto, QAOA, híbrido) | `python scaling_study.py` | ~12 min | `results/scaling.csv`, `scaling.json` |
+| 8. Gráfica de escalamiento | `python tools\plot_scaling.py` | ~3 s | `results/scaling.png` |
 
-Los pasos 3 y 5 ya tienen sus resultados en `results/`. Para revisar no hace falta volver a correrlos: los pasos 4 y 6 regeneran las gráficas desde esos archivos. Versión rápida del paso 5: `python hybrid_experiment.py --seeds 2 --iterations 40`.
+Los pasos 3, 5 y 7 ya tienen sus resultados en `results/`. Para revisar no hace falta volver a correrlos: los pasos 4, 6 y 8 regeneran las gráficas desde esos archivos. Versión rápida del paso 5: `python hybrid_experiment.py --seeds 2 --iterations 40`.
 
-Análisis y tablas: [`docs/qaoa_results.md`](docs/qaoa_results.md) (N=3/4) y [`docs/hybrid_results.md`](docs/hybrid_results.md) (N=10).
+Análisis y tablas: [`docs/qaoa_results.md`](docs/qaoa_results.md) (N=3/4), [`docs/hybrid_results.md`](docs/hybrid_results.md) (N=10) y [`docs/scaling_results.md`](docs/scaling_results.md) (N=1…10).
 
 ## Qué hace cada parte
 

@@ -28,8 +28,10 @@ Simulación ideal (Aer statevector, sin ruido), COBYLA hasta 100 evaluaciones, 2
 | X | 1 | 2.3 % | 0.2 % | 0.02× | 0.5 s |
 | X | 2 | 4.6 % | 0.4 % | 0.05× | 2.0 s |
 | Intercambio | 1 | 100 % | 0.0 % (mejor semilla: 100 %) | 0.00× | 1.5 s |
-| Intercambio | 2 | 100 % | **38.0 %** (mejor: 100 %) | **4.6×** | 6.3 s |
-| Intercambio | 3 | 100 % | 36.8 % (mejor: 100 %) | 4.4× | 14.0 s |
+| Intercambio | 2 | 100 % | 38.0 % (por semilla: 0, 38, 0, 38, 100 %) | 4.6× | 6.3 s |
+| Intercambio | 3 | 100 % | **36.8 %** (por semilla: 10, 37, 31, 37, 100 %) | **4.4×** | 14.0 s |
+
+**Ojo con p=2:** su mediana de 38 % depende de qué semillas se tomen. Con las semillas 0–2, la mediana es 0 % (lo confirmó el estudio de escalamiento, `scaling_study.py`). **p=3 es la configuración robusta:** todas las semillas dan más de 0 %, 4 de 5 superan al azar y la media es 43 %. Es la que usamos como resultado principal.
 
 En N=3, 2 de las 6 permutaciones son óptimas, así que en 3 de las 5 semillas el arranque ya era óptimo. Esas corridas se excluyen del resumen. En las 2 restantes, el intercambio con p=3 alcanza P(óptimo) = 43.6 % frente al 33.3 % del azar (1.3×).
 
@@ -37,7 +39,7 @@ En N=3, 2 de las 6 permutaciones son óptimas, así que en 3 de las 5 semillas e
 
 - **λ (solo afecta al mezclador X):** con 0.5×, 1×, 2× y 4× la cota, la factibilidad queda en 3–17 % y nunca supera al azar. El estado base es factible incluso con 0.5×: la cota es suficiente, no necesaria. Subir λ no arregla QAOA estándar; el cuello de botella es el ansatz.
 - **CVaR (α = 0.25):** mejora un poco el mezclador X (N=3, p=2: de 4.5 % a 5.7 %), pero baja la mediana del intercambio (N=4, p=2: de 38 % a 26 %). Nos quedamos con α = 1.
-- **Varianza entre semillas:** con p=1, el intercambio va de 0 % a 100 % según la semilla. COBYLA cae en mínimos locales. Desde p=2 la mediana es estable.
+- **Varianza entre semillas:** con p=1 y p=2, el intercambio va de 0 % a 100 % según la semilla, porque COBYLA cae en mínimos locales. Con p=3, todas las semillas encuentran algo.
 
 ## Costo en hardware (transpilado a GenericBackendV2: cx, rz, sx, x; p=1)
 
@@ -48,11 +50,11 @@ En N=3, 2 de las 6 permutaciones son óptimas, así que en 3 de las 5 semillas e
 | 4 | X | 16 | 74 | 192 |
 | 4 | Intercambio | 16 | 1677 | 1920 |
 
-El intercambio garantiza factibilidad, pero cuesta unas 10 veces más compuertas de 2 qubits. En hardware ruidoso de hoy, ese circuito perdería la coherencia antes de terminar. Es un límite real y hay que decirlo en el pitch.
+El intercambio garantiza factibilidad en el circuito estudiado, pero a p=1 cuesta unas 10 veces más compuertas de 2 qubits tras esta transpilación. Ese conteo plantea una preocupación sobre sensibilidad al ruido; no medimos un backend físico ni un modelo de ruido, así que no afirmamos que el circuito necesariamente perdería la coherencia.
 
 ## Conclusión honesta
 
 - El QAOA estándar con penalizaciones **no supera al muestreo aleatorio** en ninguna configuración probada de λ, p o CVaR.
-- Codificar la restricción en el mezclador sí funciona en simulación ideal: **100 % de factibilidad y 4.6× el azar** en N=4 con p=2.
+- Codificar la restricción en el mezclador sí funciona en simulación ideal: **100 % de factibilidad y una mediana de 37 % de P(óptimo), 4.4× el azar,** en N=4 con p=3, con las 5 semillas por encima de 0 %.
 - No hay ventaja frente al clásico: la enumeración exacta resuelve N=4 en microsegundos. El valor está en medir **qué parte del diseño cuántico importa**: el mezclador, no λ.
 - Escalar: el statevector deja de ser viable sobre 16–20 qubits. Para N=10 se usa este solver como subrutina sobre vecindarios de K=3–4 vuelos (rama `hybrid-lns`).
