@@ -38,24 +38,30 @@ def gate_layout(instance: QAPInstance) -> dict:
             "distance_rule": "D[a][b] = 2 * (|fila_a - fila_b| + |col_a - col_b|)"}
 
 
-def exact_profile(instance: QAPInstance) -> dict:
-    """Optimum, every optimal assignment and mean random cost, by full enumeration."""
+def exact_profile(instance: QAPInstance, repeats: int = 3) -> dict:
+    """Optimum, every optimal assignment and mean random cost, by full enumeration.
+
+    ``seconds`` is the best of ``repeats`` complete enumerations, so a busy
+    machine does not inflate the reference time shown next to the optimum.
+    """
     n = instance.n
     rows, cols = np.triu_indices(n, 1)
     pair_flows = instance.flows[rows, cols]
-    tic = perf_counter()
-    best, optimal, total = None, [], 0
-    for first in range(n):
-        rest = [g for g in range(n) if g != first]
-        block = np.array([(first,) + p for p in permutations(rest)], dtype=np.int8).reshape(-1, n)
-        costs = (pair_flows * instance.distances[block[:, rows], block[:, cols]]).sum(axis=1)
-        total += int(costs.sum())
-        low = int(costs.min())
-        if best is None or low < best:
-            best, optimal = low, []
-        if low == best:
-            optimal += block[costs == best].tolist()
-    seconds = perf_counter() - tic
+    seconds = float("inf")
+    for _ in range(repeats):
+        tic = perf_counter()
+        best, optimal, total = None, [], 0
+        for first in range(n):
+            rest = [g for g in range(n) if g != first]
+            block = np.array([(first,) + p for p in permutations(rest)], dtype=np.int8).reshape(-1, n)
+            costs = (pair_flows * instance.distances[block[:, rows], block[:, cols]]).sum(axis=1)
+            total += int(costs.sum())
+            low = int(costs.min())
+            if best is None or low < best:
+                best, optimal = low, []
+            if low == best:
+                optimal += block[costs == best].tolist()
+        seconds = min(seconds, perf_counter() - tic)
     for assignment in optimal:
         assert instance.cost(assignment) == best
     return {"n": n, "optimum": best, "optimal_assignments": optimal,

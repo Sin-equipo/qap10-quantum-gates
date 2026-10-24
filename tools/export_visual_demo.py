@@ -142,6 +142,8 @@ def main() -> None:
     parser.add_argument("--output", default="results/visual_demo.json")
     parser.add_argument("--reuse-lns", action="store_true",
                         help="reutiliza las corridas LNS ya grabadas en --output (recalcularlas tarda ~7 min)")
+    parser.add_argument("--reuse-qaoa", action="store_true",
+                        help="reutiliza las corridas QAOA directas ya grabadas en --output (~3 min)")
     args = parser.parse_args()
 
     instance = load_qap10()
@@ -168,19 +170,24 @@ def main() -> None:
                 print(f"{run['id']}: {run['start_cost']} -> {run['final_cost']} ({run['seconds']:.1f} s)", flush=True)
 
     qaoa_runs = []
-    for n in (3, 4):
-        for mixer, reps in QAOA_CONFIGS:
-            for seed in qaoa_seeds:
-                run = trace.qaoa_run(n, mixer, reps, seed, resources=(seed == 0))
-                qaoa_runs.append(run)
-                print(f"{run['id']}: válidas {run['raw_feasible_fraction']:.3f}, "
-                      f"P(óptimo) {run['p_optimal']:.3f} ({run['train_seconds']:.1f} s)", flush=True)
+    if args.reuse_qaoa:
+        qaoa_runs = json.loads((ROOT / args.output).read_text(encoding="utf-8"))["qaoa_runs"]
+        print(f"QAOA: {len(qaoa_runs)} corridas reutilizadas de {args.output}", flush=True)
+    else:
+        for n in (3, 4):
+            for mixer, reps in QAOA_CONFIGS:
+                for seed in qaoa_seeds:
+                    run = trace.qaoa_run(n, mixer, reps, seed, resources=(seed == 0))
+                    qaoa_runs.append(run)
+                    print(f"{run['id']}: válidas {run['raw_feasible_fraction']:.3f}, "
+                          f"P(óptimo) {run['p_optimal']:.3f} ({run['train_seconds']:.1f} s)", flush=True)
 
     payload = {
         "schema_version": trace.SCHEMA_VERSION,
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "export": "quick" if args.quick else "full",
         "lns_reused": args.reuse_lns,
+        "qaoa_reused": args.reuse_qaoa,
         "versions": {"python": platform.python_version(),
                      **{pkg: version(pkg) for pkg in ("qiskit", "qiskit-aer", "numpy", "scipy")}},
         "instance": {
