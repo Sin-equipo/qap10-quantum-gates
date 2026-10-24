@@ -1,0 +1,15 @@
+[theme]
+base = "light"
+primaryColor = "#087f78"
+backgroundColor = "#f5f4ef"
+secondaryBackgroundColor = "#eeeee7"
+textColor = "#183348"
+font = "sans-serif"
+baseRadius = "10px"
+buttonRadius = "8px"
+paddingTop = "0.25rem"
+paddingBottom = "0rem"
+baseFontSize = 14
+
+[browser]
+gatherUsageStats = false

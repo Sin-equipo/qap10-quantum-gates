@@ -67,9 +67,10 @@ Abre un Pull Request hacia `main`. Haz `git pull` antes de empezar cada bloque.
 
 ```
 data/               MPS oficial comprimido y matrices F, D recuperadas
-src/qap/            instance.py, classical.py, qaoa.py, hybrid.py
+src/qap/            instance.py, classical.py, qaoa.py, hybrid.py, trace.py
+app/                demo visual (Streamlit): streamlit run app/app.py
 tests/              pytest
-tools/              extracción del MPS y gráficas
+tools/              extracción del MPS, gráficas, export de trazas (export_visual_demo.py) y adaptador de la app
 run_experiment.py   N=3/4: clásico + un QAOA
 qaoa_sweep.py       barrido QAOA N=3/4
 hybrid_experiment.py N=10: LNS + QAOA vs. controles
@@ -83,6 +84,18 @@ docs/               análisis y límites
 - Reportar por separado la energía penalizada del QUBO y el costo de una asignación factible.
 - Fijar semillas y registrar parámetros (λ, optimizador, shots) en cada experimento.
 - Los datos de qap10 son un benchmark matemático; el contexto de aeropuerto es una adaptación con supuestos.
+
+## Demo visual para PC
+
+Con el entorno activado, abre la pantalla de dos terminales:
+
+```powershell
+streamlit run app/app.py
+```
+
+La app reproduce corridas reales guardadas: primero la búsqueda y después una oleada de figuras que representan las unidades de flujo del benchmark. Ofrece N=1…10, pausa, velocidad, inspección por evento, intercambio de vuelos mediante arrastre o dos clics y un panel de evidencia que distingue los estudios y sus configuraciones. Las emociones y los segundos de recorrido son ilustrativos; los relojes de cálculo proceden de las ejecuciones registradas.
+
+`results/visual_demo.json` contiene las trazas completas. Para regenerarlas: `python tools/export_visual_demo.py` (varios minutos). Si falta una traza, su reproducción se desactiva; el resultado agregado sigue disponible. La prueba real opcional para N=3/4 ejecuta Qiskit Aer y conserva el resultado en la sesión, sin modificar el dataset guardado.
 
 ## Dependencias
 
