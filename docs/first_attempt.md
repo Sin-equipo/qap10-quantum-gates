@@ -20,9 +20,13 @@ Para `N=4`, el baseline exacto evalúa 24 permutaciones y alcanza costo 32. En l
 
 La comparación sirve para validar el flujo completo, no para afirmar ventaja cuántica: el baseline ya resuelve `N=4` exactamente y la muestra QAOA requirió reparación clásica. El tiempo medido incluye la optimización variacional local y la simulación ideal en esta máquina; no es una comparación de hardware equivalente.
 
-## Próximos pasos posibles
+## Qué vino después
 
-- Revisar el valor de penalización y reportar la tasa de factibilidad sin reparación para varias semillas.
-- Comparar contra búsqueda local clásica para `N=10`, registrando tiempo y costo factible frente a 340.
-- Si el equipo avanza a la final, diseñar una descomposición o vecindarios que mantengan un componente Qiskit justificable para `N>=14`; no simular un statevector de `N²` qubits.
-- Añadir una visualización de asignación y contribución flujo-distancia, siempre identificando las unidades como supuestos del benchmark.
+Este documento registra el primer intento. Los pasos que dejaba abiertos ya están resueltos:
+
+- Penalización y factibilidad sin reparación en cinco semillas, más el mezclador de intercambio: [`qaoa_results.md`](qaoa_results.md).
+- Búsqueda local clásica e híbrido LNS + QAOA para `N=10`, con costo y tiempo frente a 340: [`hybrid_results.md`](hybrid_results.md).
+- Escalamiento N=1…10 y límites de cada método: [`scaling_results.md`](scaling_results.md).
+- Visualización de asignaciones y aportes flujo × distancia: la demo `app/app.py`.
+
+Queda pendiente la prueba `N>=14` de la final, con vecindarios que mantengan un componente Qiskit justificable; no se simula un statevector de `N²` qubits.

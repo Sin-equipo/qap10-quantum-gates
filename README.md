@@ -1,8 +1,8 @@
 # QAP10 · Track A: puertas de embarque
 
-**Proyecto:** Misión conexiones · **Equipo:** Sin-equipo
+**Proyecto:** Misión conexiones · **Equipo:** Sin equipo · **Categoría:** 5.1 Industria (reto NTT DATA)
 
-**Integrantes:** Luis Manuel Espinoza Navarrete · Andrea Sanchez Revolledo · Alexander Bravo Tarazona · Italo Rentería Hinojosa.
+**Integrantes:** Luis Manuel Espinoza Navarrete · Italo Alfredo Chinto Rentería Hinojosa · Andrea Melissa Sanchez Revolledo · Alexander Julian Bravo Tarazona.
 
 Reto NTT DATA del Qiskit Fall Fest 2026. Modela diez vuelos de conexión y diez puertas con la instancia matemática QAP10. Compara un baseline clásico exacto con QAOA en Qiskit para N=3/4 y con un híbrido LNS + QAOA para la instancia completa N=10.
 
@@ -80,19 +80,6 @@ Análisis y tablas: [`docs/qaoa_results.md`](docs/qaoa_results.md) (N=3/4), [`do
 
 Simulación ideal sin ruido. Qiskit construye y simula los circuitos; la optimización de ángulos (COBYLA), la elección de vecindarios y la aceptación de movimientos son clásicas. El mezclador de intercambio no necesita reparación. Si se usa el mezclador X, la reparación húngara se reporta aparte.
 
-## Flujo de trabajo en equipo
-
-```powershell
-git pull
-git checkout -b <tu-nombre>/<tarea>
-# ... cambios ...
-git add .
-git commit -m "mensaje corto"
-git push -u origin <tu-nombre>/<tarea>
-```
-
-Abre un Pull Request hacia `main`. Haz `git pull` antes de empezar cada bloque.
-
 ## Estructura
 
 ```
@@ -104,6 +91,7 @@ tools/              extracción del MPS, gráficas, export de trazas (export_vis
 run_experiment.py   N=3/4: clásico + un QAOA
 qaoa_sweep.py       barrido QAOA N=3/4
 hybrid_experiment.py N=10: LNS + QAOA vs. controles
+scaling_study.py    corroboración N=1…10
 results/            CSV/JSON/PNG de los experimentos
 docs/               análisis y límites
 ```
