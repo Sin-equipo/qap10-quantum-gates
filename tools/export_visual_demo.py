@@ -99,7 +99,7 @@ def verify(payload: dict) -> list[str]:
             for key in ("candidate", "assignment_after_move", "assignment", "best_assignment"):
                 assert sorted(event[key]) == list(range(n)), f"{run['id']} {key} no es permutación"
             assert event["best_cost"] <= best, f"{run['id']} el mejor costo subió"
-            best = min(best, event["cost_after_move"])
+            best = min(best, event["cost_after_move"], event["cost"])
             assert event["best_cost"] == best, f"{run['id']} best_cost inconsistente"
             if event["kick"]:
                 assert len(event["kick"]["flights"]) == run["config"]["kick"], f"{run['id']} patada"

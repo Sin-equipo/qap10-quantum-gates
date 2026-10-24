@@ -142,6 +142,9 @@ def lns(instance: QAPInstance, *, subsolver: str = "qaoa", k: int = 3, iteration
             for flight, gate in zip(moved, shuffled):
                 current[int(flight)] = int(gate)
             current_cost = instance.cost(current)
+            # A kick can improve the incumbent, including on the final iteration.
+            if current_cost < best_cost:
+                best, best_cost = list(current), current_cost
             stall, kicks = 0, kicks + 1
             kick_info = {"flights": sorted(int(i) for i in moved)}
         history.append(best_cost)
@@ -179,6 +182,7 @@ def lns(instance: QAPInstance, *, subsolver: str = "qaoa", k: int = 3, iteration
         "stall_limit": stall_limit,
         "kick": kick,
         "kicks": kicks,
+        "best_tracking": "including_kicks",
         "assignment": best,
         "cost": best_cost,
         "feasible": sorted(best) == list(range(n)),

@@ -67,6 +67,8 @@ Con el entorno activado, desde la raíz del repo. Todo usa semillas fijas.
 
 Los pasos 3, 5, 7 y 9 ya tienen sus resultados en `results/`. Para revisar no hace falta volver a correrlos: los pasos 4, 6 y 8 regeneran las gráficas desde esos archivos. Versión rápida del paso 5: `python hybrid_experiment.py --seeds 2 --iterations 40`.
 
+Las corridas nuevas registran `best_tracking="including_kicks"`: se considera también la asignación visitada después de una patada. Los artefactos históricos se conservan sin reescribir; se verificó que esta corrección no cambia los costos finales de las trazas guardadas de la demo ni del estudio principal N=10. Para reproducir estrictamente la implementación de los resultados históricos, la revisión de referencia es `2788df1`; las correcciones posteriores deben identificarse al generar nuevas corridas.
+
 Análisis y tablas: [`docs/qaoa_results.md`](docs/qaoa_results.md) (N=3/4), [`docs/hybrid_results.md`](docs/hybrid_results.md) (N=10) y [`docs/scaling_results.md`](docs/scaling_results.md) (N=1…10). Formato de las trazas de la demo: [`docs/visual_demo_schema.md`](docs/visual_demo_schema.md).
 
 ## Qué hace cada parte
@@ -132,3 +134,12 @@ Pruebas del recorrido: `python -m pytest tests/test_walk_math.py`. Las pruebas d
 ## Dependencias
 
 Versiones fijadas en `requirements.txt` (Qiskit 2.6.1 y qiskit-aer 0.18.0). El prototipo usa Qiskit para construir y simular el circuito; la optimización de parámetros y la reparación de muestras se ejecutan clásicamente.
+
+## Fuentes y recursos
+
+- [MIPLIB: instancia QAP10](https://miplib.zib.de/instance_details_qap10.html): archivo original y referencia de la instancia.
+- [IBM Quantum: QAOA](https://quantum.cloud.ibm.com/docs/en/tutorials/quantum-approximate-optimization-algorithm): marco del método variacional híbrido.
+- [Qiskit Aer: simuladores](https://qiskit.github.io/qiskit-aer/tutorials/1_aersimulator.html): simulación de circuitos y muestreo.
+- [Hadfield et al.: Quantum Alternating Operator Ansatz](https://arxiv.org/abs/1709.03489): contexto de mezcladores que conservan restricciones.
+
+Se utilizaron Python, NumPy, SciPy, Qiskit, Qiskit Aer, Matplotlib y Streamlit; las versiones están declaradas en `requirements.txt`. El equipo utilizó asistencia de Codex y Claude durante el desarrollo y la revisión, y es responsable de comprobar y explicar el código y los resultados presentados.

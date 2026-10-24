@@ -31,7 +31,7 @@ def test_lns_events_are_consistent(base):
             assert event["assignment_after_move"] == event["candidate"]
         else:
             assert event["candidate_cost"] > event["cost_after_move"]
-        best = min(best, event["cost_after_move"])
+        best = min(best, event["cost_after_move"], event["cost"])
         assert event["best_cost"] == best
     assert any(e["kick"] for e in run["events"])
     assert run["final_cost"] == best

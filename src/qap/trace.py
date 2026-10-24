@@ -94,6 +94,7 @@ def lns_run(n: int, subsolver: str, seed: int = 0, **overrides) -> dict:
         "final_assignment": run["assignment"],
         "final_cost": run["cost"],
         "kicks": run["kicks"],
+        "best_tracking": run["best_tracking"],
         "seconds": run["seconds"],
         "qaoa_calls": run.get("qaoa_calls"),
         "qaoa_subproblem_hit_rate": run.get("qaoa_subproblem_hit_rate"),

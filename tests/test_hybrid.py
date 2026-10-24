@@ -46,3 +46,22 @@ def test_lns_returns_valid_non_worse_assignment(base, subsolver):
     assert run["feasible"]
     assert run["cost"] <= run["start_cost"]
     assert all(b <= a for a, b in zip(run["history"], run["history"][1:]))
+
+
+@pytest.mark.parametrize("traced", [False, True])
+def test_final_kick_improvement_is_retained(base, traced):
+    """The last exploration kick reaches 48 after the local move stays at 50."""
+    instance = base.subinstance(4)
+    run = lns(instance, subsolver="random", iterations=1, seed=2,
+              stall_limit=1, kick=4, trace=traced)
+    assert run["start_cost"] == 50
+    assert run["cost"] == instance.cost(run["assignment"]) == 48
+    assert run["history"] == [50, 48]
+    assert run["current_history"] == [50, 48]
+    assert run["best_tracking"] == "including_kicks"
+    if traced:
+        event = run["events"][0]
+        assert event["kick"] is not None
+        assert event["cost_after_move"] == 50
+        assert event["cost"] == event["best_cost"] == 48
+        assert event["best_assignment"] == run["assignment"]
