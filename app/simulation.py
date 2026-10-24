@@ -287,7 +287,7 @@ export default function(component) {
     else if(app.runs.some(r=>!r))text='Esta combinación aún no tiene una traza registrada. Puedes explorar asignaciones manuales o consultar los resultados en Evidencia.';
     else if(app.phase==='sampledone')text=`Vista de ${Math.max(...app.runs.map(r=>r?.samples?.length||0))} shots completada. Las probabilidades describen el circuito completo; encontrar un buen shot entre 2048 no garantiza alta probabilidad de óptimo. Usa «Ver el impacto» para explorar las rutas.`;
     else if(app.phase==='samples')text='Una muestra inválida puede dejar vuelos sin puerta o asignar varios a la misma. El mixer de intercambio conserva la regla uno a uno.';
-    else if(app.mode==='mixers')text=`Azar válido: ${fmt(100*I.stats.p_optimal_random)}% de P(óptimo). Compara costo del mejor shot, P(óptimo), factibilidad y tiempo. Es una semilla, no la mediana (ver Evidencia).`;
+    else if(app.mode==='mixers')text=`Azar válido: ${fmt(100*I.stats.p_optimal_random)}% de P(óptimo). Con 2048 shots, "mejor shot válido" casi siempre llega al óptimo porque se prueban muchos; lo que distingue a los mixers es P(óptimo) y el % de shots válidos. Es una semilla, no la mediana (ver Evidencia).`;
     else if(['walk','done'].includes(app.phase)) {
       const a=cost(app.runs[0].final_assignment),b=cost(app.runs[1].final_assignment);
       text=a===b?`En esta semilla ambos terminaron en ${a}. Compara también el tiempo medido; la calidad final por sí sola no cuenta toda la historia.`:`En esta semilla: clásico ${a}, híbrido ${b}; óptimo global ${I.optimum}. Los personajes representan el costo de conexiones de cada asignación.`;
