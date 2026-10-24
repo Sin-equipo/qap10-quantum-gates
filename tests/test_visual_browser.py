@@ -19,19 +19,18 @@ import pytest
 playwright_api = pytest.importorskip("playwright.sync_api", reason="Install Playwright to run the optional browser regressions")
 expect = playwright_api.expect
 ROOT = Path(__file__).resolve().parents[1]
-PORT = 8505
-URL = f"http://127.0.0.1:{PORT}"
 
 
 @pytest.fixture(scope="module")
 def visual_server(tmp_path_factory):
     with socket.socket() as probe:
-        if probe.connect_ex(("127.0.0.1", PORT)) == 0:
-            pytest.fail(f"Port {PORT} is already in use; the tests will not take over another server")
+        probe.bind(("127.0.0.1", 0))
+        port = probe.getsockname()[1]
+    url = f"http://127.0.0.1:{port}"
     log = (tmp_path_factory.mktemp("visual-server") / "streamlit.log").open("w", encoding="utf-8")
     process = subprocess.Popen(
         [sys.executable, "-m", "streamlit", "run", "app/app.py", "--server.headless=true",
-         "--server.address=127.0.0.1", f"--server.port={PORT}", "--server.fileWatcherType=none"],
+         "--server.address=127.0.0.1", f"--server.port={port}", "--server.fileWatcherType=none"],
         cwd=ROOT, stdout=log, stderr=subprocess.STDOUT,
         creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0,
     )
@@ -41,13 +40,13 @@ def visual_server(tmp_path_factory):
             if process.poll() is not None:
                 pytest.fail("The owned Streamlit test server stopped during startup")
             try:
-                urllib.request.urlopen(URL + "/_stcore/health", timeout=1).close()
+                urllib.request.urlopen(url + "/_stcore/health", timeout=1).close()
                 break
             except (OSError, TimeoutError):
                 time.sleep(0.1)
         else:
             pytest.fail("The owned Streamlit test server did not become ready")
-        yield URL
+        yield url
     finally:
         if os.name == "nt":
             subprocess.run(["taskkill", "/PID", str(process.pid), "/T", "/F"],
