@@ -13,7 +13,7 @@ Simulación ideal (Aer statevector, sin ruido), COBYLA hasta 100 evaluaciones, 2
 | Coeficientes del Hamiltoniano de hasta 273 con γ ∈ [0, π]: fases caóticas | Se normaliza H antes de construir el circuito |
 | λ = 120 sin justificar | λ = max_i Σ_k F_ik · max D + 1 (cota suficiente). Se verifica que el estado base del QUBO es una permutación |
 | 0 % de muestras factibles; el 32 lo producía la reparación húngara | Mezclador de intercambio que nunca sale del espacio de permutaciones |
-| No había comparación contra el azar | Métrica P(óptimo) vs. 1/N! de una permutación aleatoria |
+| No había comparación contra el azar | Métrica P(óptimo) vs. el número de asignaciones óptimas dividido entre N! para una permutación válida aleatoria |
 
 ## Dos ansatz
 
@@ -21,7 +21,7 @@ Simulación ideal (Aer statevector, sin ruido), COBYLA hasta 100 evaluaciones, 2
 - **Intercambio (perm):** parte de una permutación aleatoria con semilla. Cada término del mezclador intercambia las puertas de dos vuelos (`x_ij x_kl ↔ x_il x_kj`) y se implementa con `PauliEvolutionGate`. Sus 8 cadenas de Pauli conmutan, así que la evolución es exacta y el estado se queda en las N! permutaciones. Esto se comprueba en los tests.
 - **XY por filas (descartado):** conserva un vuelo por fila, pero las penalizaciones de columna lo dejan pegado en el estado inicial.
 
-## Resultados N=4 (16 qubits, óptimo 32, mediana de 5 semillas, α = 1)
+## Resultados N=4 (16 qubits, óptimo 32, dos asignaciones óptimas de 24, mediana de 5 semillas, α = 1)
 
 | Ansatz | p | Factibles sin reparar | P(óptimo) | vs. azar (8.3 %) | Tiempo de entrenamiento |
 |---|---|---|---|---|---|

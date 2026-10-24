@@ -39,7 +39,9 @@ def main() -> None:
                     va="center", color=INK, fontsize=10)
         if key == "median_p_optimal":
             ax.axvline(100 * baseline, color=INK_2, linestyle=(0, (4, 3)), linewidth=1.5)
-            ax.text(40, 1.0, f"línea punteada = azar\n(1 de 24 permutaciones = {100 * baseline:.1f}%)",
+            optimal_permutations = round(24 * baseline)
+            ax.text(40, 1.0,
+                    f"línea punteada = azar\n({optimal_permutations} de 24 permutaciones = {100 * baseline:.1f}%)",
                     color=INK_2, fontsize=9.5, va="center")
         ax.set_xlim(0, 110)
         ax.invert_yaxis()

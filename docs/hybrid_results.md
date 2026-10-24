@@ -36,7 +36,7 @@ El QUBO completo de N=10 tiene 100 variables binarias, y simular su statevector 
 
 El gap se calcula como 100 · (C − 340) / 340, solo sobre asignaciones válidas. Todas lo son. Nada se reparó.
 
-**Calidad del subsolver cuántico:** en 750 llamadas a QAOA, la mejor muestra fue el óptimo del subproblema en el **89 %** de los casos (mediana por semilla). La probabilidad media de muestrear el óptimo por llamada fue de **48 %**, frente al 17 % del azar (1 de 6).
+**Calidad del subsolver cuántico:** en 750 llamadas a QAOA, la mejor muestra fue el óptimo del subproblema en el **89 %** de los casos (mediana por semilla). La probabilidad media de muestrear el óptimo por llamada fue de **48 %**. El azar acierta al menos 1 de 6 (17 %), y más si el subproblema tiene empates.
 
 ![Mapa de la terminal](../results/terminal_map.png)
 
