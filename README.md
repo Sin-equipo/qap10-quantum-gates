@@ -4,6 +4,28 @@ Reto NTT DATA del Qiskit Fall Fest 2026. Modela diez vuelos de conexión y diez 
 
 **El aeropuerto es una interpretación del benchmark.** Los flujos y distancias de QAP10 no son datos medidos de vuelos ni de puertas reales; no deben presentarse como pasajeros, metros ni ahorros operativos reales.
 
+## Resultados en 30 segundos
+
+| Qué se midió | Resultado |
+|---|---|
+| Controles del reto, con matrices recuperadas del MPS | N=3 → 24, N=4 → 32, N=10 → 340, exactos por enumeración |
+| QAOA estándar (penalización), N=4, p=3, 5 semillas | P(óptimo) 0.3 %, 3.7 % de muestras válidas; no supera al azar (8.3 %) |
+| QAOA con mezclador de intercambio, N=4, p=3 | P(óptimo) 36.8 %, 100 % válidas; 4.4× el azar (simulación ideal, sin ruido) |
+| Híbrido LNS + QAOA, N=10 (9 qubits por llamada) | Mediana 374 (gap 10 %), mejor 360; no llega a 340 y no supera al LNS clásico |
+| Referencia exacta, N=10 | 340 en ≈2.5 s |
+
+No afirmamos ventaja cuántica ni medimos hardware real o ruido. El hallazgo medido es que el diseño del mezclador pesa más que el castigo de las restricciones.
+
+**Dónde mirar, según el criterio:**
+
+| Criterio | Archivos |
+|---|---|
+| Modelo, lectura de datos y factibilidad | `src/qap/instance.py`, `data/`, `docs/first_attempt.md`, `docs/scaling_results.md` |
+| Uso de Qiskit | `src/qap/qaoa.py`, `docs/qaoa_results.md` |
+| Comparación con el baseline clásico | `src/qap/classical.py`, `src/qap/hybrid.py`, `docs/hybrid_results.md` |
+| Rigor: tiempos, límites y escalamiento | `docs/scaling_results.md`, sección «Lectura honesta» de `docs/hybrid_results.md` |
+| Demo y trazas reproducibles | `app/app.py`, `results/visual_demo.json`, `tools/export_visual_demo.py` |
+
 ## Setup (Windows, PowerShell)
 
 Requisitos: Python 3.13 y Git.
