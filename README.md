@@ -1,8 +1,14 @@
 # QAP10 · Track A: puertas de embarque
 
+**Proyecto:** Misión conexiones · **Equipo:** Sin-equipo
+
+**Integrantes:** Luis Manuel Espinoza Navarrete · Andrea Sanchez Revolledo · Alexander Bravo Tarazona · Italo Rentería Hinojosa.
+
 Reto NTT DATA del Qiskit Fall Fest 2026. Modela diez vuelos de conexión y diez puertas con la instancia matemática QAP10. Compara un baseline clásico exacto con QAOA en Qiskit para N=3/4 y con un híbrido LNS + QAOA para la instancia completa N=10.
 
 **El aeropuerto es una interpretación del benchmark.** Los flujos y distancias de QAP10 no son datos medidos de vuelos ni de puertas reales; no deben presentarse como pasajeros, metros ni ahorros operativos reales.
+
+**Descripción breve para la entrega:** Misión conexiones es un laboratorio interactivo para estudiar la asignación de vuelos a puertas mediante el benchmark QAP10. Compara métodos clásicos con QAOA simulado en Qiskit Aer y un enfoque híbrido por vecindarios. La demo permite explorar conexiones, intercambiar vuelos y comparar costo, factibilidad, probabilidades y tiempos registrados. Los experimentos reproducibles cubren N=1…10; muestran cómo conservar restricciones en el circuito mejora ciertos resultados pequeños y documentan los límites del híbrido, sin demostrar ventaja cuántica.
 
 ## Resultados en 30 segundos
 
@@ -48,7 +54,7 @@ Con el entorno activado, desde la raíz del repo. Todo usa semillas fijas.
 
 | Paso | Comando | Tiempo | Salida |
 |---|---|---|---|
-| 0. Tests (24, 32, 340, QUBO, mezclador, LNS) | `python -m pytest tests` | ~10 s | 19 tests en verde |
+| 0. Pruebas de costos, circuitos, trazas y app | `python -m pytest tests` | ~1 min con navegador | Controles 24/32/340 y verificaciones de factibilidad; navegador y Node requieren los recursos de desarrollo indicados abajo |
 | 1. (Opcional) Re-extraer F y D del MPS | `python tools\extract_qap10.py` | ~1 s | `data/qap10_matrices.json` |
 | 2. N=4: clásico exacto + un QAOA | `python run_experiment.py --n 4 --qaoa` | ~15 s | `results/first_attempt_n4.json` |
 | 3. Barrido QAOA N=3/4 (140 corridas) | `python qaoa_sweep.py` | ~20 min | `results/qaoa_sweep.csv`, `qaoa_sweep_summary.json` |
@@ -115,9 +121,13 @@ Con el entorno activado, abre la pantalla de dos terminales:
 streamlit run app/app.py
 ```
 
-La app reproduce corridas reales guardadas: primero la búsqueda y después una oleada de figuras que representan las unidades de flujo del benchmark. Ofrece N=1…10, pausa, velocidad, inspección por evento, intercambio de vuelos mediante arrastre o dos clics y un panel de evidencia que distingue los estudios y sus configuraciones. Las emociones y los segundos de recorrido son ilustrativos; los relojes de cálculo proceden de las ejecuciones registradas.
+La app reproduce corridas reales guardadas para N=1…10. La búsqueda conserva sus relojes medidos; después se puede comparar la asignación inicial con el resultado, ambos algoritmos o el óptimo global. El recorrido destaca una conexión y muestra flujo × distancia, con opciones para tres conexiones secuenciales o todos los flujos. La suma recorrida por todas las figuras coincide con el costo QAP. Cada recorrido se detiene en la última llegada; pausa y finalización detienen también el redibujado continuo. La velocidad se ajusta por separado para el cálculo y la animación.
+
+Se conservan el intercambio de vuelos mediante arrastre o dos clics, los shots reales de QAOA y el panel de evidencia. Las figuras representan unidades de flujo; sus emociones y segundos de movimiento son ilustrativos. Mostrar menos conexiones no cambia las matrices ni el costo del plan completo. Las tres conexiones clave se ordenan por cambio absoluto del aporte, incluyendo empeoramientos. Dos asignaciones iguales producen recorridos idénticos: la app no inventa una diferencia entre algoritmos.
 
 `results/visual_demo.json` contiene las trazas completas. Para regenerarlas: `python tools/export_visual_demo.py` (varios minutos). Si falta una traza, su reproducción se desactiva; el resultado agregado sigue disponible. La prueba real opcional para N=3/4 ejecuta Qiskit Aer y conserva el resultado en la sesión, sin modificar el dataset guardado.
+
+Pruebas del recorrido: `python -m pytest tests/test_walk_math.py`. Las pruebas de navegador en `tests/test_visual_browser.py` requieren Playwright y Chromium (`pip install playwright` y `python -m playwright install chromium`); arrancan y detienen su propio servidor local. Node se usa solo en las pruebas independientes de las fórmulas JavaScript, no para ejecutar la app.
 
 ## Dependencias
 

@@ -4,6 +4,8 @@ from hashlib import sha256
 
 import streamlit as st
 
+from walk_math import WALK_MODEL
+
 HTML = r"""
 <main id="lab" class="lab">
   <header class="masthead">
@@ -19,21 +21,30 @@ HTML = r"""
     <button class="reference-pill" id="show-optimum" title="Mostrar la asignación exacta en la terminal izquierda"><span class="eyebrow">ÓPTIMO EXACTO ↗</span><strong id="reference">340</strong><small id="exact-time">2,6 s · 10! opciones</small></button>
   </nav>
   <section class="phase-line"><div class="phase-steps"><span id="step-search" class="phase-step selected"><b>1</b> Buscar asignación</span><span class="phase-dash"></span><span id="step-walk" class="phase-step"><b>2</b> Ver las conexiones</span></div><span id="phase-message" class="phase-message">Mismo inicio. Mismos vecindarios. Distinto subsolver.</span></section>
+  <section id="walk-options" class="walk-options" aria-label="Explorar el efecto de las asignaciones" hidden>
+    <label>Comparar <select id="walk-compare" aria-label="Asignaciones que recorren los pasajeros"><option value="impact">Antes → resultado QAOA</option><option value="algorithms">Los dos algoritmos</option><option value="optimum">Óptimo → resultado QAOA</option></select></label>
+    <label>Mostrar <select id="walk-view" aria-label="Cantidad de conexiones visibles"><option value="group">Una conexión</option><option value="tour">Tres conexiones clave</option><option value="all">Todos los flujos</option></select></label>
+    <label class="transfer-control">Conexión <select id="transfer" aria-label="Conexión de vuelos a inspeccionar"></select></label>
+    <button id="prev-transfer" class="square" aria-label="Conexión anterior" title="Conexión anterior">‹</button><button id="next-transfer" class="square" aria-label="Siguiente conexión" title="Siguiente conexión">›</button>
+    <span id="tour-label" class="tour-label"></span>
+  </section>
   <section class="arena" aria-label="Comparación visual de dos aeropuertos">
     <article class="terminal terminal-left" data-side="0">
       <div class="terminal-head"><div><span class="eyebrow method-label" id="method-left">BÚSQUEDA CLÁSICA</span><h2 id="title-left">LNS + exacto</h2></div><span id="status-left" class="status">En espera</span></div>
       <div class="metrics"><div><small>Costo actual</small><strong id="cost-left">—</strong></div><div><small>Mejor encontrado</small><strong id="best-left">—</strong></div><div class="qmetric" id="popt-wrap-left" hidden><small>P(óptimo)</small><strong id="popt-left">—</strong></div><div class="qmetric" id="valid-wrap-left" hidden><small>Shots válidos</small><strong id="valid-left">—</strong></div><div class="time-metric"><small>Cálculo medido</small><strong id="time-left">—</strong></div><span id="gap-left" class="gap">—</span></div>
       <div class="map" id="map-left"><canvas id="canvas-left" aria-label="Pasajeros y pasillos de la terminal izquierda"></canvas><svg id="gates-left" viewBox="0 0 600 330" role="group" aria-label="Puertas de la terminal izquierda, selecciona dos para intercambiar vuelos"></svg><div class="speech" id="speech-left" hidden></div></div>
+      <div id="walk-readout-left" class="walk-readout" hidden><div><span id="trip-left">Esta conexión</span><strong id="walked-left">0 / 0 unidades</strong></div><div class="arrival-track"><span id="arrival-fill-left"></span></div><small id="trip-equation-left">flujo × distancia</small></div>
       <div class="terminal-foot"><span id="detail-left">60 iteraciones · K=3</span><span id="arrivals-left">↔ Arrastra o selecciona dos puertas</span></div>
     </article>
     <article class="terminal terminal-right" data-side="1">
       <div class="terminal-head"><div><span class="eyebrow method-label" id="method-right">BÚSQUEDA HÍBRIDA</span><h2 id="title-right">LNS + QAOA</h2></div><span id="status-right" class="status">En espera</span></div>
       <div class="metrics"><div><small>Costo actual</small><strong id="cost-right">—</strong></div><div><small>Mejor encontrado</small><strong id="best-right">—</strong></div><div class="qmetric" id="popt-wrap-right" hidden><small>P(óptimo)</small><strong id="popt-right">—</strong></div><div class="qmetric" id="valid-wrap-right" hidden><small>Shots válidos</small><strong id="valid-right">—</strong></div><div class="time-metric"><small>Cálculo medido</small><strong id="time-right">—</strong></div><span id="gap-right" class="gap">—</span></div>
       <div class="map" id="map-right"><canvas id="canvas-right" aria-label="Pasajeros y pasillos de la terminal derecha"></canvas><svg id="gates-right" viewBox="0 0 600 330" role="group" aria-label="Puertas de la terminal derecha, selecciona dos para intercambiar vuelos"></svg><div class="speech" id="speech-right" hidden></div></div>
+      <div id="walk-readout-right" class="walk-readout" hidden><div><span id="trip-right">Esta conexión</span><strong id="walked-right">0 / 0 unidades</strong></div><div class="arrival-track"><span id="arrival-fill-right"></span></div><small id="trip-equation-right">flujo × distancia</small></div>
       <div class="terminal-foot"><span id="detail-right">60 iteraciones · 9 qubits por llamada</span><span id="arrivals-right">↔ Arrastra o selecciona dos puertas</span></div>
     </article>
   </section>
-  <section class="insight-strip"><span class="insight-icon">↳</span><p id="insight">¿Un buen subsolver garantiza una buena asignación global? Reproduce el duelo y observa.</p><button id="restore" class="text-button" hidden>Restaurar duelo ↺</button></section>
+  <section class="insight-strip"><span class="insight-icon">↳</span><p id="insight" role="status" aria-live="polite">¿Un buen subsolver garantiza una buena asignación global? Reproduce el duelo y observa.</p><button id="restore" class="text-button" hidden>Restaurar duelo ↺</button></section>
   <section class="bottom-row">
     <div class="player"><div class="player-buttons"><button id="play" class="primary"><span>▶</span> Reproducir duelo</button><button id="restart" class="square" title="Reiniciar" aria-label="Reiniciar reproducción">↺</button><button id="next" class="square" title="Avanzar un evento" aria-label="Avanzar un evento">↦</button><button id="walk" class="quiet small">Ver pasajeros ↗</button><button id="samples" class="quiet small" hidden>Ver muestras</button></div><div class="scrub"><span id="clock-label">0,0 s</span><input id="timeline" type="range" min="0" max="1000" value="0" aria-label="Línea de tiempo de la corrida"><span id="duration-label">—</span><select id="speed" aria-label="Velocidad de reproducción"><option value="1">1×</option><option value="5">5×</option><option value="10" selected>10×</option><option value="20">20×</option></select></div></div>
     <div class="chart-wrap"><div class="chart-heading"><span id="chart-title">Costo por iteración</span><span><i class="dot blue"></i> <span id="legend-left">Clásico</span> <i class="dot teal"></i> <span id="legend-right">QAOA</span></span></div><svg id="convergence" viewBox="0 0 520 64" role="img" aria-label="Evolución del costo en las corridas registradas"></svg></div>
@@ -61,7 +72,11 @@ CSS = r"""
 .depth-label{width:auto;min-width:58px}.qmetric strong{color:#14796d}.reference-pill{background:transparent;border-top:0;border-right:0;border-bottom:0;text-align:left;border-radius:0}.reference-pill:hover{background:#e0e8da}
 """
 
-JS = r"""
+CSS += r"""
+.walk-options{display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:7px;background:#e8eee1;min-height:36px;flex-shrink:0}.walk-options label{font-size:9px;color:#697c68;display:flex;align-items:center;gap:5px;white-space:nowrap}.walk-options select{font-size:10px;max-width:230px}.walk-options .transfer-control{flex:1;min-width:0}.transfer-control select{width:100%;max-width:none}.walk-options .square{width:25px;height:25px}.tour-label{font-size:9px;color:#49775f;white-space:nowrap}.walk-readout{padding:6px 12px;background:#f0f5e9;border-top:1px solid #e1e9d7;min-height:47px;flex-shrink:0}.walk-readout>div:first-child{display:flex;justify-content:space-between;gap:8px;font-size:10px;color:#506c62}.walk-readout strong{font-size:13px;color:#1c6d63;font-variant-numeric:tabular-nums}.walk-readout small{font-size:9px;color:#7c8d71}.arrival-track{height:3px;border-radius:3px;background:#dfe7d5;margin:4px 0 2px;overflow:hidden}.arrival-track span{display:block;height:100%;width:0;background:#4c86a6}.terminal-right .arrival-track span{background:#309580}.speed-label{display:flex;align-items:center;gap:3px;font-size:8px;color:#6b8072;white-space:nowrap}.terminal-foot span:last-child{font-variant-numeric:tabular-nums}.lab[data-phase=done] .insight-strip,.lab[data-phase=sampledone] .insight-strip{background:#e5eddf;padding:5px 9px;border-radius:6px}@media(max-height:850px){.lab{gap:5px}.walk-options{min-height:31px;padding:3px 8px}.walk-readout{min-height:40px;padding:4px 10px}.walk-readout strong{font-size:12px}.insight-strip p{font-size:10px}.terminal-head{min-height:43px}.terminal-foot{min-height:20px}.metrics{min-height:42px}.walk-options select{font-size:9px}}@media(max-width:1150px){.walk-options{gap:5px}.walk-options label{font-size:8px}.walk-options select{font-size:9px}.walk-readout strong{font-size:11px}.walk-options .tour-label{display:none}}
+"""
+
+JS = WALK_MODEL + r"""
 const instances = new WeakMap();
 const BLUE = '#4d7fbb', TEAL = '#1b9380', INK = '#294b5c';
 const LETTERS = 'ABCDEFGHIJ';
@@ -93,10 +108,12 @@ export default function(component) {
     return app.cleanup;
   }
   const $ = id => root.querySelector('#'+id);
+  const speedKind=document.createElement('span');speedKind.id='speed-kind';speedKind.className='speed-label';$('speed').before(speedKind);
   app = {data, send:setTriggerValue, n:10, mode:'lns', seed:0, depth:3, speed:10,
     phase:'ready', clock:0, walkTime:0, sampleTime:0, playing:false,
     manual:[null,null], referenceSide:null, picked:null, highlight:null, frames:[null,null],
     runs:[null,null], raf:0, last:0, lastUI:0, lastMap:['',''], toastUntil:0,
+    walkCompare:'impact',walkView:'group',travelSpeed:1,pairId:null,pairs:[],tourIndex:0,tourIds:[],peopleCache:[null,null],
     liveDone:data.live_completed, livePending:false, destroyed:false};
   instances.set(parentElement,app);
 
@@ -107,11 +124,31 @@ export default function(component) {
   function cost(a) {if(!a || a.length!==app.n || new Set(a).size!==app.n || a.some(x=>x<0||x>=app.n)) return null;let c=0;const I=instance();for(let i=0;i<app.n;i++)for(let k=i+1;k<app.n;k++)c+=I.flows[i][k]*I.distances[a[i]][a[k]];return c;}
   function valid(a) {return cost(a)!==null;}
   function duration() {return Math.max(.000001,...app.runs.filter(Boolean).map(r=>Number(r.seconds||0)));}
+  function isWalking() {return app.phase==='walk'||app.phase==='done';}
+  function isSampling() {return app.phase==='samples'||app.phase==='sampledone';}
+  function sampleDuration() {return Math.max(.01,...app.runs.map(r=>(r?.samples?.length||0)/32));}
+  function walkDuration() {return Math.max(0,Walk.duration(cohorts(0)),Walk.duration(cohorts(1)));}
+  function selectedPair() {return app.pairs.find(p=>p.id===app.pairId)||null;}
+  function configureWalk(keepPair=false) {
+    updateFrames();const I=instance();
+    app.pairs=Walk.transfers(I.flows,I.distances,app.frames[0]?.assignment,app.frames[1]?.assignment)
+      .sort((a,b)=>Math.abs(b.delta??0)-Math.abs(a.delta??0)||Math.max(b.leftCost??0,b.rightCost??0)-Math.max(a.leftCost??0,a.rightCost??0)||a.id.localeCompare(b.id));
+    if(!keepPair||!app.pairs.some(p=>p.id===app.pairId))app.pairId=app.pairs[0]?.id||null;
+    app.tourIds=app.pairs.slice(0,3).map(p=>p.id);app.tourIndex=Math.max(0,app.tourIds.indexOf(app.pairId));
+    app.peopleCache=[null,null];app.walkTime=0;app.highlight=null;app.picked=null;
+  }
   function coordinates() {
     const rows = Math.ceil(app.n/4), cols=Math.min(app.n,4);
     const unit=Math.min(138, (600-155)/Math.max(1,cols-1), (330-125)/Math.max(1,rows-1));
     const x0=(600-(cols-1)*unit)/2, y0=(330-(rows-1)*unit)/2;
     return instance().coordinates.map(([x,y])=>[x0+x*unit,y0+y*unit]);
+  }
+  function sceneBox(){
+    const pair=selectedPair();if(!isWalking()||app.walkView==='all'||!pair)return [0,0,600,330];
+    const pts=coordinates(),ends=app.frames.flatMap(f=>valid(f?.assignment)?[pts[f.assignment[pair.i]],pts[f.assignment[pair.k]]]:[]);
+    if(!ends.length)return [0,0,600,330];
+    const xs=ends.map(p=>p[0]),ys=ends.map(p=>p[1]);
+    return [Math.min(...xs)-56,Math.min(...ys)-46,Math.max(180,Math.max(...xs)-Math.min(...xs)+112),Math.max(120,Math.max(...ys)-Math.min(...ys)+112)];
   }
   function chooseRuns() {
     const kind=app.mode==='lns'?'lns':'qaoa';
@@ -121,17 +158,20 @@ export default function(component) {
   function reset() {
     app.playing=false;app.phase='ready';app.clock=0;app.walkTime=0;app.sampleTime=0;
     app.manual=[null,null];app.referenceSide=null;app.picked=null;app.highlight=null;app.lastMap=['',''];
+    app.walkCompare=app.mode==='lns'?'impact':'algorithms';app.pairId=null;app.pairs=[];app.peopleCache=[null,null];
     SIDES.forEach(s=>$("speech-"+s).hidden=true);
     chooseRuns();refresh(true);
   }
   function frame(run,side) {
     const I=instance();
     if(app.manual[side]) {const a=app.manual[side];return {assignment:a,cost:cost(a),best_cost:cost(a),manual:true,reference:app.referenceSide===side,event:'manual'};}
+    if(isWalking()&&side===0&&app.walkCompare==='optimum')return {assignment:I.exact_assignment,cost:I.optimum,best_cost:I.optimum,reference:true,event:'reference'};
+    if(isWalking()&&side===0&&app.walkCompare==='impact'&&app.mode==='lns'&&app.runs[1]){const a=app.runs[1].start_assignment;return {assignment:a,cost:cost(a),best_cost:null,baseline:true,event:'baseline'};}
     if(app.n<=2) return {assignment:I.exact_assignment,cost:I.optimum,best_cost:I.optimum,elapsed_s:0,event:'trivial'};
     if(!run) {const a=Array.from({length:app.n},(_,i)=>i);return {assignment:a,cost:cost(a),best_cost:null,missing:true,event:'missing'};}
     if(app.mode==='mixers') {
-      if(app.phase==='samples') {
-        const samples=run.samples||[];const index=Math.min(samples.length-1,Math.floor(app.sampleTime/8*samples.length));
+      if(isSampling()) {
+        const samples=run.samples||[];const index=Math.min(samples.length-1,Math.floor(app.sampleTime/sampleDuration()*samples.length));
         const sample=samples[Math.max(0,index)];
         if(sample) return {assignment:sample.assignment,matrix:sample.matrix,cost:sample.feasible?sample.cost:null,best_cost:cost(run.final_assignment),invalid:!sample.feasible,event:'sample',sampleIndex:index,elapsed_s:run.seconds};
       }
@@ -146,6 +186,7 @@ export default function(component) {
   }
   function updateFrames() {app.frames=app.runs.map((r,s)=>frame(r,s));}
   function statusLabel(f,r) {
+    if(isWalking()&&!f.missing){const stats=Walk.stats(cohorts(f===app.frames[0]?0:1),app.walkTime);if(!valid(f.assignment))return ['Sin plan válido','bad'];if(stats.total===0)return ['Sin conexiones','good'];if(stats.arrived===stats.total)return ['Grupo completado','good'];return [app.playing?'En camino':'Recorrido pausado','working'];}
     if(f.reference)return ['Referencia exacta','good'];
     if(f.manual)return ['Tu asignación','manual'];
     if(app.n<=2)return ['Óptimo trivial','good'];
@@ -175,34 +216,37 @@ export default function(component) {
     $('live').disabled=app.livePending;
     $('live').textContent=app.livePending?'Qiskit está calculando…':'Ejecutar Qiskit ahora ↗';
     $('samples').hidden=app.mode!=='mixers'||app.n<=2;
-    $('walk').textContent=app.phase==='walk'?'Otra oleada ↗':'Ver pasajeros ↗';
+    root.dataset.phase=app.phase;root.dataset.playing=String(app.playing);root.dataset.pair=app.pairId||'';
+    $('walk').textContent=isWalking()?'Repetir recorrido ↗':'Ver el impacto ↗';
     const missing=app.n>2&&app.runs.some(r=>!r);
     $('play').disabled=missing;
-    $('next').disabled=missing||app.n<=2||(app.mode==='mixers'&&app.phase!=='samples');
+    $('next').disabled=missing||app.n<=2||(app.mode==='mixers'&&!isSampling());
     $('samples').disabled=missing;
-    $('play').innerHTML=app.playing?'<span>Ⅱ</span> Pausar':app.phase==='ready'?'<span>▶</span> Reproducir duelo':'<span>▶</span> Continuar';
-    $('restore').hidden=!app.manual.some(Boolean);
+    $('play').innerHTML=app.playing?'<span>Ⅱ</span> Pausar':app.phase==='done'?'<span>↺</span> Repetir recorrido':app.phase==='sampledone'?'<span>↺</span> Repetir muestras':app.phase==='ready'?'<span>▶</span> Reproducir duelo':'<span>▶</span> Continuar';
+    $('restore').hidden=!app.manual.some(Boolean)&&!(isWalking()&&app.walkCompare!=='algorithms');
     $('step-search').classList.toggle('selected',!['walk','done'].includes(app.phase));
     $('step-walk').classList.toggle('selected',['walk','done'].includes(app.phase));
-    $('phase-message').textContent=app.manual.some(Boolean)?'Exploración manual · tu costo se calcula al instante':app.phase==='samples'?'Shots reales, en orden de lectura · se muestran hasta 256':app.phase==='walk'||app.phase==='done'?'Mismos flujos · se usa la mejor asignación válida de cada corrida':app.mode==='lns'?'Mismo inicio. Mismos vecindarios. Distinto subsolver.':'Mismo problema · distinta forma de imponer las restricciones';
+    $('phase-message').textContent=app.manual.some(Boolean)?'Exploración manual · costo calculado sobre todos los flujos':isSampling()?'Shots registrados · factibilidad y probabilidad son métricas diferentes':isWalking()?(app.walkCompare==='impact'?'Impacto: asignación inicial → resultado, con la misma demanda y velocidad':app.walkCompare==='optimum'?'Referencia exacta → mejor resultado de esta corrida':'Misma demanda y velocidad · las asignaciones pueden coincidir'):app.mode==='lns'?'Mismo inicio. Mismos vecindarios. Distinto subsolver.':'Mismo problema · distinta forma de imponer las restricciones';
     for(let side=0;side<2;side++) {
       const s=SIDES[side],r=app.runs[side],f=app.frames[side];
       const names=app.mode==='lns'?['LNS + exacto','LNS + QAOA']:['QAOA con penalización','QAOA de intercambio'];
-      $('title-'+s).textContent=f.reference?'Referencia exacta':f.manual?'Tu asignación':app.n<=2?'Todas son óptimas':names[side];
-      $('method-'+s).textContent=f.reference?'ENUMERACIÓN COMPLETA · RESULTADO GUARDADO':f.manual?'EXPLORACIÓN MANUAL':app.n<=2?'CASO INTRODUCTORIO':app.mode==='lns'?(side?'BÚSQUEDA HÍBRIDA':'BÚSQUEDA CLÁSICA'):(side?`MIXER DE INTERCAMBIO · P=${app.depth}`:`MIXER X · P=${app.depth}`);
+      $('title-'+s).textContent=f.reference?'Referencia exacta':f.manual?'Tu asignación':f.baseline?'Antes de optimizar':app.n<=2?'Todas son óptimas':names[side];
+      $('method-'+s).textContent=f.reference?'ENUMERACIÓN COMPLETA · RESULTADO GUARDADO':f.manual?'EXPLORACIÓN MANUAL':f.baseline?'ASIGNACIÓN INICIAL · MISMA DEMANDA':app.n<=2?'CASO INTRODUCTORIO':app.mode==='lns'?(side?'BÚSQUEDA HÍBRIDA':'BÚSQUEDA CLÁSICA'):(side?`MIXER DE INTERCAMBIO · P=${app.depth}`:`MIXER X · P=${app.depth}`);
       const [label,cls]=statusLabel(f,r);$('status-'+s).textContent=label;$('status-'+s).className='status '+cls;
       $('cost-'+s).textContent=f.cost==null?'—':f.cost;
       $('best-'+s).textContent=f.best_cost==null?'—':f.best_cost;
       const elapsed=app.phase==='ready'?0:Math.min(app.clock,Number(r?.seconds||0));
-      $('time-'+s).textContent=f.reference?sec(I.exact_seconds):f.manual?'—':r?sec(['walk','done','samples'].includes(app.phase)?r.seconds:elapsed):app.n<=2?sec(I.exact_seconds):'—';
+      $('time-'+s).textContent=f.reference?sec(I.exact_seconds):f.manual||f.baseline?'—':r?sec(isWalking()||isSampling()?r.seconds:elapsed):app.n<=2?sec(I.exact_seconds):'—';
+      root.querySelector('.terminal-'+s+' .metrics>div:first-child small').textContent=isWalking()?'Costo del plan completo':'Costo actual';
       root.querySelector('.terminal-'+s+' .metrics>div:nth-child(2) small').textContent=app.mode==='mixers'&&!f.manual?`Mejor shot válido de ${r?.total_shots??2048}`:'Mejor encontrado';
       const gap=f.cost!=null&&I.optimum>0?100*(f.cost-I.optimum)/I.optimum:0;
       $('gap-'+s).textContent=f.cost==null?'Sin plan':gap===0?'Óptimo':`+${fmt(gap)}%`;
       $('gap-'+s).className='gap '+(f.cost===I.optimum?'optimal':'');
-      const direct=app.mode==='mixers'&&app.n>2&&!f.manual&&!f.reference&&!!r;
+      const direct=app.mode==='mixers'&&app.n>2&&!f.manual&&!f.reference&&!f.baseline&&!!r;
       $('popt-wrap-'+s).hidden=!direct;$('valid-wrap-'+s).hidden=!direct;$('gap-'+s).hidden=direct;
       if(direct){const trivial=!!r.start_is_optimal;root.querySelector('#popt-wrap-'+s+' small').textContent=trivial?'P(óptimo) · arrancó óptimo':'P(óptimo)';$('popt-'+s).textContent=trivial?'n/a':`${fmt(100*r.p_optimal)}%`;$('valid-'+s).textContent=`${fmt(100*r.p_feasible)}%`;}
-      if(f.reference)$('detail-'+s).textContent='Óptimo por enumeración global · sin traza de pasos intermedios';
+      if(f.baseline)$('detail-'+s).textContent='Inicio de la corrida · sin búsqueda · no es otro algoritmo';
+      else if(f.reference)$('detail-'+s).textContent='Óptimo por enumeración global · sin traza de pasos intermedios';
       else if(f.manual)$('detail-'+s).textContent=app.data.validation?.ok&&app.data.validation.nonce===app.lastEditNonce?'Costo verificado por Python · cada par una vez':'Costo QAP local · comprobando con Python';
       else if(app.n<=2)$('detail-'+s).textContent=app.n===1?'Una asignación · sin conexiones':'Dos asignaciones · ambas cuestan 10';
       else if(f.missing)$('detail-'+s).textContent='Resultado agregado en Evidencia; no hay pasos para reproducir';
@@ -211,35 +255,66 @@ export default function(component) {
       drawGates(side,force);
     }
     const runMax=duration();
-    $('clock-label').textContent=app.phase==='walk'||app.phase==='done'?`${fmt(app.walkTime)} s visuales`:app.phase==='samples'?`Shot ${(app.frames[0]?.sampleIndex??0)+1}`:sec(app.clock);
-    $('duration-label').textContent=app.phase==='walk'||app.phase==='done'?'8 s ilustrativos':app.phase==='samples'?'muestras registradas':`${sec(runMax)} medidos`;
-    if(document.activeElement!==$('timeline'))$('timeline').value=Math.min(1000,Math.round(app.phase==='walk'||app.phase==='done'?app.walkTime/8*1000:app.phase==='samples'?app.sampleTime/8*1000:app.clock/runMax*1000));
-    $('speed').value=app.speed;
+    const end=isWalking()?walkDuration():isSampling()?sampleDuration():runMax;
+    $('clock-label').textContent=isWalking()?`${fmt(app.walkTime)} s ilustrativos`:isSampling()?`Shot ${(app.frames[0]?.sampleIndex??0)+1}`:sec(app.clock);
+    $('duration-label').textContent=isWalking()?(app.phase==='done'?'Recorrido completo':`${fmt(end)} s · hasta la última llegada`):isSampling()?(app.phase==='sampledone'?'Muestreo completo':'shots registrados'):`${sec(runMax)} medidos`;
+    if(parentElement.activeElement!==$('timeline'))$('timeline').value=end===0?1000:Math.min(1000,Math.round((isWalking()?app.walkTime:isSampling()?app.sampleTime:app.clock)/end*1000));
+    const visual=isWalking()||isSampling(),speedOptions=visual?[.5,1,2,4]:[1,5,10,20];
+    if($('speed').dataset.kind!==(visual?'visual':'calculation')){$('speed').innerHTML=speedOptions.map(v=>`<option value="${v}">${v}×</option>`).join('');$('speed').dataset.kind=visual?'visual':'calculation';}
+    $('speed').value=visual?app.travelSpeed:app.speed;$('speed').title=visual?'Velocidad del recorrido ilustrativo':'Aceleración de tiempos de cálculo registrados';
+    $('speed-kind').textContent=visual?'Animación':'Cálculo';
     $('chart-title').textContent=app.manual.some(Boolean)?'Curvas de las corridas originales':app.mode==='lns'?'Costo por iteración · sólido = mejor':'Energía QUBO por evaluación · no es costo';
     $('legend-left').textContent=app.mode==='lns'?'LNS clásico':'Mixer X';
     $('legend-right').textContent=app.mode==='lns'?'LNS QAOA':'Intercambio';
     $('provenance').textContent=app.runs.some(r=>r?.live)?'Aer ideal · corrida calculada en esta sesión · sin hardware cuántico':'Aer ideal · reproducción de corridas registradas · sin hardware cuántico';
-    insight();drawChart();
+    updateWalkControls();insight();drawChart();drawPeople(0);drawPeople(1);
   }
   app.refresh=refresh;
   function insight() {
     const I=instance();let text;
-    if(app.referenceSide!==null)text=`Así se ve el óptimo global ${I.optimum}, obtenido por enumeración en ${sec(I.exact_seconds)}. Compara sus recorridos con la mejor asignación del algoritmo.`;
+    if(isWalking()) {
+      const a=cost(app.frames[0].assignment),b=cost(app.frames[1].assignment),p=selectedPair();
+      const same=valid(app.frames[0].assignment)&&JSON.stringify(app.frames[0].assignment)===JSON.stringify(app.frames[1].assignment);
+      if(app.n===1)text='Sin conexiones: no hay personas que mover ni tiempo que esperar. Sube N para descubrir el problema.';
+      else if(a===null||b===null)text='Una asignación inválida no permite evaluar el recorrido: hace falta una puerta única para cada vuelo. No se le atribuye un costo factible.';
+      else if(same)text=`Misma asignación: los recorridos deben coincidir. El costo es ${a}; la diferencia entre algoritmos está en el cálculo (${sec(app.runs[0]?.seconds||0)} vs ${sec(app.runs[1]?.seconds||0)}).`;
+      else if(app.walkView==='all')text=`${app.phase==='done'?'Recorrido completo. ':''}La suma de distancias de todas las figuras coincide con el costo QAP: ${a} frente a ${b}. ${b<a?`Reducción de ${a-b} unidades (${fmt(100*(a-b)/a)}%) respecto de la izquierda.`:b>a?`La derecha requiere ${b-a} unidades más.`:'Mismo costo, con recorridos diferentes.'}`;
+      else if(p)text=`${app.phase==='done'?'Grupo completado. ':''}${LETTERS[p.i]} → ${LETTERS[p.k]}: flujo ${p.flow} × distancia ${p.leftDistance} = ${p.leftCost}, frente a ${p.flow} × ${p.rightDistance} = ${p.rightCost}. ${p.delta>0?`Esta conexión ahorra ${p.delta} unidades.`:p.delta<0?`Esta conexión empeora ${-p.delta} unidades.`:'Esta conexión empata.'} Total de los planes: ${a} → ${b}.`;
+      else text='No hay conexiones con flujo positivo en esta instancia.';
+    }
     else if(app.manual.some(Boolean))text='Tu turno: intercambia vuelos y observa qué conexiones recorren más distancia. El duelo original se puede restaurar.';
     else if(app.n<=2)text=app.n===1?'Una puerta y un vuelo: no hay decisión que optimizar. Sube N para que aparezca el problema.':'Aquí las dos permutaciones cuestan lo mismo: todas son óptimas. Encontrar el óptimo todavía no demuestra habilidad.';
     else if(app.runs.some(r=>!r))text='Esta combinación aún no tiene una traza registrada. Puedes explorar asignaciones manuales o consultar los resultados en Evidencia.';
+    else if(app.phase==='sampledone')text=`Vista de ${Math.max(...app.runs.map(r=>r?.samples?.length||0))} shots completada. Las probabilidades describen el circuito completo; encontrar un buen shot entre 2048 no garantiza alta probabilidad de óptimo. Usa «Ver el impacto» para explorar las rutas.`;
     else if(app.phase==='samples')text='Una muestra inválida puede dejar vuelos sin puerta o asignar varios a la misma. El mixer de intercambio conserva la regla uno a uno.';
-    else if(app.mode==='mixers')text=`Azar válido: ${fmt(100*I.stats.p_optimal_random)}% de P(óptimo). Con 2048 shots, "mejor shot válido" casi siempre llega al óptimo porque se prueban muchos; lo que distingue a los mixers es P(óptimo) y el % de shots válidos. Es una semilla, no la mediana (ver Evidencia).`;
+    else if(app.mode==='mixers')text=`Azar válido: ${fmt(100*I.stats.p_optimal_random)}% de P(óptimo). Compara costo del mejor shot, P(óptimo), factibilidad y tiempo. Es una semilla, no la mediana (ver Evidencia).`;
     else if(['walk','done'].includes(app.phase)) {
       const a=cost(app.runs[0].final_assignment),b=cost(app.runs[1].final_assignment);
       text=a===b?`En esta semilla ambos terminaron en ${a}. Compara también el tiempo medido; la calidad final por sí sola no cuenta toda la historia.`:`En esta semilla: clásico ${a}, híbrido ${b}; óptimo global ${I.optimum}. Los personajes representan el costo de conexiones de cada asignación.`;
     } else text='¿Resolver bien un vecindario garantiza una buena solución global? Observa las mesetas, los cambios y las patadas de exploración.';
-    $('insight').textContent=text;
+    if($('insight').textContent!==text)$('insight').textContent=text;
+  }
+  function updateWalkControls() {
+    const visible=isWalking();$('walk-options').hidden=!visible;
+    SIDES.forEach(s=>$('walk-readout-'+s).hidden=!visible);
+    if(!visible)return;
+    const comparison=$('walk-compare');
+    if(!comparison.querySelector('[value=manual]'))comparison.insertAdjacentHTML('beforeend','<option value="manual" disabled>Tu asignación → resultado</option>');
+    comparison.querySelector('[value=manual]').hidden=!app.manual.some(Boolean);
+    comparison.querySelector('[value=impact]').disabled=app.mode!=='lns'||app.n<=2;
+    comparison.value=app.manual.some(Boolean)?'manual':app.walkCompare;
+    $('walk-view').value=app.walkView;
+    const options=app.pairs.map(p=>`<option value="${p.id}">${LETTERS[p.i]} → ${LETTERS[p.k]} · flujo ${p.flow} · Δ ${p.delta==null?'—':p.delta>0?'−'+p.delta:p.delta<0?'+'+(-p.delta):'0'} costo</option>`).join('');
+    if($('transfer').innerHTML!==options)$('transfer').innerHTML=options;
+    $('transfer').value=app.pairId||'';$('transfer').disabled=app.walkView==='all'||app.pairs.length===0;
+    $('prev-transfer').disabled=$('next-transfer').disabled=app.walkView==='all'||app.pairs.length<2;
+    $('tour-label').textContent=app.walkView==='tour'?`Conexión ${app.tourIndex+1}/${app.tourIds.length}`:app.walkView==='all'?'Costo completo':`1 de ${app.pairs.length} · total evaluado completo`;
   }
   function drawGates(side,force=false) {
     const f=app.frames[side],pts=coordinates();
     const released=(app.phase==='search'&&f.flights)||[];
-    const marker=JSON.stringify([f.assignment,f.matrix,f.invalid,released,app.picked,app.mode]);
+    const box=sceneBox();$('gates-'+SIDES[side]).setAttribute('viewBox',box.join(' '));
+    const marker=JSON.stringify([f.assignment,f.matrix,f.invalid,released,app.picked,app.mode,app.pairId,isWalking()]);
     if(!force&&app.lastMap[side]===marker)return;
     app.lastMap[side]=marker;
     const pieces=[];
@@ -267,17 +342,15 @@ export default function(component) {
     elements.push('<text x="28" y="63" font-size="8" fill="#8b9984">0</text><text x="505" y="63" text-anchor="end" font-size="8" fill="#8b9984">'+Math.max(...series.map(v=>v.length-1))+'</text>');svg.innerHTML=elements.join('');
   }
   function cohorts(side) {
-    const f=app.frames[side];if(!valid(f.assignment))return [];
-    const I=instance(),pts=coordinates(),people=[];let id=0;
-    const maxD=Math.max(1,...I.distances.flat());
-    for(let i=0;i<app.n;i++)for(let k=i+1;k<app.n;k++)for(let q=0;q<I.flows[i][k];q++) {
-      const g=f.assignment[i],h=f.assignment[k],d=I.distances[g][h];
-      people.push({id:id++,i,k,g,h,d,a:pts[g],b:pts[h],delay:((i*19+k*7+q*11)%17)/17*1.25,jitter:((q%5)-2)*3.2,mood:d/maxD>2/3?2:d/maxD>1/3?1:0});
-    }return people;
+    const f=app.frames[side];if(!f||!valid(f.assignment))return [];
+    const I=instance(),pair=app.walkView==='all'?null:app.pairId;
+    const key=JSON.stringify([app.n,f.assignment,pair,app.walkView]);
+    if(app.peopleCache[side]?.key===key)return app.peopleCache[side].people;
+    const pts=coordinates(),people=Walk.people(I.flows,I.distances,f.assignment,pair).map(p=>({...p,a:pts[p.g],b:pts[p.h]}));
+    app.peopleCache[side]={key,people};return people;
   }
   function point(person,t) {
-    const duration=person.d*.55;
-    const f=Math.max(0,Math.min(1,(t-person.delay)/Math.max(.1,duration)));
+    const f=Walk.progress(person,t);
     const [ax,ay]=person.a,[bx,by]=person.b;
     const h=Math.abs(bx-ax),v=Math.abs(by-ay),distance=(h+v)*f;
     const x=distance<=h?ax+Math.sign(bx-ax)*distance:bx;
@@ -285,12 +358,12 @@ export default function(component) {
     return {x:x+person.jitter,y:y+23+((person.id%3)-1)*3.2,f,waiting:t<person.delay};
   }
   function rounded(ctx,x,y,w,h,r,fill) {ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fillStyle=fill;ctx.fill();}
-  function avatar(ctx,x,y,id,mood,t,arrived=false) {
+  function avatar(ctx,x,y,id,mood,t,arrived=false,size=1) {
     const bob=arrived?0:Math.sin(t*14+id)*.8;
     const color=['#397f9f','#c69341','#bc6c50'][mood];
-    ctx.save();ctx.translate(x,y+bob);
+    ctx.save();ctx.translate(x,y+bob);ctx.scale(size,size);
     ctx.fillStyle='#29492e1a';ctx.beginPath();ctx.ellipse(0,7,4.8,1.8,0,0,Math.PI*2);ctx.fill();
-    ctx.strokeStyle='#3f5260';ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(-1.5,3);ctx.lineTo(-2.5+Math.sin(t*12+id),6.5);ctx.moveTo(1.5,3);ctx.lineTo(2.5-Math.sin(t*12+id),6.5);ctx.stroke();
+    const stride=arrived?0:Math.sin(t*12+id);ctx.strokeStyle='#3f5260';ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(-1.5,3);ctx.lineTo(-2.5+stride,6.5);ctx.moveTo(1.5,3);ctx.lineTo(2.5-stride,6.5);ctx.stroke();
     rounded(ctx,-3,-2,6,6,1.7,color);rounded(ctx,4,1,3,4,1,'#65786b');
     ctx.fillStyle=skin[id%skin.length];ctx.beginPath();ctx.arc(0,-4.5,3.4,0,Math.PI*2);ctx.fill();
     ctx.fillStyle='#414a40';ctx.beginPath();ctx.arc(.2,-6.3,3.1,Math.PI,Math.PI*2);ctx.fill();
@@ -313,39 +386,55 @@ export default function(component) {
     const ratio=Math.min(2,window.devicePixelRatio||1);const w=Math.round(rect.width*ratio),h=Math.round(rect.height*ratio);
     if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
     const ctx=canvas.getContext('2d');ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,w,h);
-    const scale=Math.min(rect.width/600,rect.height/330),ox=(rect.width-600*scale)/2,oy=(rect.height-330*scale)/2;
+    const box=sceneBox(),scale=Math.min(rect.width/box[2],rect.height/box[3]),ox=(rect.width-box[2]*scale)/2-box[0]*scale,oy=(rect.height-box[3]*scale)/2-box[1]*scale;
     ctx.setTransform(scale*ratio,0,0,scale*ratio,ox*ratio,oy*ratio);
     const pts=coordinates();drawFloor(ctx,pts);
     const f=app.frames[side];if(!f)return;
-    const walking=app.phase==='walk'||app.phase==='done';
-    const people=cohorts(side);let arrived=0;
-    if(walking||app.manual[side]) {
+    const walking=isWalking();
+    const people=cohorts(side),stats=Walk.stats(people,app.walkTime),pair=selectedPair();
+    const group=app.walkView!=='all';
+    if(walking&&group&&people.length){
+      const p=people[0],sameDistance=pair&&pair.leftDistance===pair.rightDistance;
+      ctx.beginPath();ctx.moveTo(p.a[0],p.a[1]+23);ctx.lineTo(p.b[0],p.a[1]+23);ctx.lineTo(p.b[0],p.b[1]+23);
+      ctx.strokeStyle=sameDistance?'#6e9ba6':p.d===(Math.min(pair?.leftDistance??Infinity,pair?.rightDistance??Infinity))?'#46a582':'#ce9e55';ctx.lineWidth=11;ctx.globalAlpha=.38;ctx.stroke();ctx.globalAlpha=1;
+    }
+    if(walking) {
       for(const p of people) {
-        const pos=point(p,app.walkTime);if(pos.f>=1)arrived++;
-        if(pos.waiting)continue;
+        const pos=point(p,app.walkTime);
         if(app.highlight?.side===side&&app.highlight.id===p.id){ctx.beginPath();ctx.moveTo(p.a[0],p.a[1]+23);ctx.lineTo(p.b[0],p.a[1]+23);ctx.lineTo(p.b[0],p.b[1]+23);ctx.strokeStyle='#d49736';ctx.lineWidth=2;ctx.stroke();}
-        avatar(ctx,pos.x,pos.y,p.id,p.mood,app.walkTime,pos.f>=1);
+        ctx.globalAlpha=pos.waiting ? .55 : 1;avatar(ctx,pos.x,pos.y,p.id,p.mood,app.walkTime,pos.f>=1||pos.waiting,group?1.8:1);ctx.globalAlpha=1;
       }
     } else if(f.invalid || f.training&&app.mode==='mixers') {
       for(let i=0;i<Math.min(12,app.n*2);i++)avatar(ctx,238+(i%6)*17,280+Math.floor(i/6)*15,i,2,app.sampleTime,true);
       ctx.font='9px "Segoe UI",sans-serif';ctx.fillStyle='#a27355';ctx.fillText(f.invalid?'Esperando una asignación válida…':'Se entrena una distribución, todavía no es una asignación.',180,255);
     }
-    const total=people.length;
-    if(walking||app.manual[side])$('arrivals-'+SIDES[side]).textContent=`${arrived}/${total} llegadas · ${people.filter(p=>p.mood===2).length} trayectos largos`;
-    else if(app.phase==='samples')$('arrivals-'+SIDES[side]).textContent=`Shot ${(f.sampleIndex??0)+1} · ${f.invalid?'hay conflictos':'permutación válida'}`;
+    const s=SIDES[side],arrival=$('arrivals-'+s);
+    arrival.dataset.arrived=stats.arrived;arrival.dataset.total=stats.total;
+    if(walking) {
+      arrival.textContent=valid(f.assignment)?`${stats.arrived}/${stats.total} llegadas ${group?'en este grupo':'· flujo completo'}`:'Sin recorrido: asignación inválida';
+      $('trip-'+s).textContent=group&&pair?`Conexión ${LETTERS[pair.i]} → ${LETTERS[pair.k]} · flujo ${pair.flow}`:'Distancia acumulada · todos los flujos';
+      $('walked-'+s).textContent=valid(f.assignment)?`${fmt(stats.travelled)} / ${stats.totalDistance} unidades`:'Sin costo factible';
+      $('walked-'+s).dataset.travelled=stats.travelled;$('walked-'+s).dataset.target=stats.totalDistance;
+      $('arrival-fill-'+s).style.width=`${stats.total?100*stats.arrived/stats.total:0}%`;
+      $('trip-equation-'+s).textContent=group&&pair?`Este grupo: ${pair.flow} × ${side?pair.rightDistance:pair.leftDistance} = ${side?pair.rightCost:pair.leftCost}. El costo superior evalúa todas las conexiones.`:'Al llegar todos, esta suma coincide exactamente con el costo del plan.';
+    }
+    else if(isSampling())arrival.textContent=`Shot ${(f.sampleIndex??0)+1} · ${f.invalid?'hay conflictos':'permutación válida'}`;
     else $('arrivals-'+SIDES[side]).textContent=app.playing?'Pausa para intercambiar vuelos':'↔ Arrastra o selecciona dos puertas';
-    if(walking&&app.walkTime>2.2&&app.walkTime<5.5&&!app.highlight){const p=people.find(p=>p.mood===2&&p.id%7===0);if(p){const speech=$('speech-'+SIDES[side]);speech.hidden=false;speech.innerHTML=`<strong>Vuelo ${LETTERS[p.i]} → ${LETTERS[p.k]}</strong>${side?'«¿No había una puerta más cerca?»':'«Mi maleta y yo necesitábamos hacer ejercicio…»'}<br><small>${p.d} unidades de distancia · emoción ilustrativa</small>`;}}
+    const other=Walk.stats(cohorts(1-side),app.walkTime);
+    if(walking&&group&&people.length&&app.walkTime>.3&&!app.highlight){const speech=$('speech-'+s);speech.hidden=false;const finished=stats.arrived===stats.total,otherFinished=other.total>0&&other.arrived===other.total;speech.innerHTML=finished&&!otherFinished?'<strong>«¡Ya llegamos!»</strong>La otra terminal todavía está recorriendo esta conexión.':!finished&&otherFinished?'<strong>«¿Todavía nos queda camino?»</strong>El mismo grupo ya llegó en la otra terminal.':pair&&pair.leftDistance===pair.rightDistance?'<strong>Misma distancia, mismo recorrido.</strong>La comparación de tiempo de cálculo está arriba.':`<strong>${finished?'Grupo completado':'«Mi maleta también cuenta los pasos…»'}</strong>${people[0].d} unidades por figura; ${stats.totalDistance} para todo el grupo.`;}
     else if(!app.highlight)$('speech-'+SIDES[side]).hidden=true;
   }
-  function goWalk() {
+  function goWalk(keepPair=false) {
     if(app.n>2&&app.runs.some(r=>!r)&&!app.manual.some(Boolean)){app.toast('Falta la traza de este tamaño. Puedes intercambiar vuelos en modo manual.');return;}
-    app.phase='walk';app.clock=duration();app.walkTime=0;app.playing=true;app.picked=null;app.highlight=null;refresh(true);
+    app.phase='walk';app.clock=duration();configureWalk(keepPair===true);app.playing=walkDuration()>0;
+    if(!app.playing)app.phase='done';refresh(true);
   }
   function play() {
     if(app.playing){app.playing=false;refresh();return;}
-    if(app.manual.some(Boolean)){app.phase='walk';if(app.walkTime>=8)app.walkTime=0;app.playing=true;refresh();return;}
+    if(app.phase==='done'){goWalk(true);return;}
+    if(app.phase==='sampledone'){samples();return;}
+    if(app.manual.some(Boolean)){app.phase='walk';app.playing=true;refresh();return;}
     if(app.n<=2){goWalk();return;}
-    if(app.phase==='done'){reset();}
     if(app.phase==='ready')app.phase='search';
     app.playing=true;refresh();
   }
@@ -358,23 +447,28 @@ export default function(component) {
     if(from===to||!pauseForEdit(side))return;
     const a=app.frames[side].assignment.slice();const i=a.indexOf(from),k=a.indexOf(to);
     if(i<0||k<0)return;
-    [a[i],a[k]]=[a[k],a[i]];app.manual[side]=a;if(app.referenceSide===side)app.referenceSide=null;app.phase='walk';app.walkTime=0;app.playing=true;app.picked=null;app.highlight=null;
+    [a[i],a[k]]=[a[k],a[i]];app.manual[side]=a;if(app.referenceSide===side)app.referenceSide=null;app.phase='walk';configureWalk(true);app.playing=walkDuration()>0;app.picked=null;app.highlight=null;
     app.lastEditNonce=Date.now();refresh(true);app.send('edit',{n:app.n,side,assignment:a,cost:cost(a),nonce:app.lastEditNonce});
     app.toast(`Vuelos ${LETTERS[i]} y ${LETTERS[k]} intercambiados · costo ${cost(a)}`);
   }
-  app.toast=function(text){$('toast').textContent=text;$('toast').hidden=false;app.toastUntil=performance.now()+3600;};
+  app.toast=function(text){$('toast').textContent=text;$('toast').hidden=false;clearTimeout(app.toastTimer);app.toastTimer=setTimeout(()=>{$('toast').hidden=true;},3000);};
   const handlers=[];
-  function listen(el,type,handler){el.addEventListener(type,handler);handlers.push(()=>el.removeEventListener(type,handler));}
+  function listen(el,type,handler){const wrapped=e=>{handler(e);refresh();requestLoop();};el.addEventListener(type,wrapped);handlers.push(()=>el.removeEventListener(type,wrapped));}
   listen($('size'),'input',e=>{app.n=Number(e.target.value);if(app.n<=3)app.mode='mixers';else if(app.n>4)app.mode='lns';app.seed=defaultSeed();reset();});
   root.querySelectorAll('[data-size]').forEach(button=>listen(button,'click',()=>{app.n=Number(button.dataset.size);app.mode=app.n===4?'mixers':'lns';app.seed=defaultSeed();reset();}));
   listen($('mode'),'change',e=>{app.mode=e.target.value;if(app.mode==='mixers'&&app.n>4)app.n=4;app.seed=defaultSeed();reset();});
   listen($('seed'),'change',e=>{app.seed=Number(e.target.value);reset();});
   listen($('depth'),'change',e=>{app.depth=Number(e.target.value);reset();});
-  listen($('speed'),'change',e=>{app.speed=Number(e.target.value);refresh();});
-  listen($('play'),'click',play);listen($('restart'),'click',reset);listen($('restore'),'click',reset);listen($('walk'),'click',goWalk);listen($('samples'),'click',samples);
-  listen($('timeline'),'input',e=>{app.playing=false;app.highlight=null;const f=Number(e.target.value)/1000;if(['walk','done'].includes(app.phase)){app.phase='walk';app.walkTime=f*8;}else if(app.phase==='samples'){app.sampleTime=f*8;}else{app.phase='search';app.clock=f*duration();}refresh(true);});
-  listen($('next'),'click',()=>{app.playing=false;if(app.phase==='samples'){const count=Math.max(1,app.runs[0]?.samples?.length||256);app.sampleTime=Math.min(8,app.sampleTime+8/count);refresh(true);return;}app.manual=[null,null];app.referenceSide=null;app.phase='search';const times=app.runs.flatMap(r=>(r?.events||[]).map(e=>Number(e.elapsed_s))).filter(t=>t>app.clock+1e-7);app.clock=times.length?Math.min(...times):duration();refresh(true);});
-  listen($('show-optimum'),'click',()=>{app.manual[0]=instance().exact_assignment.slice();app.referenceSide=0;goWalk();app.toast('Referencia exacta cargada a la izquierda; no se simulan pasos de búsqueda inexistentes.');});
+  listen($('speed'),'change',e=>{if(isWalking()||isSampling())app.travelSpeed=Number(e.target.value);else app.speed=Number(e.target.value);refresh();});
+  listen($('play'),'click',play);listen($('restart'),'click',reset);listen($('restore'),'click',reset);listen($('walk'),'click',()=>goWalk(true));listen($('samples'),'click',samples);
+  listen($('timeline'),'input',e=>{app.playing=false;app.highlight=null;const f=Number(e.target.value)/1000;if(isWalking()){app.walkTime=f*walkDuration();app.phase=f===1?'done':'walk';}else if(isSampling()){app.sampleTime=f*sampleDuration();app.phase=f===1?'sampledone':'samples';}else{app.phase='search';app.clock=f*duration();}refresh(true);});
+  listen($('next'),'click',()=>{app.playing=false;if(isSampling()){const count=Math.max(1,app.runs[0]?.samples?.length||256);app.sampleTime=Math.min(sampleDuration(),app.sampleTime+sampleDuration()/count);if(app.sampleTime>=sampleDuration())app.phase='sampledone';refresh(true);return;}app.manual=[null,null];app.referenceSide=null;app.phase='search';const times=app.runs.flatMap(r=>(r?.events||[]).map(e=>Number(e.elapsed_s))).filter(t=>t>app.clock+1e-7);app.clock=times.length?Math.min(...times):duration();refresh(true);});
+  listen($('show-optimum'),'click',()=>{app.manual=[null,null];app.walkCompare='optimum';app.referenceSide=0;goWalk();app.toast('Referencia exacta cargada: compara la distancia total, no solo la última llegada.');});
+  listen($('walk-compare'),'change',e=>{app.walkCompare=e.target.value;app.manual=[null,null];app.referenceSide=app.walkCompare==='optimum'?0:null;goWalk(true);});
+  listen($('walk-view'),'change',e=>{app.walkView=e.target.value;goWalk(true);});
+  listen($('transfer'),'change',e=>{app.pairId=e.target.value;app.walkView='group';goWalk(true);});
+  function stepTransfer(delta){const index=app.pairs.findIndex(p=>p.id===app.pairId);app.pairId=app.pairs[(index+delta+app.pairs.length)%app.pairs.length]?.id;app.walkView='group';goWalk(true);}
+  listen($('prev-transfer'),'click',()=>stepTransfer(-1));listen($('next-transfer'),'click',()=>stepTransfer(1));
   listen($('evidence'),'click',()=>{renderEvidence();$('drawer').hidden=false;});listen($('close-evidence'),'click',()=>{$('drawer').hidden=true;});
   listen($('live'),'click',()=>{if(app.livePending)return;app.playing=false;app.livePending=true;app.toast(`Qiskit vuelve a calcular ambos mixers con p=${app.depth}. Puede tardar ${app.depth===3?'~20-60':'varios'} segundos.`);app.send('live',{n:app.n,seed:app.seed,depth:app.depth,nonce:Date.now()});refresh();});
   SIDES.forEach((s,side)=>{
@@ -387,7 +481,7 @@ export default function(component) {
   });
   function renderEvidence() {
     const I=instance(),row=I.stats;
-    const runCards=app.runs.map((r,s)=>app.referenceSide===s?`<div class="source-card"><strong>Terminal izquierda · referencia exacta global</strong><p>Costo ${I.optimum}; tiempo medido ${sec(I.exact_seconds)}. Solución guardada de la enumeración completa, sin animación de pasos intermedios.</p></div>`:app.manual[s]?`<div class="source-card"><strong>Tu asignación · ${s?'derecha':'izquierda'}</strong><p>Costo ${cost(app.manual[s])}; exploración manual, sin nueva ejecución de algoritmos.</p></div>`:r?`<div class="source-card"><strong>${s?'Terminal derecha':'Terminal izquierda'} · ${esc(r.id)}</strong><p>Semilla ${r.seed}; tiempo ${sec(r.seconds)}; ${r.live?'calculada ahora':'corrida registrada'}. ${r.timing_scope==='optimizer_and_sampling'?'El tiempo cubre entrenamiento y muestreo.':''}</p><code>${esc(JSON.stringify(r.config))}</code>${r.kind==='qaoa'?`<p>P(óptimo): ${fmt(r.p_optimal*100)}%; factibilidad ideal: ${fmt(r.p_feasible*100)}%; muestras válidas: ${fmt(r.raw_feasible_fraction*100)}%.</p><p>Se visualizan ${r.samples?.length||0} shots reales de ${r.total_shots||r.config.shots}. La selección de una buena muestra no es su probabilidad de aparición.</p>${r.resources?.qubits?`<p>Circuito compilado p=${r.config.reps}: ${r.resources.qubits} qubits, ${r.resources.transpiled_two_qubit_gates} compuertas de dos qubits, profundidad ${r.resources.transpiled_depth}. Backend genérico; no ejecutado en hardware.</p>`:''}`:''}</div>`:'<div class="source-card">No hay traza para esta combinación.</div>').join('');
+    const runCards=app.runs.map((r,s)=>app.frames[s]?.baseline?`<div class="source-card"><strong>Terminal izquierda · asignación inicial</strong><p>Costo ${cost(app.frames[s].assignment)}. Es el punto de partida de la corrida derecha; no representa el resultado de otro algoritmo.</p></div>`:app.referenceSide===s?`<div class="source-card"><strong>Terminal izquierda · referencia exacta global</strong><p>Costo ${I.optimum}; tiempo medido ${sec(I.exact_seconds)}. Solución guardada de la enumeración completa, sin animación de pasos intermedios.</p></div>`:app.manual[s]?`<div class="source-card"><strong>Tu asignación · ${s?'derecha':'izquierda'}</strong><p>Costo ${cost(app.manual[s])}; exploración manual, sin nueva ejecución de algoritmos.</p></div>`:r?`<div class="source-card"><strong>${s?'Terminal derecha':'Terminal izquierda'} · ${esc(r.id)}</strong><p>Semilla ${r.seed}; tiempo ${sec(r.seconds)}; ${r.live?'calculada ahora':'corrida registrada'}. ${r.timing_scope==='optimizer_and_sampling'?'El tiempo cubre entrenamiento y muestreo.':''}</p><code>${esc(JSON.stringify(r.config))}</code>${r.kind==='qaoa'?`<p>P(óptimo): ${fmt(r.p_optimal*100)}%; factibilidad ideal: ${fmt(r.p_feasible*100)}%; muestras válidas: ${fmt(r.raw_feasible_fraction*100)}%.</p><p>Se visualizan ${r.samples?.length||0} shots reales de ${r.total_shots||r.config.shots}. La selección de una buena muestra no es su probabilidad de aparición.</p>${r.resources?.qubits?`<p>Circuito compilado p=${r.config.reps}: ${r.resources.qubits} qubits, ${r.resources.transpiled_two_qubit_gates} compuertas de dos qubits, profundidad ${r.resources.transpiled_depth}. Backend genérico; no ejecutado en hardware.</p>`:''}`:''}</div>`:'<div class="source-card">No hay traza para esta combinación.</div>').join('');
     const qn=app.n===3?3:4,qI=app.data.instances.find(x=>x.n===qn);
     const randomText=r=>r.p_optimal_random>=.001?`${fmt(100*r.p_optimal_random)}%`:`1 entre ${Math.round(1/r.p_optimal_random).toLocaleString('es-PE')}`;
     const ratio=v=>v<.1?v.toFixed(2):v.toFixed(1);
@@ -397,23 +491,31 @@ export default function(component) {
     const METHODS={qaoa:'LNS + QAOA',exact:'LNS + exacto local (3 vuelos)',random:'LNS + azar',scipy_faq:'SciPy FAQ (heurística clásica)'};
     const I10=app.data.instances.find(x=>x.n===10);
     const scalingRows=app.data.instances.map(x=>`<tr><td>${x.n}</td><td>${x.optimum}</td><td>${sec(x.exact_seconds)}</td><td>${x.stats.lns_exact_median??'—'}</td><td>${x.stats.lns_qaoa_median??'—'}</td></tr>`).join('');
-    $('evidence-body').innerHTML=`<h3>Lo que se representa</h3><p>La aplicación interpreta QAP10 como vuelos y puertas. El dibujo utiliza la geometría exacta de D: una cuadrícula de cuatro columnas, con distancia Manhattan multiplicada por dos. Las primeras N filas y columnas definen cada subinstancia.</p><p>Una figura representa una unidad de flujo. El costo es <code>Σ F[i,k] × D[puerta_i,puerta_k], i&lt;k</code>. Cada par se cuenta una sola vez. Las emociones y los segundos de movimiento son recursos visuales; no se midieron pasajeros, metros, demoras ni satisfacción de un aeropuerto real.</p><h3>Referencia exacta de N=${app.n}</h3><p><span class="key-number">${I.optimum}</span> · ${row.optimal_assignments} óptimas de ${row.assignments.toLocaleString('es-PE')} permutaciones. Azar válido: ${randomText(row)}.</p><h3>Corridas animadas</h3>${runCards}<p>En el híbrido se muestran asignaciones actuales, incluida la exploración después de una patada. Las personas salen con la mejor asignación encontrada. En QAOA directo los pasos del optimizador son energías esperadas; no son planes de puertas. Los cambios del plano durante el muestreo son shots leídos de la ejecución.</p><h3>QAOA directo · N=${qn} · cinco semillas por configuración</h3><p>Son las mismas corridas que se animan (α=1, hasta 100 evaluaciones, 2048 shots, Aer ideal). Azar válido: ${fmt(100*qI.stats.p_optimal_random)}% de P(óptimo). "Mejor shot válido" no sirve para comparar: con 2048 shots casi cualquier muestreo encuentra el óptimo; cuentan P(óptimo) y el % de shots válidos.</p><table><thead><tr><th>Configuración</th><th>P(óptimo)<br>mediana</th><th>Rango<br>por semilla</th><th>Shots válidos<br>mediana</th><th>vs. azar</th></tr></thead><tbody>${recordedRows}</tbody></table><p>p=3 es la configuración robusta. Con p=2 el intercambio depende de la semilla: algunas se quedan en el estado inicial y otras aciertan el 100%. La penalización (X) no supera al azar en ninguna de las dos profundidades probadas. ${startOpt?`† Se excluyen las semillas que arrancaron ya en el óptimo, porque no demuestran nada (${startOpt}).`:''} No se ha demostrado ventaja cuántica.</p><h3>Escalamiento existente · tres semillas, 60 iteraciones</h3><table><thead><tr><th>N</th><th>Óptimo</th><th>Exacto</th><th>LNS clásico<br>mediana</th><th>LNS QAOA<br>mediana</th></tr></thead><tbody>${scalingRows}</tbody></table><h3>Estudio de N=10 · cinco semillas, 150 iteraciones</h3><p>Mediana del mejor costo de 5 semillas por método. Todas las asignaciones son válidas y ninguna corrida llegó a 340. Las medianas 368–380 no separan a los métodos: todos tienen corridas sueltas entre 358 y 364.</p><table><thead><tr><th>Método</th><th>Mediana</th><th>Mejor</th><th>Brecha<br>mediana</th><th>Tiempo<br>mediano</th></tr></thead><tbody><tr><td><strong>Enumeración exacta (referencia)</strong></td><td>${I10.optimum}</td><td>${I10.optimum}</td><td>0%</td><td>${sec(I10.exact_seconds)}</td></tr>${app.data.legacy.map(r=>`<tr><td>${esc(METHODS[r.method]||r.method)}</td><td>${r.median_cost}</td><td>${r.best_cost}</td><td>+${fmt(r.median_gap_percent)}%</td><td>${sec(r.median_seconds)}</td></tr>`).join('')}</tbody></table><h3>Reproducir y continuar</h3><p><code>python tools/export_visual_demo.py</code> genera trazas; <code>streamlit run app/app.py</code> abre esta app. Aer statevector ideal, sin ruido. Qiskit construye/simula circuitos; COBYLA y la búsqueda externa son clásicos.</p><p>Para la final queda la prueba N≥14 y sus mediciones de tiempo, memoria, calidad y factibilidad. Una aplicación operativa necesitaría horarios, compatibilidad de aeronaves, conexiones reales y distancias caminables.</p><p><a href="https://miplib.zib.de/instance_details_qap10.html" target="_blank" rel="noreferrer">Fuente del benchmark: MIPLIB QAP10 ↗</a></p>`;
+    $('evidence-body').innerHTML=`<h3>Cómo interpretar la animación</h3><p>Antes → resultado compara el punto de partida con el mejor plan del híbrido. «Los dos algoritmos» reproduce la comparación de resultados. Una conexión muestra solo sus figuras; el costo superior siempre incluye todos los flujos. Las tres conexiones clave se ordenan por cambio absoluto del aporte F×D, incluyendo empeoramientos. En «Todos los flujos», la distancia acumulada al finalizar coincide exactamente con el costo QAP.</p><p>Las dos terminales comparten velocidad y pauta de salida. La cámara de una conexión usa la misma escala en ambos lados. Terminar antes un grupo no implica menor costo global: se evalúa la suma de distancias ponderadas, no solo la última llegada.</p><h3>Lo que se representa</h3><p>La aplicación interpreta QAP10 como vuelos y puertas. El dibujo utiliza la geometría exacta de D: una cuadrícula de cuatro columnas, con distancia Manhattan multiplicada por dos. Las primeras N filas y columnas definen cada subinstancia.</p><p>Una figura representa una unidad de flujo. El costo es <code>Σ F[i,k] × D[puerta_i,puerta_k], i&lt;k</code>. Cada par se cuenta una sola vez. Las emociones y los segundos de movimiento son recursos visuales; no se midieron pasajeros, metros, demoras ni satisfacción de un aeropuerto real.</p><h3>Referencia exacta de N=${app.n}</h3><p><span class="key-number">${I.optimum}</span> · ${row.optimal_assignments} óptimas de ${row.assignments.toLocaleString('es-PE')} permutaciones. Azar válido: ${randomText(row)}.</p><h3>Corridas animadas</h3>${runCards}<p>En el híbrido se muestran asignaciones actuales, incluida la exploración después de una patada. Las personas salen con la mejor asignación encontrada. En QAOA directo los pasos del optimizador son energías esperadas; no son planes de puertas. Los cambios del plano durante el muestreo son shots leídos de la ejecución.</p><h3>QAOA directo · N=${qn} · cinco semillas por configuración</h3><p>Son las mismas corridas que se animan (α=1, hasta 100 evaluaciones, 2048 shots, Aer ideal). Azar válido: ${fmt(100*qI.stats.p_optimal_random)}% de P(óptimo). "Mejor shot válido" no sirve para comparar: con 2048 shots casi cualquier muestreo encuentra el óptimo; cuentan P(óptimo) y el % de shots válidos.</p><table><thead><tr><th>Configuración</th><th>P(óptimo)<br>mediana</th><th>Rango<br>por semilla</th><th>Shots válidos<br>mediana</th><th>vs. azar</th></tr></thead><tbody>${recordedRows}</tbody></table><p>p=3 es la configuración más estable de las probadas: el rango por semilla de la tabla muestra que las cinco superan al azar. Es una sola instancia y cinco semillas; no se garantiza en otras. Con p=2 el intercambio depende de la semilla: algunas se quedan en el estado inicial y otras aciertan el 100%. La penalización (X) no supera al azar en ninguna de las dos profundidades probadas. ${startOpt?`† Se excluyen las semillas que arrancaron ya en el óptimo, porque no demuestran nada (${startOpt}).`:''} No se ha demostrado ventaja cuántica.</p><h3>Escalamiento existente · tres semillas, 60 iteraciones</h3><table><thead><tr><th>N</th><th>Óptimo</th><th>Exacto</th><th>LNS clásico<br>mediana</th><th>LNS QAOA<br>mediana</th></tr></thead><tbody>${scalingRows}</tbody></table><h3>Estudio de N=10 · cinco semillas, 150 iteraciones</h3><p>Mediana del mejor costo de 5 semillas por método. Todas las asignaciones son válidas y ninguna corrida llegó a 340. Las medianas 368–380 describen estas corridas; cinco semillas no bastan para afirmar superioridad general ni ausencia de diferencias.</p><table><thead><tr><th>Método</th><th>Mediana</th><th>Mejor</th><th>Brecha<br>mediana</th><th>Tiempo<br>mediano</th></tr></thead><tbody><tr><td><strong>Enumeración exacta (referencia)</strong></td><td>${I10.optimum}</td><td>${I10.optimum}</td><td>0%</td><td>${sec(I10.exact_seconds)}</td></tr>${app.data.legacy.map(r=>`<tr><td>${esc(METHODS[r.method]||r.method)}</td><td>${r.median_cost}</td><td>${r.best_cost}</td><td>+${fmt(r.median_gap_percent)}%</td><td>${sec(r.median_seconds)}</td></tr>`).join('')}</tbody></table><h3>Reproducir y continuar</h3><p><code>python tools/export_visual_demo.py</code> genera trazas; <code>streamlit run app/app.py</code> abre esta app. Aer statevector ideal, sin ruido. Qiskit construye/simula circuitos; COBYLA y la búsqueda externa son clásicos.</p><p>Para la final queda la prueba N≥14 y sus mediciones de tiempo, memoria, calidad y factibilidad. Una aplicación operativa necesitaría horarios, compatibilidad de aeronaves, conexiones reales y distancias caminables.</p><p><a href="https://miplib.zib.de/instance_details_qap10.html" target="_blank" rel="noreferrer">Fuente del benchmark: MIPLIB QAP10 ↗</a></p>`;
   }
   function tick(now) {
+    app.raf=0;
     if(app.destroyed)return;
     const dt=Math.min(.1,(now-(app.last||now))/1000);app.last=now;
     if(app.playing) {
       if(app.phase==='search') {app.clock=Math.min(duration(),app.clock+dt*app.speed);if(app.clock>=duration()){if(app.mode==='mixers')samples();else goWalk();}}
-      else if(app.phase==='samples'){app.sampleTime+=dt;if(app.sampleTime>=8)goWalk();}
-      else if(app.phase==='walk'){app.walkTime=Math.min(8,app.walkTime+dt);if(app.walkTime>=8){app.phase='done';app.playing=false;}}
+      else if(app.phase==='samples'){app.sampleTime=Math.min(sampleDuration(),app.sampleTime+dt*app.travelSpeed);if(app.sampleTime>=sampleDuration()){app.phase='sampledone';app.playing=false;refresh(true);}}
+      else if(app.phase==='walk'){
+        const end=walkDuration();app.walkTime=Math.min(end,app.walkTime+dt*app.travelSpeed);
+        if(app.walkTime>=end){
+          if(app.walkView==='tour'&&app.tourIndex+1<app.tourIds.length){app.tourIndex++;app.pairId=app.tourIds[app.tourIndex];app.peopleCache=[null,null];app.walkTime=0;app.highlight=null;refresh(true);}
+          else{app.phase='done';app.playing=false;refresh(true);}
+        }
+      }
     }
     if(now-app.lastUI>100){refresh();app.lastUI=now;}
     drawPeople(0);drawPeople(1);
-    if(app.toastUntil&&now>app.toastUntil){$('toast').hidden=true;app.toastUntil=0;}
-    app.raf=requestAnimationFrame(tick);
+    if(app.playing)requestLoop();
   }
-  app.cleanup=()=>{app.destroyed=true;cancelAnimationFrame(app.raf);handlers.forEach(f=>f());instances.delete(parentElement);};
-  chooseRuns();refresh(true);app.raf=requestAnimationFrame(tick);
+  function requestLoop(){if(!app.destroyed&&app.playing&&!app.raf){app.last=performance.now();app.raf=requestAnimationFrame(tick);}}
+  const resizeObserver=new ResizeObserver(()=>{if(!app.destroyed){drawPeople(0);drawPeople(1);}});resizeObserver.observe(root);
+  app.cleanup=()=>{app.destroyed=true;cancelAnimationFrame(app.raf);clearTimeout(app.toastTimer);resizeObserver.disconnect();handlers.forEach(f=>f());instances.delete(parentElement);};
+  chooseRuns();refresh(true);
   return app.cleanup;
 }
 """
