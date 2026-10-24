@@ -44,7 +44,7 @@ Análisis y tablas: [`docs/qaoa_results.md`](docs/qaoa_results.md) (N=3/4), [`do
 ## Qué hace cada parte
 
 - **Datos** (`tools/extract_qap10.py`): recupera F y D de las variables linealizadas del MPS de MIPLIB y verifica que cada coeficiente se separa como F·D. D resulta ser una cuadrícula de 3×4 con distancia Manhattan ×2.
-- **Clásico** (`src/qap/classical.py`): enumeración exacta. Para N=10 recorre las 10! permutaciones por bloques de numpy en ~3 s y obtiene 340.
+- **Clásico** (`src/qap/classical.py`): enumeración exacta. Para N=10 recorre las 10! permutaciones por bloques de numpy en ~2.5 s y obtiene 340.
 - **QAOA** (`src/qap/qaoa.py`): QUBO → Ising normalizado, circuito con Qiskit, entrenamiento en Aer y muestreo con `SamplerV2`. Dos mezcladores: X estándar con penalización, o intercambio, que conserva las permutaciones y es siempre factible. Limitado a 16 qubits.
 - **Híbrido N=10** (`src/qap/hybrid.py`): LNS. En cada iteración libera K=3 vuelos y QAOA (9 qubits) reparte sus 3 puertas teniendo en cuenta a los 7 vuelos fijos (término lineal). Se compara con el mismo LNS usando un subsolver exacto o uno aleatorio, y con SciPy FAQ.
 

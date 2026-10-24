@@ -49,8 +49,9 @@ def main():
     request = result.live
     if request and request.get("nonce") != st.session_state.live_nonce:
         n, seed = int(request.get("n", 4)), int(request.get("seed", 0))
-        if n not in (3, 4) or seed not in range(5):
-            st.error("La prueba real admite N=3/4 y semillas de 0 a 4.")
+        depth = int(request.get("depth", 3))
+        if n not in (3, 4) or seed not in range(5) or depth not in (2, 3):
+            st.error("La prueba real admite N=3/4, semillas de 0 a 4 y p=2 o 3.")
             return
         try:
             from src.qap.instance import load_qap10
@@ -63,7 +64,7 @@ def main():
                     started = time.perf_counter()
                     solved = solve_qaoa(
                         load_qap10().subinstance(n), seed=seed, mixer=mixer,
-                        reps=2, maxiter=100, shots=2048, alpha=1.0,
+                        reps=depth, maxiter=100, shots=2048, alpha=1.0,
                         resources=True, return_samples=True,
                     )
                     run = normalize_qaoa_run(solved, wall_seconds=time.perf_counter() - started)

@@ -12,6 +12,7 @@ before it is written; any failed check aborts the export.
 import argparse
 import json
 import platform
+import statistics
 import sys
 from datetime import datetime, timezone
 from importlib.metadata import version
@@ -24,7 +25,8 @@ from src.qap import trace  # noqa: E402
 from src.qap.instance import load_qap10  # noqa: E402
 
 CONTROLS = {3: 24, 4: 32, 10: 340}
-QAOA_CONFIGS = (("x", 2), ("perm", 2), ("perm", 3))
+QAOA_CONFIGS = (("x", 2), ("x", 3), ("perm", 2), ("perm", 3))
+DEFAULT_QAOA_VIEW = {"n": 4, "depth": 3, "seed": 3}
 
 
 def studies() -> dict:
@@ -52,11 +54,32 @@ def studies() -> dict:
     }
 
 
-def median_run(runs: list[dict], n: int, mixer: str, reps: int) -> dict:
-    """The run at the median P(optimum) among the seeds of one configuration."""
-    group = sorted((r for r in runs if (r["n"], r["mixer"], r["reps"]) == (n, mixer, reps)),
-                   key=lambda r: (r["p_optimal"], r["seed"]))
-    return group[(len(group) - 1) // 2]
+def qaoa_summary(runs: list[dict], exact: list[dict]) -> list[dict]:
+    """Per configuration: P(optimum) and valid-shot probability for every seed, with the random baseline.
+
+    Medians come from the same recorded runs the app animates, so the evidence
+    table and the animation can never disagree.
+    """
+    baseline = {row["n"]: row["p_optimal_random"] for row in exact}
+    rows = []
+    for n, mixer, reps in sorted({(r["n"], r["mixer"], r["reps"]) for r in runs}):
+        group = sorted((r for r in runs if (r["n"], r["mixer"], r["reps"]) == (n, mixer, reps)),
+                       key=lambda r: r["seed"])
+        informative = [r for r in group if r["start_cost"] != r["optimum"]]
+        rows.append({
+            "n": n, "mixer": mixer, "reps": reps, "seeds": len(group),
+            "p_optimal_by_seed": [r["p_optimal"] for r in group],
+            "p_feasible_by_seed": [r["p_feasible"] for r in group],
+            "median_p_optimal": statistics.median(r["p_optimal"] for r in group),
+            "median_p_feasible": statistics.median(r["p_feasible"] for r in group),
+            "random_p_optimal": baseline[n],
+            # Swap circuits start from a random permutation; if that is already optimal the run proves nothing.
+            "start_optimal_seeds": [r["seed"] for r in group if r["start_cost"] == r["optimum"]],
+            "median_p_optimal_informative": (statistics.median(r["p_optimal"] for r in informative)
+                                             if informative else None),
+            "resources": next((r["resources"] for r in group if r["resources"]), None),
+        })
+    return rows
 
 
 def verify(payload: dict) -> list[str]:
@@ -99,6 +122,17 @@ def verify(payload: dict) -> list[str]:
         if run["mixer"] == "perm":
             assert valid_share == 1.0, f"{run['id']} intercambio con muestra inválida"
     checks.append("QAOA: shots en orden completos; inválidas sin costo; intercambio 100 % válido")
+
+    summary = {(r["n"], r["mixer"], r["reps"]): r for r in payload["studies"]["qaoa_recorded"]}
+    view = payload["defaults"]["qaoa_view"]
+    for mixer in ("x", "perm"):
+        row = summary[(view["n"], mixer, view["depth"])]
+        shown = next(r for r in payload["qaoa_runs"] if r["id"] == f"qaoa_n{view['n']}_{mixer}_p{view['depth']}_s{view['seed']}")
+        assert shown["p_optimal"] in sorted(row["p_optimal_by_seed"])[1:4], f"vista inicial {mixer} fuera de la zona central"
+    swap = summary[(view["n"], "perm", view["depth"])]
+    shown_swap = next(r for r in payload["qaoa_runs"] if r["id"] == view["runs"][1])["p_optimal"]
+    assert abs(shown_swap - swap["median_p_optimal"]) < 1e-3, "la semilla inicial del intercambio no es la mediana (±0,1 pp)"
+    checks.append("vista inicial de QAOA = semilla central de las 5; el intercambio coincide con la mediana")
     return checks
 
 
@@ -106,6 +140,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--quick", action="store_true", help="exportación reducida para probar la app")
     parser.add_argument("--output", default="results/visual_demo.json")
+    parser.add_argument("--reuse-lns", action="store_true",
+                        help="reutiliza las corridas LNS ya grabadas en --output (recalcularlas tarda ~7 min)")
     args = parser.parse_args()
 
     instance = load_qap10()
@@ -121,11 +157,15 @@ def main() -> None:
         print(f"exacto N={n}: {profile['optimum']} ({profile['optimal_count']} óptimas)", flush=True)
 
     lns_runs = []
-    for n in lns_sizes:
-        for subsolver in ("exact", "qaoa", "random"):
-            run = trace.lns_run(n, subsolver, seed=0, **lns_overrides)
-            lns_runs.append(run)
-            print(f"{run['id']}: {run['start_cost']} -> {run['final_cost']} ({run['seconds']:.1f} s)", flush=True)
+    if args.reuse_lns:
+        lns_runs = json.loads((ROOT / args.output).read_text(encoding="utf-8"))["lns_runs"]
+        print(f"LNS: {len(lns_runs)} corridas reutilizadas de {args.output}", flush=True)
+    else:
+        for n in lns_sizes:
+            for subsolver in ("exact", "qaoa", "random"):
+                run = trace.lns_run(n, subsolver, seed=0, **lns_overrides)
+                lns_runs.append(run)
+                print(f"{run['id']}: {run['start_cost']} -> {run['final_cost']} ({run['seconds']:.1f} s)", flush=True)
 
     qaoa_runs = []
     for n in (3, 4):
@@ -140,6 +180,7 @@ def main() -> None:
         "schema_version": trace.SCHEMA_VERSION,
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "export": "quick" if args.quick else "full",
+        "lns_reused": args.reuse_lns,
         "versions": {"python": platform.python_version(),
                      **{pkg: version(pkg) for pkg in ("qiskit", "qiskit-aer", "numpy", "scipy")}},
         "instance": {
@@ -153,12 +194,14 @@ def main() -> None:
             "layout": trace.gate_layout(instance),
         },
         "exact": exact,
-        "studies": studies(),
+        "studies": {**studies(), "qaoa_recorded": qaoa_summary(qaoa_runs, exact)},
         "defaults": {"n": 10, "left": "lns_n10_exact_s0", "right": "lns_n10_qaoa_s0",
-                     "qaoa_view": {"n": 4, "runs": [median_run(qaoa_runs, 4, "x", 2)["id"],
-                                                    median_run(qaoa_runs, 4, "perm", 3)["id"]],
-                                   "note": "Semilla mediana de cada configuración por P(óptimo); "
-                                           "las demás semillas están en qaoa_runs."}},
+                     "qaoa_view": {**DEFAULT_QAOA_VIEW,
+                                   "runs": [f"qaoa_n4_x_p3_s{DEFAULT_QAOA_VIEW['seed']}",
+                                            f"qaoa_n4_perm_p3_s{DEFAULT_QAOA_VIEW['seed']}"],
+                                   "note": "p=3 es la configuración robusta. Semilla 3: el intercambio queda en la "
+                                           "mediana de sus 5 semillas y X en la zona central de las suyas. "
+                                           "Las medianas por configuración están en studies.qaoa_recorded."}},
         "notes": {
             "lns_events": "Un evento por iteración. outcome: improve | equal | reject. 'assignment' es el estado "
                           "al final de la iteración (después de la patada, si hubo). El subsolver exacto nunca "

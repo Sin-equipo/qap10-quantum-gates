@@ -15,19 +15,20 @@ HTML = r"""
     <span class="toolbar-rule"></span>
     <label class="experiment-label"><span class="eyebrow">EXPERIMENTO</span><select id="mode" aria-label="Comparación de algoritmos"><option value="lns">Clásico vs. híbrido QAOA</option><option value="mixers">QAOA: penalización vs. intercambio</option></select></label>
     <label class="seed-label"><span class="eyebrow">SEMILLA</span><select id="seed" aria-label="Semilla de la corrida"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
+    <label class="seed-label depth-label"><span class="eyebrow">CAPAS (p)</span><select id="depth" aria-label="Profundidad p del circuito QAOA"><option>2</option><option selected>3</option></select></label>
     <button class="reference-pill" id="show-optimum" title="Mostrar la asignación exacta en la terminal izquierda"><span class="eyebrow">ÓPTIMO EXACTO ↗</span><strong id="reference">340</strong><small id="exact-time">2,6 s · 10! opciones</small></button>
   </nav>
   <section class="phase-line"><div class="phase-steps"><span id="step-search" class="phase-step selected"><b>1</b> Buscar asignación</span><span class="phase-dash"></span><span id="step-walk" class="phase-step"><b>2</b> Ver las conexiones</span></div><span id="phase-message" class="phase-message">Mismo inicio. Mismos vecindarios. Distinto subsolver.</span></section>
   <section class="arena" aria-label="Comparación visual de dos aeropuertos">
     <article class="terminal terminal-left" data-side="0">
       <div class="terminal-head"><div><span class="eyebrow method-label" id="method-left">BÚSQUEDA CLÁSICA</span><h2 id="title-left">LNS + exacto</h2></div><span id="status-left" class="status">En espera</span></div>
-      <div class="metrics"><div><small>Costo actual</small><strong id="cost-left">—</strong></div><div><small>Mejor encontrado</small><strong id="best-left">—</strong></div><div class="time-metric"><small>Cálculo medido</small><strong id="time-left">—</strong></div><span id="gap-left" class="gap">—</span></div>
+      <div class="metrics"><div><small>Costo actual</small><strong id="cost-left">—</strong></div><div><small>Mejor encontrado</small><strong id="best-left">—</strong></div><div class="qmetric" id="popt-wrap-left" hidden><small>P(óptimo)</small><strong id="popt-left">—</strong></div><div class="qmetric" id="valid-wrap-left" hidden><small>Shots válidos</small><strong id="valid-left">—</strong></div><div class="time-metric"><small>Cálculo medido</small><strong id="time-left">—</strong></div><span id="gap-left" class="gap">—</span></div>
       <div class="map" id="map-left"><canvas id="canvas-left" aria-label="Pasajeros y pasillos de la terminal izquierda"></canvas><svg id="gates-left" viewBox="0 0 600 330" role="group" aria-label="Puertas de la terminal izquierda, selecciona dos para intercambiar vuelos"></svg><div class="speech" id="speech-left" hidden></div></div>
       <div class="terminal-foot"><span id="detail-left">60 iteraciones · K=3</span><span id="arrivals-left">↔ Arrastra o selecciona dos puertas</span></div>
     </article>
     <article class="terminal terminal-right" data-side="1">
       <div class="terminal-head"><div><span class="eyebrow method-label" id="method-right">BÚSQUEDA HÍBRIDA</span><h2 id="title-right">LNS + QAOA</h2></div><span id="status-right" class="status">En espera</span></div>
-      <div class="metrics"><div><small>Costo actual</small><strong id="cost-right">—</strong></div><div><small>Mejor encontrado</small><strong id="best-right">—</strong></div><div class="time-metric"><small>Cálculo medido</small><strong id="time-right">—</strong></div><span id="gap-right" class="gap">—</span></div>
+      <div class="metrics"><div><small>Costo actual</small><strong id="cost-right">—</strong></div><div><small>Mejor encontrado</small><strong id="best-right">—</strong></div><div class="qmetric" id="popt-wrap-right" hidden><small>P(óptimo)</small><strong id="popt-right">—</strong></div><div class="qmetric" id="valid-wrap-right" hidden><small>Shots válidos</small><strong id="valid-right">—</strong></div><div class="time-metric"><small>Cálculo medido</small><strong id="time-right">—</strong></div><span id="gap-right" class="gap">—</span></div>
       <div class="map" id="map-right"><canvas id="canvas-right" aria-label="Pasajeros y pasillos de la terminal derecha"></canvas><svg id="gates-right" viewBox="0 0 600 330" role="group" aria-label="Puertas de la terminal derecha, selecciona dos para intercambiar vuelos"></svg><div class="speech" id="speech-right" hidden></div></div>
       <div class="terminal-foot"><span id="detail-right">60 iteraciones · 9 qubits por llamada</span><span id="arrivals-right">↔ Arrastra o selecciona dos puertas</span></div>
     </article>
@@ -57,7 +58,7 @@ CSS = r"""
 @media(min-height:950px){.masthead{height:60px}h1{font-size:30px}.toolbar{min-height:75px}.terminal-head{min-height:65px}.terminal h2{font-size:23px}.metrics{min-height:64px}.metrics strong{font-size:27px}.time-metric strong{font-size:21px}.bottom-row{min-height:100px}#convergence{height:80px}.eyebrow{font-size:10px}.footer{font-size:9px}.insight-strip p{font-size:13px}}
 @media(max-width:1150px){.toolbar{gap:12px;padding:9px 12px}.size-control{min-width:250px}.size-control input{width:85px}.reference-pill{min-width:120px;padding-left:12px}.small-tag{display:none}.metrics{gap:12px}.metrics strong{font-size:19px}.time-metric strong{font-size:15px}.phase-message{max-width:45%}.terminal-foot span{font-size:8px}.experiment-label{min-width:200px}.footer{font-size:7px}.player-buttons{gap:4px}.quiet.small{font-size:10px}}
 @media(max-width:780px){.lab{min-height:620px}.toolbar{flex-wrap:wrap;gap:8px}.toolbar-rule,.reference-pill{display:none}.size-control{min-width:230px}.seed-label{width:40px}.arena{gap:7px}.terminal-head{padding:8px}.terminal h2{font-size:14px}.status{font-size:7px}.metrics{gap:7px;padding:6px}.metrics small{font-size:7px}.metrics strong{font-size:16px}.gap{display:none}.head-right{gap:4px}.time-metric strong{font-size:12px}.bottom-row{gap:10px}.quiet.small{display:none}.phase-message{display:none}.footer>span:last-of-type{display:none}.terminal-foot span:last-child{display:none}}
-.reference-pill{background:transparent;border-top:0;border-right:0;border-bottom:0;text-align:left;border-radius:0}.reference-pill:hover{background:#e0e8da}
+.depth-label{width:auto;min-width:58px}.qmetric strong{color:#14796d}.reference-pill{background:transparent;border-top:0;border-right:0;border-bottom:0;text-align:left;border-radius:0}.reference-pill:hover{background:#e0e8da}
 """
 
 JS = r"""
@@ -92,7 +93,7 @@ export default function(component) {
     return app.cleanup;
   }
   const $ = id => root.querySelector('#'+id);
-  app = {data, send:setTriggerValue, n:10, mode:'lns', seed:0, speed:10,
+  app = {data, send:setTriggerValue, n:10, mode:'lns', seed:0, depth:3, speed:10,
     phase:'ready', clock:0, walkTime:0, sampleTime:0, playing:false,
     manual:[null,null], referenceSide:null, picked:null, highlight:null, frames:[null,null],
     runs:[null,null], raf:0, last:0, lastUI:0, lastMap:['',''], toastUntil:0,
@@ -100,6 +101,9 @@ export default function(component) {
   instances.set(parentElement,app);
 
   function instance() {return app.data.instances.find(x=>x.n===app.n);}
+  // N=4: seed 3 is the central seed of the 5 recorded at p=3 (swap = median P(optimum)); see export verify().
+  // N=3: seeds 1, 3, 4 start the swap circuit at the optimum (proves nothing), so open on seed 2.
+  function defaultSeed() {return app.mode!=='mixers'?0:app.n===3?2:3;}
   function cost(a) {if(!a || a.length!==app.n || new Set(a).size!==app.n || a.some(x=>x<0||x>=app.n)) return null;let c=0;const I=instance();for(let i=0;i<app.n;i++)for(let k=i+1;k<app.n;k++)c+=I.flows[i][k]*I.distances[a[i]][a[k]];return c;}
   function valid(a) {return cost(a)!==null;}
   function duration() {return Math.max(.000001,...app.runs.filter(Boolean).map(r=>Number(r.seconds||0)));}
@@ -112,7 +116,7 @@ export default function(component) {
   function chooseRuns() {
     const kind=app.mode==='lns'?'lns':'qaoa';
     const methods=kind==='lns'?['exact','qaoa']:['x','perm'];
-    app.runs=methods.map(method=>app.data.runs.filter(r=>r.n===app.n && r.kind===kind && r.method===method && Number(r.seed)===app.seed && (kind==='lns'||Number(r.config?.reps ?? r.reps ?? 2)===2)).at(-1)||null);
+    app.runs=methods.map(method=>app.data.runs.filter(r=>r.n===app.n && r.kind===kind && r.method===method && Number(r.seed)===app.seed && (kind==='lns'||Number(r.config?.reps ?? r.reps ?? 2)===app.depth)).at(-1)||null);
   }
   function reset() {
     app.playing=false;app.phase='ready';app.clock=0;app.walkTime=0;app.sampleTime=0;
@@ -150,7 +154,7 @@ export default function(component) {
     if(f.invalid)return ['Muestra inválida','bad'];
     if(f.event==='sample')return ['Muestra válida','good'];
     if(f.training)return [app.clock>=r.seconds?'Entrenamiento listo':'Entrenando QAOA',app.clock>=r.seconds?'good':'working'];
-    if(app.phase==='walk'||app.phase==='done')return [f.cost===instance().optimum?'Óptimo encontrado':'Mejor de esta corrida',f.cost===instance().optimum?'good':''];
+    if(app.phase==='walk'||app.phase==='done'){if(app.mode==='mixers')return ['Mejor shot válido',''];return [f.cost===instance().optimum?'Óptimo encontrado':'Mejor de esta corrida',f.cost===instance().optimum?'good':''];}
     if(f.kick)return ['Patada: explorar de nuevo','bad'];
     if(f.event==='complete'||app.clock>=r.seconds)return ['Búsqueda terminada','good'];
     if(f.accepted===false)return ['Movimiento rechazado',''];
@@ -164,6 +168,7 @@ export default function(component) {
     root.querySelectorAll('[data-size]').forEach(b=>b.classList.toggle('active',Number(b.dataset.size)===app.n));
     $('mode').value=app.mode;$('mode').disabled=app.n<=3;
     $('seed').value=app.seed;$('seed').disabled=app.mode==='lns'||app.n<=2;
+    $('depth').value=app.depth;$('depth').disabled=app.mode==='lns'||app.n<=2;
     $('reference').textContent=I.optimum;
     $('exact-time').textContent=`${sec(I.exact_seconds)} · ${Number(I.stats.assignments).toLocaleString('es-PE')} opciones`;
     $('live').hidden=app.mode!=='mixers'||app.n<3;
@@ -184,21 +189,24 @@ export default function(component) {
       const s=SIDES[side],r=app.runs[side],f=app.frames[side];
       const names=app.mode==='lns'?['LNS + exacto','LNS + QAOA']:['QAOA con penalización','QAOA de intercambio'];
       $('title-'+s).textContent=f.reference?'Referencia exacta':f.manual?'Tu asignación':app.n<=2?'Todas son óptimas':names[side];
-      $('method-'+s).textContent=f.reference?'ENUMERACIÓN COMPLETA · RESULTADO GUARDADO':f.manual?'EXPLORACIÓN MANUAL':app.n<=2?'CASO INTRODUCTORIO':app.mode==='lns'?(side?'BÚSQUEDA HÍBRIDA':'BÚSQUEDA CLÁSICA'):(side?'MIXER DE INTERCAMBIO · P=2':'MIXER X · P=2');
+      $('method-'+s).textContent=f.reference?'ENUMERACIÓN COMPLETA · RESULTADO GUARDADO':f.manual?'EXPLORACIÓN MANUAL':app.n<=2?'CASO INTRODUCTORIO':app.mode==='lns'?(side?'BÚSQUEDA HÍBRIDA':'BÚSQUEDA CLÁSICA'):(side?`MIXER DE INTERCAMBIO · P=${app.depth}`:`MIXER X · P=${app.depth}`);
       const [label,cls]=statusLabel(f,r);$('status-'+s).textContent=label;$('status-'+s).className='status '+cls;
       $('cost-'+s).textContent=f.cost==null?'—':f.cost;
       $('best-'+s).textContent=f.best_cost==null?'—':f.best_cost;
       const elapsed=app.phase==='ready'?0:Math.min(app.clock,Number(r?.seconds||0));
       $('time-'+s).textContent=f.reference?sec(I.exact_seconds):f.manual?'—':r?sec(['walk','done','samples'].includes(app.phase)?r.seconds:elapsed):app.n<=2?sec(I.exact_seconds):'—';
-      root.querySelector('.terminal-'+s+' .metrics>div:nth-child(2) small').textContent=app.mode==='mixers'&&!f.manual?`Mejor de ${r?.total_shots??2048} shots`:'Mejor encontrado';
+      root.querySelector('.terminal-'+s+' .metrics>div:nth-child(2) small').textContent=app.mode==='mixers'&&!f.manual?`Mejor shot válido de ${r?.total_shots??2048}`:'Mejor encontrado';
       const gap=f.cost!=null&&I.optimum>0?100*(f.cost-I.optimum)/I.optimum:0;
       $('gap-'+s).textContent=f.cost==null?'Sin plan':gap===0?'Óptimo':`+${fmt(gap)}%`;
       $('gap-'+s).className='gap '+(f.cost===I.optimum?'optimal':'');
+      const direct=app.mode==='mixers'&&app.n>2&&!f.manual&&!f.reference&&!!r;
+      $('popt-wrap-'+s).hidden=!direct;$('valid-wrap-'+s).hidden=!direct;$('gap-'+s).hidden=direct;
+      if(direct){const trivial=!!r.start_is_optimal;root.querySelector('#popt-wrap-'+s+' small').textContent=trivial?'P(óptimo) · arrancó óptimo':'P(óptimo)';$('popt-'+s).textContent=trivial?'n/a':`${fmt(100*r.p_optimal)}%`;$('valid-'+s).textContent=`${fmt(100*r.p_feasible)}%`;}
       if(f.reference)$('detail-'+s).textContent='Óptimo por enumeración global · sin traza de pasos intermedios';
       else if(f.manual)$('detail-'+s).textContent=app.data.validation?.ok&&app.data.validation.nonce===app.lastEditNonce?'Costo verificado por Python · cada par una vez':'Costo QAP local · comprobando con Python';
       else if(app.n<=2)$('detail-'+s).textContent=app.n===1?'Una asignación · sin conexiones':'Dos asignaciones · ambas cuestan 10';
       else if(f.missing)$('detail-'+s).textContent='Resultado agregado en Evidencia; no hay pasos para reproducir';
-      else if(app.mode==='mixers')$('detail-'+s).textContent=`P(óptimo) ${fmt(100*r.p_optimal)}% · válidas ${fmt(100*r.p_feasible)}% · semilla ${app.seed}`;
+      else if(app.mode==='mixers')$('detail-'+s).textContent=`semilla ${app.seed} · p=${app.depth} · azar válido ${fmt(100*I.stats.p_optimal_random)}%${r.start_is_optimal?' · arrancó en el óptimo (no cuenta)':''}`;
       else $('detail-'+s).textContent=`${r?.config?.iterations??60} iter. · K=${r?.config?.k??3} · semilla ${app.seed}${side?' · 9 qubits':''}${f.step?' · paso '+f.step:''}`;
       drawGates(side,force);
     }
@@ -221,7 +229,7 @@ export default function(component) {
     else if(app.n<=2)text=app.n===1?'Una puerta y un vuelo: no hay decisión que optimizar. Sube N para que aparezca el problema.':'Aquí las dos permutaciones cuestan lo mismo: todas son óptimas. Encontrar el óptimo todavía no demuestra habilidad.';
     else if(app.runs.some(r=>!r))text='Esta combinación aún no tiene una traza registrada. Puedes explorar asignaciones manuales o consultar los resultados en Evidencia.';
     else if(app.phase==='samples')text='Una muestra inválida puede dejar vuelos sin puerta o asignar varios a la misma. El mixer de intercambio conserva la regla uno a uno.';
-    else if(app.mode==='mixers')text=`N=${app.n}: el azar entre permutaciones válidas tiene ${fmt(100*I.stats.p_optimal_random)}% de probabilidad de óptimo. La corrida mostrada es una semilla, no la mediana.`;
+    else if(app.mode==='mixers')text=`Azar válido: ${fmt(100*I.stats.p_optimal_random)}% de P(óptimo). Con 2048 shots, "mejor shot válido" casi siempre llega al óptimo porque se prueban muchos; lo que distingue a los mixers es P(óptimo) y el % de shots válidos. Es una semilla, no la mediana (ver Evidencia).`;
     else if(['walk','done'].includes(app.phase)) {
       const a=cost(app.runs[0].final_assignment),b=cost(app.runs[1].final_assignment);
       text=a===b?`En esta semilla ambos terminaron en ${a}. Compara también el tiempo medido; la calidad final por sí sola no cuenta toda la historia.`:`En esta semilla: clásico ${a}, híbrido ${b}; óptimo global ${I.optimum}. Los personajes representan el costo de conexiones de cada asignación.`;
@@ -357,17 +365,18 @@ export default function(component) {
   app.toast=function(text){$('toast').textContent=text;$('toast').hidden=false;app.toastUntil=performance.now()+3600;};
   const handlers=[];
   function listen(el,type,handler){el.addEventListener(type,handler);handlers.push(()=>el.removeEventListener(type,handler));}
-  listen($('size'),'input',e=>{app.n=Number(e.target.value);if(app.n<=3)app.mode='mixers';else if(app.n>4)app.mode='lns';app.seed=0;reset();});
-  root.querySelectorAll('[data-size]').forEach(button=>listen(button,'click',()=>{app.n=Number(button.dataset.size);app.mode=app.n===4?'mixers':'lns';app.seed=0;reset();}));
-  listen($('mode'),'change',e=>{app.mode=e.target.value;if(app.mode==='mixers'&&app.n>4)app.n=4;app.seed=0;reset();});
+  listen($('size'),'input',e=>{app.n=Number(e.target.value);if(app.n<=3)app.mode='mixers';else if(app.n>4)app.mode='lns';app.seed=defaultSeed();reset();});
+  root.querySelectorAll('[data-size]').forEach(button=>listen(button,'click',()=>{app.n=Number(button.dataset.size);app.mode=app.n===4?'mixers':'lns';app.seed=defaultSeed();reset();}));
+  listen($('mode'),'change',e=>{app.mode=e.target.value;if(app.mode==='mixers'&&app.n>4)app.n=4;app.seed=defaultSeed();reset();});
   listen($('seed'),'change',e=>{app.seed=Number(e.target.value);reset();});
+  listen($('depth'),'change',e=>{app.depth=Number(e.target.value);reset();});
   listen($('speed'),'change',e=>{app.speed=Number(e.target.value);refresh();});
   listen($('play'),'click',play);listen($('restart'),'click',reset);listen($('restore'),'click',reset);listen($('walk'),'click',goWalk);listen($('samples'),'click',samples);
   listen($('timeline'),'input',e=>{app.playing=false;app.highlight=null;const f=Number(e.target.value)/1000;if(['walk','done'].includes(app.phase)){app.phase='walk';app.walkTime=f*8;}else if(app.phase==='samples'){app.sampleTime=f*8;}else{app.phase='search';app.clock=f*duration();}refresh(true);});
   listen($('next'),'click',()=>{app.playing=false;if(app.phase==='samples'){const count=Math.max(1,app.runs[0]?.samples?.length||256);app.sampleTime=Math.min(8,app.sampleTime+8/count);refresh(true);return;}app.manual=[null,null];app.referenceSide=null;app.phase='search';const times=app.runs.flatMap(r=>(r?.events||[]).map(e=>Number(e.elapsed_s))).filter(t=>t>app.clock+1e-7);app.clock=times.length?Math.min(...times):duration();refresh(true);});
   listen($('show-optimum'),'click',()=>{app.manual[0]=instance().exact_assignment.slice();app.referenceSide=0;goWalk();app.toast('Referencia exacta cargada a la izquierda; no se simulan pasos de búsqueda inexistentes.');});
   listen($('evidence'),'click',()=>{renderEvidence();$('drawer').hidden=false;});listen($('close-evidence'),'click',()=>{$('drawer').hidden=true;});
-  listen($('live'),'click',()=>{if(app.livePending)return;app.playing=false;app.livePending=true;app.toast('Qiskit vuelve a calcular ambos mixers. Puede tardar varios segundos.');app.send('live',{n:app.n,seed:app.seed,nonce:Date.now()});refresh();});
+  listen($('live'),'click',()=>{if(app.livePending)return;app.playing=false;app.livePending=true;app.toast(`Qiskit vuelve a calcular ambos mixers con p=${app.depth}. Puede tardar ${app.depth===3?'~20-60':'varios'} segundos.`);app.send('live',{n:app.n,seed:app.seed,depth:app.depth,nonce:Date.now()});refresh();});
   SIDES.forEach((s,side)=>{
     const svg=$('gates-'+s),map=$('map-'+s);let drag=null;
     listen(svg,'pointerdown',e=>{const gate=e.target.closest('[data-gate]');if(!gate)return;if(!pauseForEdit(side))return;drag={gate:Number(gate.dataset.gate),x:e.clientX,y:e.clientY};svg.setPointerCapture(e.pointerId);});
@@ -379,9 +388,16 @@ export default function(component) {
   function renderEvidence() {
     const I=instance(),row=I.stats;
     const runCards=app.runs.map((r,s)=>app.referenceSide===s?`<div class="source-card"><strong>Terminal izquierda · referencia exacta global</strong><p>Costo ${I.optimum}; tiempo medido ${sec(I.exact_seconds)}. Solución guardada de la enumeración completa, sin animación de pasos intermedios.</p></div>`:app.manual[s]?`<div class="source-card"><strong>Tu asignación · ${s?'derecha':'izquierda'}</strong><p>Costo ${cost(app.manual[s])}; exploración manual, sin nueva ejecución de algoritmos.</p></div>`:r?`<div class="source-card"><strong>${s?'Terminal derecha':'Terminal izquierda'} · ${esc(r.id)}</strong><p>Semilla ${r.seed}; tiempo ${sec(r.seconds)}; ${r.live?'calculada ahora':'corrida registrada'}. ${r.timing_scope==='optimizer_and_sampling'?'El tiempo cubre entrenamiento y muestreo.':''}</p><code>${esc(JSON.stringify(r.config))}</code>${r.kind==='qaoa'?`<p>P(óptimo): ${fmt(r.p_optimal*100)}%; factibilidad ideal: ${fmt(r.p_feasible*100)}%; muestras válidas: ${fmt(r.raw_feasible_fraction*100)}%.</p><p>Se visualizan ${r.samples?.length||0} shots reales de ${r.total_shots||r.config.shots}. La selección de una buena muestra no es su probabilidad de aparición.</p>${r.resources?.qubits?`<p>Circuito compilado p=${r.config.reps}: ${r.resources.qubits} qubits, ${r.resources.transpiled_two_qubit_gates} compuertas de dos qubits, profundidad ${r.resources.transpiled_depth}. Backend genérico; no ejecutado en hardware.</p>`:''}`:''}</div>`:'<div class="source-card">No hay traza para esta combinación.</div>').join('');
-    const sweep=app.data.sweep.filter(r=>r.n===4&&r.experiment==='mixer_depth_cvar'&&r.alpha===1&&r.reps===2);
+    const qn=app.n===3?3:4,qI=app.data.instances.find(x=>x.n===qn);
+    const randomText=r=>r.p_optimal_random>=.001?`${fmt(100*r.p_optimal_random)}%`:`1 entre ${Math.round(1/r.p_optimal_random).toLocaleString('es-PE')}`;
+    const ratio=v=>v<.1?v.toFixed(2):v.toFixed(1);
+    const recorded=(app.data.studies?.qaoa_recorded||[]).filter(r=>r.n===qn).sort((a,b)=>(a.mixer===b.mixer?a.reps-b.reps:a.mixer==='x'?-1:1));
+    const recordedRows=recorded.map(r=>{const used=r.p_optimal_by_seed.filter((_,i)=>!r.start_optimal_seeds.includes(i)).sort((a,b)=>a-b);const mid=used.length%2?used[(used.length-1)/2]:(used[used.length/2-1]+used[used.length/2])/2;const flag=used.length<r.p_optimal_by_seed.length?'†':'';return `<tr><td>${r.mixer==='x'?'Penalización (X)':'Intercambio'} · p=${r.reps}${flag}</td><td><strong>${fmt(100*mid)}%</strong></td><td>${fmt(100*used[0])}–${fmt(100*used[used.length-1])}%</td><td>${fmt(100*r.median_p_feasible)}%</td><td>${ratio(mid/r.random_p_optimal)}×</td></tr>`;}).join('');
+    const startOpt=recorded.filter(r=>r.start_optimal_seeds.length).map(r=>`${r.mixer==='x'?'X':'intercambio'} p=${r.reps}: semillas ${r.start_optimal_seeds.join(', ')}`).join('; ');
+    const METHODS={qaoa:'LNS + QAOA',exact:'LNS + exacto local (3 vuelos)',random:'LNS + azar',scipy_faq:'SciPy FAQ (heurística clásica)'};
+    const I10=app.data.instances.find(x=>x.n===10);
     const scalingRows=app.data.instances.map(x=>`<tr><td>${x.n}</td><td>${x.optimum}</td><td>${sec(x.exact_seconds)}</td><td>${x.stats.lns_exact_median??'—'}</td><td>${x.stats.lns_qaoa_median??'—'}</td></tr>`).join('');
-    $('evidence-body').innerHTML=`<h3>Lo que se representa</h3><p>La aplicación interpreta QAP10 como vuelos y puertas. El dibujo utiliza la geometría exacta de D: una cuadrícula de cuatro columnas, con distancia Manhattan multiplicada por dos. Las primeras N filas y columnas definen cada subinstancia.</p><p>Una figura representa una unidad de flujo. El costo es <code>Σ F[i,k] × D[puerta_i,puerta_k], i&lt;k</code>. Cada par se cuenta una sola vez. Las emociones y los segundos de movimiento son recursos visuales; no se midieron pasajeros, metros, demoras ni satisfacción de un aeropuerto real.</p><h3>Referencia exacta de N=${app.n}</h3><p><span class="key-number">${I.optimum}</span> · ${row.optimal_assignments} óptimas de ${row.assignments.toLocaleString('es-PE')} permutaciones. Azar válido: ${fmt(row.p_optimal_random*100)}%.</p><h3>Corridas animadas</h3>${runCards}<p>En el híbrido se muestran asignaciones actuales, incluida la exploración después de una patada. Las personas salen con la mejor asignación encontrada. En QAOA directo los pasos del optimizador son energías esperadas; no son planes de puertas. Los cambios del plano durante el muestreo son shots leídos de la ejecución.</p><h3>Hallazgo del barrido original · N=4</h3><p>Cinco semillas, p=2, α=1, hasta 100 evaluaciones y 2048 shots. Azar válido: 8,3%. Las medianas pertenecen a este estudio, no a una sola corrida animada.</p><table><thead><tr><th>Ansatz</th><th>P(óptimo)</th><th>Factibilidad</th><th>Semillas</th></tr></thead><tbody>${sweep.map(r=>`<tr><td>${r.mixer==='x'?'Penalización':'Intercambio'}</td><td>${fmt(100*r.median_p_optimal)}%</td><td>${fmt(100*r.median_p_feasible)}%</td><td>${r.runs_used}/${r.runs}</td></tr>`).join('')}</tbody></table><p>El resultado depende de la semilla; la mejora mediana de N=4 no garantiza que todas las corridas mejoren. No se ha demostrado ventaja cuántica.</p><h3>Escalamiento existente · tres semillas, 60 iteraciones</h3><table><thead><tr><th>N</th><th>Óptimo</th><th>Exacto</th><th>LNS clásico<br>mediana</th><th>LNS QAOA<br>mediana</th></tr></thead><tbody>${scalingRows}</tbody></table><h3>Estudio anterior de N=10 · cinco semillas, 150 iteraciones</h3><table><thead><tr><th>Método</th><th>Mediana</th><th>Tiempo mediano</th></tr></thead><tbody>${app.data.legacy.map(r=>`<tr><td>${esc(r.method)}</td><td>${r.median_cost}</td><td>${sec(r.median_seconds)}</td></tr>`).join('')}</tbody></table><h3>Reproducir y continuar</h3><p><code>python tools/export_visual_demo.py</code> genera trazas; <code>streamlit run app/app.py</code> abre esta app. Aer statevector ideal, sin ruido. Qiskit construye/simula circuitos; COBYLA y la búsqueda externa son clásicos.</p><p>Para la final queda la prueba N≥14 y sus mediciones de tiempo, memoria, calidad y factibilidad. Una aplicación operativa necesitaría horarios, compatibilidad de aeronaves, conexiones reales y distancias caminables.</p><p><a href="https://miplib.zib.de/instance_details_qap10.html" target="_blank" rel="noreferrer">Fuente del benchmark: MIPLIB QAP10 ↗</a></p>`;
+    $('evidence-body').innerHTML=`<h3>Lo que se representa</h3><p>La aplicación interpreta QAP10 como vuelos y puertas. El dibujo utiliza la geometría exacta de D: una cuadrícula de cuatro columnas, con distancia Manhattan multiplicada por dos. Las primeras N filas y columnas definen cada subinstancia.</p><p>Una figura representa una unidad de flujo. El costo es <code>Σ F[i,k] × D[puerta_i,puerta_k], i&lt;k</code>. Cada par se cuenta una sola vez. Las emociones y los segundos de movimiento son recursos visuales; no se midieron pasajeros, metros, demoras ni satisfacción de un aeropuerto real.</p><h3>Referencia exacta de N=${app.n}</h3><p><span class="key-number">${I.optimum}</span> · ${row.optimal_assignments} óptimas de ${row.assignments.toLocaleString('es-PE')} permutaciones. Azar válido: ${randomText(row)}.</p><h3>Corridas animadas</h3>${runCards}<p>En el híbrido se muestran asignaciones actuales, incluida la exploración después de una patada. Las personas salen con la mejor asignación encontrada. En QAOA directo los pasos del optimizador son energías esperadas; no son planes de puertas. Los cambios del plano durante el muestreo son shots leídos de la ejecución.</p><h3>QAOA directo · N=${qn} · cinco semillas por configuración</h3><p>Son las mismas corridas que se animan (α=1, hasta 100 evaluaciones, 2048 shots, Aer ideal). Azar válido: ${fmt(100*qI.stats.p_optimal_random)}% de P(óptimo). "Mejor shot válido" no sirve para comparar: con 2048 shots casi cualquier muestreo encuentra el óptimo; cuentan P(óptimo) y el % de shots válidos.</p><table><thead><tr><th>Configuración</th><th>P(óptimo)<br>mediana</th><th>Rango<br>por semilla</th><th>Shots válidos<br>mediana</th><th>vs. azar</th></tr></thead><tbody>${recordedRows}</tbody></table><p>p=3 es la configuración robusta. Con p=2 el intercambio depende de la semilla: algunas se quedan en el estado inicial y otras aciertan el 100%. La penalización (X) no supera al azar en ninguna de las dos profundidades probadas. ${startOpt?`† Se excluyen las semillas que arrancaron ya en el óptimo, porque no demuestran nada (${startOpt}).`:''} No se ha demostrado ventaja cuántica.</p><h3>Escalamiento existente · tres semillas, 60 iteraciones</h3><table><thead><tr><th>N</th><th>Óptimo</th><th>Exacto</th><th>LNS clásico<br>mediana</th><th>LNS QAOA<br>mediana</th></tr></thead><tbody>${scalingRows}</tbody></table><h3>Estudio de N=10 · cinco semillas, 150 iteraciones</h3><p>Mediana del mejor costo de 5 semillas por método. Todas las asignaciones son válidas y ninguna corrida llegó a 340. Las medianas 368–380 no separan a los métodos: todos tienen corridas sueltas entre 358 y 364.</p><table><thead><tr><th>Método</th><th>Mediana</th><th>Mejor</th><th>Brecha<br>mediana</th><th>Tiempo<br>mediano</th></tr></thead><tbody><tr><td><strong>Enumeración exacta (referencia)</strong></td><td>${I10.optimum}</td><td>${I10.optimum}</td><td>0%</td><td>${sec(I10.exact_seconds)}</td></tr>${app.data.legacy.map(r=>`<tr><td>${esc(METHODS[r.method]||r.method)}</td><td>${r.median_cost}</td><td>${r.best_cost}</td><td>+${fmt(r.median_gap_percent)}%</td><td>${sec(r.median_seconds)}</td></tr>`).join('')}</tbody></table><h3>Reproducir y continuar</h3><p><code>python tools/export_visual_demo.py</code> genera trazas; <code>streamlit run app/app.py</code> abre esta app. Aer statevector ideal, sin ruido. Qiskit construye/simula circuitos; COBYLA y la búsqueda externa son clásicos.</p><p>Para la final queda la prueba N≥14 y sus mediciones de tiempo, memoria, calidad y factibilidad. Una aplicación operativa necesitaría horarios, compatibilidad de aeronaves, conexiones reales y distancias caminables.</p><p><a href="https://miplib.zib.de/instance_details_qap10.html" target="_blank" rel="noreferrer">Fuente del benchmark: MIPLIB QAP10 ↗</a></p>`;
   }
   function tick(now) {
     if(app.destroyed)return;

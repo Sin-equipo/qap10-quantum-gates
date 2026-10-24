@@ -17,8 +17,9 @@ Su costo es `sum(F[i][k] * D[a[i]][a[k]] for i < k)`, igual a `QAPInstance.cost`
 | `instance` | `flows` y `distances` (10×10), `total_flow_n10` (=114 personas), `cost_convention`, `interpretation` (texto honesto), `layout` |
 | `instance.layout` | `columns: 4`, `rows: 3`, `coords: [{gate, row, col}]`, `distance_rule`. Puerta g → fila g//4, columna g%4. Verificado: reproduce D exacto |
 | `exact` | lista N=1…10: `optimum`, `optimal_assignments` (todas), `optimal_count`, `assignments` (N!), `p_optimal_random`, `mean_random_cost`, `seconds`, `trivial` (N=1, 2) |
-| `studies` | resultados agregados con su configuración: `qaoa_sweep` (5 semillas), `hybrid_n10` (5 semillas, 150 iter.), `scaling` (3 semillas, 60 iter.). Las cifras de mediana salen de aquí, nunca de una corrida animada |
-| `defaults` | vista inicial: `n: 10`, `left: "lns_n10_exact_s0"`, `right: "lns_n10_qaoa_s0"`; `qaoa_view` con las semillas medianas de N=4 (X p=2 e intercambio p=3) |
+| `studies` | resultados agregados con su configuración: `qaoa_recorded` (resumen por N, mezclador y p calculado desde las mismas `qaoa_runs`: P(óptimo) y válidas por semilla, medianas, azar, semillas que arrancaron en el óptimo), `qaoa_sweep` (barrido de 140 corridas), `hybrid_n10` (5 semillas, 150 iter.), `scaling` (3 semillas, 60 iter.). Las cifras de mediana salen de aquí, nunca de una corrida animada |
+| `defaults` | vista inicial: `n: 10`, `left: "lns_n10_exact_s0"`, `right: "lns_n10_qaoa_s0"`; `qaoa_view`: N=4, `depth: 3`, `seed: 3` (el intercambio queda en la mediana de sus 5 semillas y X en la zona central; el export lo verifica) |
+| `lns_reused` | `true` si las corridas LNS se reutilizaron de una exportación anterior (`--reuse-lns`) |
 | `notes` | aclaraciones listas para mostrar en el panel de evidencia |
 | `checks` | lista de verificaciones superadas |
 | `lns_runs`, `qaoa_runs` | corridas registradas (abajo) |
@@ -48,7 +49,9 @@ Subinstancia N = primeras N filas y columnas de F y D (la geometría de las prim
 
 Para animar: tomar `assignment_after_move` como "movimiento" y, si `kick` no es `null`, un segundo paso visual hasta `assignment`.
 
-## `qaoa_runs[]` · N=3, 4 × {X p=2, intercambio p=2, intercambio p=3} × semillas 0–4
+## `qaoa_runs[]` · N=3, 4 × {X p=2, X p=3, intercambio p=2, intercambio p=3} × semillas 0–4
+
+Para comparar mezcladores usar la misma `reps` en ambos (p=3 es la configuración robusta). "Mejor costo entre los shots válidos" no es una métrica de comparación: con 2048 shots casi cualquier muestreo incluye un óptimo. Comparar `p_optimal` y `p_feasible`.
 
 `id` (`qaoa_n{N}_{mixer}_p{p}_s{seed}`), `n`, `mixer` (`x` | `perm`), `reps`, `seed`, `config` (maxiter=100, shots=2048, alpha=1), `qubits`, `penalty`, `start_assignment`/`start_cost` (solo intercambio: estado inicial del circuito), `optimum`, `p_feasible`, `p_optimal`, `p_optimal_random_permutation`, `gain_vs_random_permutation`, `raw_feasible_fraction`, `raw_best_assignment`, `raw_best_cost`, `train_seconds`, `sample_seconds`, `objective_history` (energía penalizada por evaluación del optimizador: **no son asignaciones**), `resources` (solo semilla 0: qubits, profundidad, compuertas de 2 qubits transpiladas).
 

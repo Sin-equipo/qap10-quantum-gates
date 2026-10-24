@@ -65,3 +65,20 @@ def test_gate_layout_reproduces_distances(base):
 def test_exact_profile_lists_every_optimum(base):
     profile = trace.exact_profile(base.subinstance(4))
     assert profile["optimum"] == 32 and profile["optimal_count"] == 2
+
+
+def test_export_summary_and_default_view_use_the_same_recorded_runs():
+    from tools.export_visual_demo import DEFAULT_QAOA_VIEW, qaoa_summary
+
+    runs = [trace.qaoa_run(3, mixer, 2, seed, maxiter=8, shots=64)
+            for mixer in ("x", "perm") for seed in range(2)]
+    exact = [trace.exact_profile(load_qap10().subinstance(3))]
+    summary = {(row["mixer"], row["reps"]): row for row in qaoa_summary(runs, exact)}
+    assert set(summary) == {("x", 2), ("perm", 2)}
+    for (mixer, _), row in summary.items():
+        recorded = sorted(r["p_optimal"] for r in runs if r["mixer"] == mixer)
+        assert row["seeds"] == 2 and row["p_optimal_by_seed"] == [
+            r["p_optimal"] for r in sorted((r for r in runs if r["mixer"] == mixer), key=lambda r: r["seed"])]
+        assert row["median_p_optimal"] == sum(recorded) / 2
+        assert row["random_p_optimal"] == exact[0]["p_optimal_random"]
+    assert DEFAULT_QAOA_VIEW == {"n": 4, "depth": 3, "seed": 3}

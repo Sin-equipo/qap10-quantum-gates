@@ -34,7 +34,7 @@ El QUBO completo de N=10 tiene 100 variables binarias, y simular su statevector 
 | SciPy FAQ | 364 | 380 | 11.8 % | 0/5 | 5/5 | 0.002 s |
 | Enumeración exacta (10!) | 340 | — | 0 % | — | sí | 2.4 s |
 
-El gap se calcula como 100 · (C − 340) / 340, solo sobre asignaciones válidas. Todas lo son. Nada se reparó.
+El gap se calcula como 100 · (C − 340) / 340, solo sobre asignaciones válidas. Todas lo son. Nada se reparó. El tiempo de la enumeración exacta varía entre corridas (2.4 s aquí, 2.6 s en el estudio de escalamiento): son mediciones de corridas distintas, no un cambio del método.
 
 **Calidad del subsolver cuántico:** en 750 llamadas a QAOA, la mejor muestra fue el óptimo del subproblema en el **89 %** de los casos (mediana por semilla). La probabilidad media de muestrear el óptimo por llamada fue de **48 %**. El azar acierta al menos 1 de 6 (17 %), y más si el subproblema tiene empates.
 

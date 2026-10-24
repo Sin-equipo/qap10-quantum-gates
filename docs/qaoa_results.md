@@ -27,9 +27,12 @@ Simulación ideal (Aer statevector, sin ruido), COBYLA hasta 100 evaluaciones, 2
 |---|---|---|---|---|---|
 | X | 1 | 2.3 % | 0.2 % | 0.02× | 0.5 s |
 | X | 2 | 4.6 % | 0.4 % | 0.05× | 2.0 s |
+| X | 3 | 3.7 % | 0.3 % (por semilla: 1.3, 0.2, 0.6, 0.3, 0.3 %) | 0.04× | 2.6 s |
 | Intercambio | 1 | 100 % | 0.0 % (mejor semilla: 100 %) | 0.00× | 1.5 s |
 | Intercambio | 2 | 100 % | 38.0 % (por semilla: 0, 38, 0, 38, 100 %) | 4.6× | 6.3 s |
 | Intercambio | 3 | 100 % | **36.8 %** (por semilla: 10, 37, 31, 37, 100 %) | **4.4×** | 14.0 s |
+
+La fila X con p=3 se agregó (5 semillas, mismos parámetros, corridas registradas en `results/visual_demo.json`) para comparar mezcladores a igual profundidad: tampoco supera al azar. En N=3, X con p=3 da una mediana de 10.0 % de P(óptimo) contra 33.3 % del azar.
 
 **Ojo con p=2:** su mediana de 38 % depende de qué semillas se tomen. Con las semillas 0–2, la mediana es 0 % (lo confirmó el estudio de escalamiento, `scaling_study.py`). **p=3 es la configuración robusta:** las 5 semillas superan al azar (la peor por poco: 10 % contra 8.3 %) y la media es 43 %. Es la que usamos como resultado principal.
 
