@@ -60,4 +60,4 @@ El intercambio garantiza factibilidad en el circuito estudiado, pero a p=1 cuest
 - El QAOA estándar con penalizaciones **no supera al muestreo aleatorio** en ninguna configuración probada de λ, p o CVaR.
 - Codificar la restricción en el mezclador sí funciona en simulación ideal: **100 % de factibilidad y una mediana de 37 % de P(óptimo), 4.4× el azar,** en N=4 con p=3, con las 5 semillas por encima de 0 %.
 - No hay ventaja frente al clásico: la enumeración exacta resuelve N=4 en microsegundos. El valor está en medir **qué parte del diseño cuántico importa**: el mezclador, no λ.
-- Escalar: el statevector deja de ser viable sobre 16–20 qubits. Para N=10 se usa este solver como subrutina sobre vecindarios de K=3–4 vuelos (rama `hybrid-lns`).
+- Escalar: esta implementación limita QAOA directo a N≤4 (16 qubits); es una decisión de recursos, no una barrera general del statevector. Para N=10 se usa el solver como subrutina sobre vecindarios de K=3 vuelos (9 qubits); K=4 sería una extensión de 16 qubits (rama `hybrid-lns`).

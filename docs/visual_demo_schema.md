@@ -51,7 +51,7 @@ Para animar: tomar `assignment_after_move` como "movimiento" y, si `kick` no es 
 
 ## `qaoa_runs[]` · N=3, 4 × {X p=2, X p=3, intercambio p=2, intercambio p=3} × semillas 0–4
 
-Para comparar mezcladores usar la misma `reps` en ambos (p=3 es la configuración robusta). "Mejor costo entre los shots válidos" no es una métrica de comparación: con 2048 shots casi cualquier muestreo incluye un óptimo. Comparar `p_optimal` y `p_feasible`.
+Para comparar mezcladores usar la misma `reps` en ambos y declarar las semillas utilizadas. "Mejor costo entre los shots válidos" no es una métrica de comparación: con 2048 shots casi cualquier muestreo incluye un óptimo (el mezclador X lo alcanza en las cinco semillas con P(óptimo) de 0.2–1.3 %). Comparar `p_optimal` y `p_feasible`, y acompañarlos del tiempo. Las tablas muestran mediana y rango para describir la variación entre semillas.
 
 `id` (`qaoa_n{N}_{mixer}_p{p}_s{seed}`), `n`, `mixer` (`x` | `perm`), `reps`, `seed`, `config` (maxiter=100, shots=2048, alpha=1), `qubits`, `penalty`, `start_assignment`/`start_cost` (solo intercambio: estado inicial del circuito), `optimum`, `p_feasible`, `p_optimal`, `p_optimal_random_permutation`, `gain_vs_random_permutation`, `raw_feasible_fraction`, `raw_best_assignment`, `raw_best_cost`, `train_seconds`, `sample_seconds`, `objective_history` (energía penalizada por evaluación del optimizador: **no son asignaciones**), `resources` (solo semilla 0: qubits, profundidad, compuertas de 2 qubits transpiladas).
 

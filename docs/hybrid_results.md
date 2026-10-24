@@ -11,7 +11,7 @@ El QUBO completo de N=10 tiene 100 variables binarias, y simular su statevector 
 ## Cómo funciona
 
 1. **Inicio:** una asignación aleatoria válida, con semilla.
-2. **Vecindario:** en cada iteración se liberan K=3 vuelos. La mitad de las veces se eligen al azar; la otra mitad, un vuelo y sus dos socios de mayor flujo.
+2. **Vecindario:** en cada iteración se liberan K=3 vuelos. La mitad de las veces se eligen al azar; la otra mitad se elige un vuelo y se muestrean dos socios con probabilidades que favorecen los flujos mayores. No es una elección determinista de los dos mayores.
 3. **Subproblema:** los 3 vuelos se reparten las 3 puertas que ya ocupaban. Es un QAP de 3×3 con un **término lineal**: el costo de cada vuelo libre frente a los 7 vuelos fijos. Se cumple que costo total = constante + costo del subproblema, y eso se verifica en cada iteración y en los tests.
 4. **Subsolver Qiskit:** QAOA con mezclador de intercambio en 9 qubits. Toda muestra es una permutación válida, así que no hace falta reparación. Se toma la mejor muestra.
 5. **Aceptación:** se acepta si el costo no empeora. Tras 12 iteraciones sin mejora, se barajan 4 vuelos al azar (patada ILS) para salir del óptimo local. Se guarda la mejor asignación vista.
@@ -45,7 +45,7 @@ En el mapa se ve el efecto de la optimización. Con el inicio aleatorio, las con
 ## Lectura honesta
 
 - **El híbrido funciona de punta a punta:** produce asignaciones válidas para N=10, con un gap del 6–10 % (mejor caso: 360), y usa Qiskit de forma sustantiva en cada iteración.
-- **No supera al clásico.** Con K=3, el LNS con subsolver exacto queda un poco mejor (mediana 368 contra 374), y QAOA empata en mediana con el subsolver aleatorio. Con 5 semillas, esas diferencias caen dentro del ruido entre semillas.
+- **No supera al clásico en estas corridas.** Con K=3, el LNS con subsolver exacto obtiene menor mediana (368 contra 374), y QAOA empata en mediana con el subsolver aleatorio. Cinco semillas permiten una comparación exploratoria; no se realizó una prueba que establezca significancia ni equivalencia estadística.
 - **Hipótesis sobre el límite observado:** con vecindarios de 3 vuelos, el bucle externo puede limitar la calidad global: cada subproblema solo tiene 3! = 6 opciones y aun así el método no llegó a 340. La tasa alta de acierto local de QAOA no demuestra por sí sola que el bucle externo sea la causa; también influyen K, inicialización, patadas, regla de aceptación y variación entre semillas. En la primera corrida, sin patadas, todas las variantes se estancaban en 364–392. Con las patadas ILS, el subsolver exacto empezó a separarse del aleatorio.
 - **Ningún método de búsqueda local llegó a 340** en 150 iteraciones. La enumeración exacta sí, en 2.4 s. Para N=10, la respuesta correcta en producción es clásica.
 

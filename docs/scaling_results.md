@@ -25,7 +25,7 @@ Configuración del LNS: K=3, 60 iteraciones, 3 semillas. Entre paréntesis van l
 ## Qué corrobora
 
 - **Los tres controles del reto (24, 32 y 340) salen exactos,** a partir de las matrices que recuperamos del MPS. Además, los óptimos de N=5–9 se calculan por enumeración completa.
-- **N=1 y N=2 son triviales:** con N=1 hay una sola asignación, y con N=2 las dos cuestan lo mismo, porque D es simétrica. Por eso el reto empieza en N=3, y QAOA no se evalúa ahí.
+- **N=1 y N=2 son triviales:** con N=1 hay una sola asignación, y con N=2 las dos cuestan lo mismo, porque D es simétrica. Por eso el reto empieza en N=3. El script de escalamiento sí ejecuta QAOA en N=2 como control; no demuestra capacidad de optimización porque todas las asignaciones válidas son óptimas. No ejecuta QAOA en N=1.
 - **Las asignaciones óptimas suelen venir en pares para N=2–7** (4 en N=8, una sola en N=9 y N=10). Es probable que se deba a simetrías de la cuadrícula de puertas, pero no lo verificamos. Para comparar de forma justa importa porque duplica la probabilidad de acertar al azar, y por eso el baseline usa "asignaciones óptimas / N!" y no 1/N!.
 
 ## Dónde se rompe cada método
