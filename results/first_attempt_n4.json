@@ -1,0 +1,41 @@
+{
+  "track": "A - puertas de embarque",
+  "instance": "qap10-N4",
+  "flight_labeling": "benchmark matemático interpretado como vuelos",
+  "gate_labeling": "benchmark matemático interpretado como puertas",
+  "classical": {
+    "method": "enumeración exacta de permutaciones",
+    "assignment": [
+      1,
+      2,
+      3,
+      0
+    ],
+    "cost": 32,
+    "feasible": true,
+    "candidates": 24,
+    "seconds": 5.959998816251755e-05
+  },
+  "qaoa": {
+    "method": "QAOA Qiskit statevector, p=1",
+    "assignment": [
+      1,
+      2,
+      3,
+      0
+    ],
+    "cost": 32,
+    "feasible_after_repair": true,
+    "postprocessing": "reparación clásica por asignación húngara",
+    "raw_feasible": false,
+    "raw_feasible_shots": 0,
+    "raw_feasible_fraction": 0.0,
+    "shots": 2048,
+    "best_assignment_frequency": 71,
+    "penalty": 120.0,
+    "qubo_expected_energy": 2038.2210843550126,
+    "optimizer_iterations": 25,
+    "seconds": 7.74003129999619,
+    "seed": 7
+  }
+}

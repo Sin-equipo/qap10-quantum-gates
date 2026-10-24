@@ -1,0 +1,18 @@
+{
+  "track": "A - puertas de embarque",
+  "instance": "qap10-N3",
+  "flight_labeling": "benchmark matemático interpretado como vuelos",
+  "gate_labeling": "benchmark matemático interpretado como puertas",
+  "classical": {
+    "method": "enumeración exacta de permutaciones",
+    "assignment": [
+      0,
+      1,
+      2
+    ],
+    "cost": 24,
+    "feasible": true,
+    "candidates": 6,
+    "seconds": 2.2899999748915434e-05
+  }
+}
