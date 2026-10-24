@@ -214,11 +214,13 @@ def _resources(qc: QuantumCircuit, seed: int) -> dict:
 def solve_qaoa(instance: QAPInstance, *, seed: int = 7, shots: int = 2048,
                reps: int = 1, maxiter: int = 150, penalty: float | None = None,
                penalty_factor: float = 1.0, alpha: float = 1.0, mixer: str = "x",
-               normalize: bool = True, resources: bool = False) -> dict:
+               normalize: bool = True, resources: bool = False,
+               return_samples: bool = False) -> dict:
     """Run a QAOA experiment on Aer; intentionally limited to N <= 4 (16 qubits).
 
     The optimiser sees the exact statevector expectation (or CVaR); the final
     distribution is then sampled with Aer's SamplerV2 using ``shots`` and ``seed``.
+    ``return_samples=True`` adds every shot in read-out order (see ``_decode``).
     """
     n = instance.n
     if n > MAX_N:
@@ -275,7 +277,8 @@ def solve_qaoa(instance: QAPInstance, *, seed: int = 7, shots: int = 2048,
     measured = transpile(measured, simulator)
     sampler = SamplerV2(seed=seed)
     tic = perf_counter()
-    counts = sampler.run([measured], shots=shots).result()[0].data.meas.get_counts()
+    bit_array = sampler.run([measured], shots=shots).result()[0].data.meas
+    counts = bit_array.get_counts()
     sample_seconds = perf_counter() - tic
 
     raw_feasible: Counter = Counter()
@@ -339,4 +342,40 @@ def solve_qaoa(instance: QAPInstance, *, seed: int = 7, shots: int = 2048,
     }
     if resources:
         out["resources"] = _resources(qc, seed)
+    if return_samples:
+        shots_in_order = bit_array.get_bitstrings()
+        unique = sorted(counts, key=lambda b: (-counts[b], b))
+        index = {bitstring: i for i, bitstring in enumerate(unique)}
+        out["samples"] = {
+            "unique": [_decode(b, counts[b], n, perm_costs, energies) for b in unique],
+            "order": [index[b] for b in shots_in_order],
+        }
     return out
+
+
+def _decode(bitstring: str, count: int, n: int, perm_costs: dict, energies: np.ndarray) -> dict:
+    """One measured bitstring as a flight x gate matrix, with its rule violations.
+
+    ``bitstring`` is Qiskit's order (qubit 0 rightmost); qubit i*n+j is "flight i
+    at gate j". Only valid assignments get a cost; every sample gets its penalised
+    QUBO energy, which is a different quantity.
+    """
+    x = np.asarray([int(bit) for bit in bitstring[::-1]], dtype=int).reshape(n, n)
+    rows, cols = x.sum(axis=1), x.sum(axis=0)
+    valid = bool((rows == 1).all() and (cols == 1).all())
+    assignment = [int(np.argmax(row)) for row in x] if valid else None
+    return {
+        "bitstring": bitstring,
+        "count": int(count),
+        "matrix": x.tolist(),
+        "valid": valid,
+        "assignment": assignment,
+        "cost": int(perm_costs[tuple(assignment)]) if valid else None,
+        "qubo_energy": float(energies[int(bitstring, 2)]),
+        "conflicts": {
+            "flights_without_gate": [int(i) for i in np.flatnonzero(rows == 0)],
+            "flights_with_several_gates": [int(i) for i in np.flatnonzero(rows > 1)],
+            "gates_without_flight": [int(j) for j in np.flatnonzero(cols == 0)],
+            "gates_with_several_flights": [int(j) for j in np.flatnonzero(cols > 1)],
+        },
+    }

@@ -66,12 +66,17 @@ def _exact_sub(sub: QAPInstance) -> tuple[tuple[int, ...], int]:
 
 def lns(instance: QAPInstance, *, subsolver: str = "qaoa", k: int = 3, iterations: int = 60,
         seed: int = 0, reps: int = 2, maxiter: int = 60, shots: int = 512,
-        start: list[int] | None = None, stall_limit: int = 12, kick: int = 4) -> dict:
+        start: list[int] | None = None, stall_limit: int = 12, kick: int = 4,
+        trace: bool = False) -> dict:
     """Run LNS from a seeded random start; accept equal-or-better moves.
 
     After ``stall_limit`` iterations without improvement, ``kick`` random flights
     are shuffled (iterated local search) to escape the local optimum. The best
     assignment seen is returned; ``history`` is the best-so-far cost.
+
+    ``trace=True`` adds ``events``: one record per iteration with the freed
+    flights, the proposal, whether it was accepted, any kick, and the resulting
+    assignments. Recording draws no random numbers, so the run is identical.
     """
     if subsolver not in SUBSOLVERS:
         raise ValueError(f"subsolver debe ser uno de {SUBSOLVERS}")
@@ -90,33 +95,46 @@ def lns(instance: QAPInstance, *, subsolver: str = "qaoa", k: int = 3, iteration
     stall = kicks = 0
     qaoa_calls = qaoa_hits = 0
     p_optimal: list[float] = []
+    events: list[dict] = []
     tic = perf_counter()
-    for _ in range(iterations):
+    for iteration in range(1, iterations + 1):
         flights = _choose_flights(neighbourhoods, instance.flows, k)
         sub, gates, constant = subproblem(instance, current, flights)
+        qaoa_info = None
         if subsolver == "exact":
             choice, _ = _exact_sub(sub)
         elif subsolver == "random":
             choice = tuple(int(g) for g in sub_rng.permutation(k))
         else:
+            call_seed = int(sub_rng.integers(1_000_000))
             result = solve_qaoa(sub, mixer="perm", reps=reps, maxiter=maxiter, shots=shots,
-                                seed=int(sub_rng.integers(1_000_000)))
+                                seed=call_seed)
             # Perm mixer: every sample is a valid permutation, so no repair is needed.
             choice = tuple(result["raw_best_assignment"])
             qaoa_calls += 1
-            qaoa_hits += int(sub.cost(choice) == result["optimum"])
+            hit = sub.cost(choice) == result["optimum"]
+            qaoa_hits += int(hit)
             p_optimal.append(result["p_optimal"])
+            qaoa_info = {"seed": call_seed, "qubits": k * k, "p_optimal": result["p_optimal"],
+                         "subproblem_optimum_found": bool(hit),
+                         "train_seconds": result["train_seconds"],
+                         "sample_seconds": result["sample_seconds"]}
         candidate = list(current)
         for a, flight in enumerate(flights):
             candidate[flight] = gates[choice[a]]
         candidate_cost = constant + sub.cost(choice)
         if candidate_cost != instance.cost(candidate):
             raise AssertionError("La descomposición del costo no cuadra")
+        outcome = ("improve" if candidate_cost < current_cost
+                   else "equal" if candidate_cost == current_cost else "reject")
         stall = 0 if candidate_cost < current_cost else stall + 1
         if candidate_cost <= current_cost:
-            current, current_cost = candidate, candidate_cost
+            # Copy: a later kick mutates ``current`` and must not touch ``candidate``.
+            current, current_cost = list(candidate), candidate_cost
         if current_cost < best_cost:
             best, best_cost = list(current), current_cost
+        after_move, after_move_cost = list(current), current_cost
+        kick_info = None
         if stall_limit and stall >= stall_limit:
             moved = kicks_rng.choice(n, size=kick, replace=False)
             shuffled = [current[i] for i in moved]
@@ -125,8 +143,29 @@ def lns(instance: QAPInstance, *, subsolver: str = "qaoa", k: int = 3, iteration
                 current[int(flight)] = int(gate)
             current_cost = instance.cost(current)
             stall, kicks = 0, kicks + 1
+            kick_info = {"flights": sorted(int(i) for i in moved)}
         history.append(best_cost)
         current_history.append(current_cost)
+        if trace:
+            events.append({
+                "iteration": iteration,
+                "seconds": perf_counter() - tic,
+                "flights": list(flights),
+                "gates": list(gates),
+                "proposal": list(choice),
+                "candidate": candidate,
+                "candidate_cost": candidate_cost,
+                "outcome": outcome,
+                "accepted": outcome != "reject",
+                "assignment_after_move": after_move,
+                "cost_after_move": after_move_cost,
+                "kick": kick_info,
+                "assignment": list(current),
+                "cost": current_cost,
+                "best_assignment": list(best),
+                "best_cost": best_cost,
+                "qaoa": qaoa_info,
+            })
     elapsed = perf_counter() - tic
 
     out = {
@@ -154,4 +193,6 @@ def lns(instance: QAPInstance, *, subsolver: str = "qaoa", k: int = 3, iteration
             "qaoa_subproblem_hit_rate": qaoa_hits / max(qaoa_calls, 1),
             "qaoa_mean_p_optimal": float(np.mean(p_optimal)) if p_optimal else None,
         })
+    if trace:
+        out["events"] = events
     return out
