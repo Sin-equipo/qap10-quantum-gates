@@ -18,7 +18,7 @@ from simulation import airport_lab  # noqa: E402
 
 def main():
     st.set_page_config(
-        page_title="Misión conexiones · QAP10",
+        page_title="Mission Connections · QAP10",
         page_icon=":material/connecting_airports:",
         layout="wide",
         initial_sidebar_state="collapsed",

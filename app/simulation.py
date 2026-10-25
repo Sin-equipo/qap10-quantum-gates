@@ -9,7 +9,7 @@ from walk_math import WALK_MODEL
 HTML = r"""
 <main id="lab" class="lab">
   <header class="masthead">
-    <div class="brand"><span class="brand-icon">↗</span><div><h1>Misión conexiones<span class="brand-period">.</span></h1><p>Un aeropuerto. Millones de decisiones.</p></div></div>
+    <div class="brand"><span class="brand-icon">↗</span><div><h1>Mission Connections<span class="brand-period">.</span></h1><p>Un aeropuerto. Millones de decisiones.</p></div></div>
     <div class="head-right"><span class="small-tag"><i></i> <span id="instance-kind">BENCHMARK QAP10</span></span><button id="evidence" class="quiet" aria-label="Abrir evidencia y metodología">Evidencia <span>↗</span></button></div>
   </header>
   <nav class="toolbar" aria-label="Controles del experimento">
