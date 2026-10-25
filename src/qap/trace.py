@@ -14,7 +14,7 @@ from time import perf_counter
 import numpy as np
 
 from .hybrid import lns
-from .instance import QAPInstance, load_qap10
+from .instance import QAPInstance, load_qap10, load_instance
 from .qaoa import solve_qaoa
 
 SCHEMA_VERSION = "1.0"
@@ -33,7 +33,7 @@ def gate_layout(instance: QAPInstance) -> dict:
         for b in coords:
             manhattan = 2 * (abs(a["row"] - b["row"]) + abs(a["col"] - b["col"]))
             if manhattan != instance.distances[a["gate"], b["gate"]]:
-                raise ValueError("La cuadrícula 3x4 no reproduce D")
+                raise ValueError("La cuadrícula de cuatro columnas no reproduce D")
     return {"columns": GRID_COLUMNS, "rows": -(-instance.n // GRID_COLUMNS), "coords": coords,
             "distance_rule": "D[a][b] = 2 * (|fila_a - fila_b| + |col_a - col_b|)"}
 
@@ -74,7 +74,7 @@ def exact_profile(instance: QAPInstance, repeats: int = 3) -> dict:
 def lns_run(n: int, subsolver: str, seed: int = 0, **overrides) -> dict:
     """One LNS run on the leading N x N block, with its per-iteration events."""
     config = {**LNS_DEFAULTS, **overrides}
-    instance = load_qap10().subinstance(n)
+    instance = load_instance(n)
     run = lns(instance, subsolver=subsolver, seed=seed, trace=True, **config)
     for event in run["events"]:
         for key in ("candidate", "assignment_after_move", "assignment", "best_assignment"):

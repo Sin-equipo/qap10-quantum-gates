@@ -4,11 +4,11 @@
 
 **Integrantes:** Luis Manuel Espinoza Navarrete · Italo Alfredo Chinto Rentería Hinojosa · Andrea Melissa Sanchez Revolledo · Alexander Julian Bravo Tarazona.
 
-Reto NTT DATA del Qiskit Fall Fest 2026. Modela diez vuelos de conexión y diez puertas con la instancia matemática QAP10. Compara un baseline clásico exacto con QAOA en Qiskit para N=3/4 y con un híbrido LNS + QAOA para la instancia completa N=10.
+Reto NTT DATA del Qiskit Fall Fest 2026. Modela diez vuelos de conexión y diez puertas con la instancia matemática QAP10. Compara un baseline clásico exacto con QAOA en Qiskit para N=3/4 y con un híbrido LNS + QAOA hasta N=14. N=11…14 son una ampliación sintética reproducible que preserva QAP10.
 
 **El aeropuerto es una interpretación del benchmark.** Los flujos y distancias de QAP10 no son datos medidos de vuelos ni de puertas reales; no deben presentarse como pasajeros, metros ni ahorros operativos reales.
 
-**Descripción breve para la entrega:** Misión conexiones es un laboratorio interactivo para estudiar la asignación de vuelos a puertas mediante el benchmark QAP10. Compara métodos clásicos con QAOA simulado en Qiskit Aer y un enfoque híbrido por vecindarios. La demo permite explorar conexiones, intercambiar vuelos y comparar costo, factibilidad, probabilidades y tiempos registrados. Los experimentos reproducibles cubren N=1…10; muestran cómo conservar restricciones en el circuito mejora ciertos resultados pequeños y documentan los límites del híbrido, sin demostrar ventaja cuántica.
+**Descripción breve para la entrega:** Misión conexiones es un laboratorio interactivo para estudiar la asignación de vuelos a puertas mediante el benchmark QAP10. Compara métodos clásicos con QAOA simulado en Qiskit Aer y un enfoque híbrido por vecindarios. La demo permite explorar conexiones, intercambiar vuelos y comparar costo, factibilidad, probabilidades y tiempos registrados. Los experimentos reproducibles cubren N=1…14; N>10 es una ampliación sintética con referencia óptima certificada; muestran cómo conservar restricciones en el circuito mejora ciertos resultados pequeños y documentan los límites del híbrido, sin demostrar ventaja cuántica.
 
 ## Resultados en 30 segundos
 
@@ -19,8 +19,35 @@ Reto NTT DATA del Qiskit Fall Fest 2026. Modela diez vuelos de conexión y diez 
 | QAOA con mezclador de intercambio, N=4, p=3 | P(óptimo) 36.8 %, 100 % válidas; 4.4× el azar (simulación ideal, sin ruido) |
 | Híbrido LNS + QAOA, N=10 (9 qubits por llamada) | Mediana 374 (gap 10 %), mejor 360; no llega a 340 y no supera al LNS clásico |
 | Referencia exacta, N=10 | 340 en ≈2.5 s |
+| Final N=14, ampliación sintética (5 semillas, 60 iteraciones) | Óptimo 728 certificado en 6.32 s; QAOA: mediana 830, mejor 794, gap mediano 14.01 %, 0/5 aciertos |
 
 No afirmamos ventaja cuántica ni medimos hardware real o ruido. El hallazgo medido es que el diseño del mezclador pesa más que el castigo de las restricciones.
+
+## Final: ampliación hasta N=14
+
+La demo permite explorar **todos los tamaños N=1…14**. N≤10 conserva QAP10; N=11…14 amplía la misma instancia con flujos sintéticos de semilla fija y nuevas puertas en la misma cuadrícula. La etiqueta de la interfaz identifica esa ampliación.
+
+La campaña nueva compara N=10…14 con cinco semillas por método y 60 iteraciones: LNS + QAOA, LNS + exacto local, LNS + azar y SciPy FAQ. Incluye una **referencia óptima global por ramificación y poda con cota Gilmore–Lawler**, conteo de óptimos, calidad, factibilidad, tiempo y memoria RSS. El exacto reproduce 24/32/340; el óptimo certificado de esta ampliación N=14 es **728**. QAOA obtuvo mediana **830**, mejor **794** y **0/5** aciertos del óptimo (gap mediano **14,01 %**). La referencia nunca se usa como inicio.
+
+QAOA mantiene nueve qubits por llamada. Para agilizar esta campaña, el entrenamiento simula el mismo circuito dentro de sus seis permutaciones factibles; cada llamada verifica la distribución con el circuito completo en Qiskit Aer y obtiene 512 shots con SamplerV2. Es una aceleración clásica de simulación, sin hardware cuántico. La campaña histórica sigue identificada con sus parámetros propios.
+
+**Resultados y explicación:** [`docs/scaling14_results.md`](docs/scaling14_results.md). **Datos completos:** [`results/scaling14.json`](results/scaling14.json). **Métricas:** [`results/scaling14_summary.csv`](results/scaling14_summary.csv). **Mediciones individuales:** [`results/scaling14_jobs/`](results/scaling14_jobs/).
+
+```powershell
+python scaling14_study.py
+python tools/report_scaling14.py
+streamlit run app/app.py
+```
+
+El script reanuda solo mediciones con parámetros y hash de código compatibles. Para regenerar el resumen sin nuevas corridas: `python scaling14_study.py --assemble-only`.
+
+## Notebook de análisis
+
+**Análisis final N=10…14:** [`notebooks/scaling14_analysis.ipynb`](notebooks/scaling14_analysis.ipynb), con tablas, gráficas y verificación de las mediciones guardadas. Permite revisar la comparación sin volver a ejecutar QAOA.
+
+[`notebooks/qap10_track_a_analysis.ipynb`](notebooks/qap10_track_a_analysis.ipynb) conserva la exploración inicial en Colab y puede ejecutarse desde la raíz del repositorio con `data/qap10.mps.gz`. Instala `requirements.txt` y, si aún no tienes Jupyter, `pip install jupyterlab ipykernel`. Sus resultados son exploratorios y están marcados como anteriores a los estudios consolidados; el código N=10 usa vecindarios de cuatro vuelos y reparación clásica de asignaciones. El análisis vigente está en `docs/qaoa_results.md`, `docs/hybrid_results.md` y `docs/scaling_results.md`.
+
+Notebook original en [Google Colab](https://colab.research.google.com/drive/1M99ZgiXAJjfulGNs5h-nACDdR3QCSg31?usp=sharing).
 
 **Dónde mirar, según el criterio:**
 
@@ -64,8 +91,10 @@ Con el entorno activado, desde la raíz del repo. Todo usa semillas fijas.
 | 7. Corroboración N=1…10 (exacto, QAOA, híbrido) | `python scaling_study.py` | ~12 min | `results/scaling.csv`, `scaling.json` |
 | 8. Gráfica de escalamiento | `python tools\plot_scaling.py` | ~3 s | `results/scaling.png` |
 | 9. Trazas para la demo (corridas registradas paso a paso, verificadas) | `python tools\export_visual_demo.py` | ~8 min | `results/visual_demo.json` |
+| 10. Final N=10…14: exacto, QAOA híbrido y controles con memoria | `python scaling14_study.py` | Depende del equipo; reanudable | `results/scaling14.json`, `scaling14_jobs/` |
+| 11. Informe y gráfica final N=10…14 | `python tools/report_scaling14.py` | ~3 s | `docs/scaling14_results.md`, `results/scaling14.png` |
 
-Los pasos 3, 5, 7 y 9 ya tienen sus resultados en `results/`. Para revisar no hace falta volver a correrlos: los pasos 4, 6 y 8 regeneran las gráficas desde esos archivos. Versión rápida del paso 5: `python hybrid_experiment.py --seeds 2 --iterations 40`.
+Los pasos 3, 5, 7, 9 y 10 ya tienen sus resultados en `results/`. Para revisar no hace falta volver a correrlos: los pasos 4, 6 y 8 regeneran las gráficas desde esos archivos. Versión rápida del paso 5: `python hybrid_experiment.py --seeds 2 --iterations 40`.
 
 Las corridas nuevas registran `best_tracking="including_kicks"`: se considera también la asignación visitada después de una patada. Los artefactos históricos se conservan sin reescribir; se verificó que esta corrección no cambia los costos finales de las trazas guardadas de la demo ni del estudio principal N=10. Para reproducir estrictamente la implementación de los resultados históricos, la revisión de referencia es `2788df1`; las correcciones posteriores deben identificarse al generar nuevas corridas.
 
@@ -84,14 +113,15 @@ Simulación ideal sin ruido. Qiskit construye y simula los circuitos; la optimiz
 
 ```
 data/               MPS oficial comprimido y matrices F, D recuperadas
-src/qap/            instance.py, classical.py, qaoa.py, hybrid.py, trace.py
+src/qap/            instance.py, classical.py, exact_bound.py, qaoa.py, hybrid.py, trace.py
 app/                demo visual (Streamlit): streamlit run app/app.py
 tests/              pytest
 tools/              extracción del MPS, gráficas, export de trazas (export_visual_demo.py) y adaptador de la app
 run_experiment.py   N=3/4: clásico + un QAOA
 qaoa_sweep.py       barrido QAOA N=3/4
 hybrid_experiment.py N=10: LNS + QAOA vs. controles
-scaling_study.py    corroboración N=1…10
+scaling_study.py    corroboración histórica N=1…10
+scaling14_study.py  ampliación N=10…14, referencias exactas, comparación y memoria
 results/            CSV/JSON/PNG de los experimentos
 docs/               análisis y límites
 ```

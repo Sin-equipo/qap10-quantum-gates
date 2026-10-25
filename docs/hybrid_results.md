@@ -51,6 +51,8 @@ En el mapa se ve el efecto de la optimización. Con el inicio aleatorio, las con
 
 ## Escalabilidad (pregunta del Día 2, N ≥ 14)
 
+**Actualización para la final:** la prueba medida N=10…14 ya está en [`scaling14_results.md`](scaling14_results.md), con referencia exacta, cinco semillas, calidad, factibilidad y memoria/tiempo por método. La tabla siguiente conserva la proyección del Día 1 y sus supuestos; no describe la campaña nueva. El nuevo baseline de ramificación y poda evita la enumeración factorial completa.
+
 | | N=10 | N=14 |
 |---|---|---|
 | Permutaciones | 3.6 × 10^6 | 8.7 × 10^10 |

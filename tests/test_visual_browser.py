@@ -139,6 +139,18 @@ def test_n2_stops_at_the_actual_last_arrival(page):
     assert time.monotonic() - started < 4  # old fixed window was eight seconds
 
 
+def test_slow_frames_do_not_slow_the_animation_clock(page):
+    set_n(page, 2)
+    page.evaluate("""() => {
+      window.requestAnimationFrame = callback => setTimeout(() => callback(performance.now()), 250);
+      window.cancelAnimationFrame = id => clearTimeout(id);
+    }""")
+    started = time.monotonic()
+    walk(page, speed="1")
+    finish(page, timeout=3000)
+    assert time.monotonic() - started < 4
+
+
 def test_default_impact_compares_the_same_demand_before_and_after(page):
     walk(page, view="group")
     expect(page.locator("#cost-left")).to_have_text("536")
@@ -147,7 +159,7 @@ def test_default_impact_compares_the_same_demand_before_and_after(page):
     assert dataset(page, "#walked-left", "target") > dataset(page, "#walked-right", "target")
 
 
-@pytest.mark.parametrize("n", [3, 4, 6, 10])
+@pytest.mark.parametrize("n", [3, 4, 6, 10, 11, 12, 13, 14])
 def test_all_flows_finish_at_the_displayed_qap_cost(page, n):
     set_n(page, n)
     walk(page, view="all")
@@ -228,9 +240,10 @@ def test_recorded_sampling_finishes_instead_of_automatically_walking(page):
     expect(page.locator("#clock-label")).to_contain_text("256")
 
 
-@pytest.mark.parametrize("width,height", [(1366, 768), (1920, 1080)])
-def test_desktop_layout_keeps_controls_and_readouts_inside_the_screen(page, width, height):
+@pytest.mark.parametrize("width,height,n", [(1366, 768, 10), (1920, 1080, 10), (1366, 768, 14), (1920, 1080, 14)])
+def test_desktop_layout_keeps_controls_and_readouts_inside_the_screen(page, width, height, n):
     page.set_viewport_size({"width": width, "height": height})
+    set_n(page, n)
     walk(page)
     assert page.evaluate("document.documentElement.scrollHeight") <= height
     assert page.evaluate("document.documentElement.scrollWidth") <= width
@@ -243,7 +256,24 @@ def test_desktop_layout_keeps_controls_and_readouts_inside_the_screen(page, widt
 
 
 def test_every_benchmark_size_has_the_corresponding_number_of_gates(page):
-    for n in range(1, 11):
+    for n in range(1, 15):
         set_n(page, n)
         assert page.locator("#gates-left [data-gate]").count() == n
         assert page.locator("#gates-right [data-gate]").count() == n
+
+
+def test_n14_reference_seeds_and_evidence_are_available(page):
+    page.locator('[data-size="14"]').click()
+    expect(page.locator("#reference")).to_have_text("728")
+    expect(page.locator("#instance-kind")).to_contain_text("SINTÉTICA")
+    expect(page.locator("#depth")).to_have_value("2")
+    expect(page.locator("#seed")).to_be_enabled()
+    for seed in (1, 4, 0):
+        page.locator("#seed").select_option(str(seed))
+        expect(page.locator("#play")).to_be_enabled()
+    page.locator("#show-optimum").click()
+    expect(page.locator("#cost-left")).to_have_text("728")
+    expect(page.locator("#method-left")).to_contain_text("CERTIFICADO")
+    page.locator("#evidence").click()
+    expect(page.locator("#evidence-body")).to_contain_text("Certificados del óptimo global")
+    expect(page.locator("#evidence-body")).to_contain_text("RSS mediana")

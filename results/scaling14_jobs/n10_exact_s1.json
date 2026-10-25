@@ -1,0 +1,4608 @@
+{
+  "spec": {
+    "n": 10,
+    "method": "exact",
+    "seed": 1,
+    "time_limit": 1800,
+    "lns_config": {
+      "k": 3,
+      "iterations": 60,
+      "reps": 2,
+      "maxiter": 60,
+      "shots": 512,
+      "stall_limit": 12,
+      "kick": 4,
+      "training_simulator": "permutation_subspace"
+    }
+  },
+  "solver_source_sha256": "6dea059ae5020af2ed357ccad230a4630882118bf319af9fd92e825003a546be",
+  "instance_sha256": "229a1328a797724eb6d1d6a25ee99962281ffc74aa2a8b0da37c2eb6f633847b",
+  "extension_seed": 20261025,
+  "result": {
+    "id": "lns_n10_exact_s1",
+    "kind": "lns",
+    "n": 10,
+    "subsolver": "exact",
+    "seed": 1,
+    "config": {
+      "k": 3,
+      "iterations": 60,
+      "reps": 2,
+      "maxiter": 60,
+      "shots": 512,
+      "stall_limit": 12,
+      "kick": 4,
+      "training_simulator": "permutation_subspace"
+    },
+    "start_assignment": [
+      3,
+      8,
+      4,
+      7,
+      5,
+      9,
+      1,
+      6,
+      2,
+      0
+    ],
+    "start_cost": 468,
+    "final_assignment": [
+      1,
+      5,
+      2,
+      0,
+      8,
+      4,
+      7,
+      3,
+      6,
+      9
+    ],
+    "final_cost": 380,
+    "kicks": 1,
+    "best_tracking": "including_kicks",
+    "seconds": 0.00476929999422282,
+    "qaoa_calls": null,
+    "qaoa_subproblem_hit_rate": null,
+    "events": [
+      {
+        "iteration": 1,
+        "seconds": 0.0002911000046879053,
+        "flights": [
+          0,
+          6,
+          7
+        ],
+        "gates": [
+          3,
+          1,
+          6
+        ],
+        "proposal": [
+          2,
+          1,
+          0
+        ],
+        "candidate": [
+          6,
+          8,
+          4,
+          7,
+          5,
+          9,
+          1,
+          3,
+          2,
+          0
+        ],
+        "candidate_cost": 460,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          6,
+          8,
+          4,
+          7,
+          5,
+          9,
+          1,
+          3,
+          2,
+          0
+        ],
+        "cost_after_move": 460,
+        "kick": null,
+        "assignment": [
+          6,
+          8,
+          4,
+          7,
+          5,
+          9,
+          1,
+          3,
+          2,
+          0
+        ],
+        "cost": 460,
+        "best_assignment": [
+          6,
+          8,
+          4,
+          7,
+          5,
+          9,
+          1,
+          3,
+          2,
+          0
+        ],
+        "best_cost": 460,
+        "qaoa": null
+      },
+      {
+        "iteration": 2,
+        "seconds": 0.00038139999378472567,
+        "flights": [
+          4,
+          7,
+          8
+        ],
+        "gates": [
+          5,
+          3,
+          2
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          6,
+          8,
+          4,
+          7,
+          5,
+          9,
+          1,
+          3,
+          2,
+          0
+        ],
+        "candidate_cost": 460,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          6,
+          8,
+          4,
+          7,
+          5,
+          9,
+          1,
+          3,
+          2,
+          0
+        ],
+        "cost_after_move": 460,
+        "kick": null,
+        "assignment": [
+          6,
+          8,
+          4,
+          7,
+          5,
+          9,
+          1,
+          3,
+          2,
+          0
+        ],
+        "cost": 460,
+        "best_assignment": [
+          6,
+          8,
+          4,
+          7,
+          5,
+          9,
+          1,
+          3,
+          2,
+          0
+        ],
+        "best_cost": 460,
+        "qaoa": null
+      },
+      {
+        "iteration": 3,
+        "seconds": 0.00045140000293031335,
+        "flights": [
+          0,
+          4,
+          5
+        ],
+        "gates": [
+          6,
+          5,
+          9
+        ],
+        "proposal": [
+          0,
+          2,
+          1
+        ],
+        "candidate": [
+          6,
+          8,
+          4,
+          7,
+          9,
+          5,
+          1,
+          3,
+          2,
+          0
+        ],
+        "candidate_cost": 454,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          6,
+          8,
+          4,
+          7,
+          9,
+          5,
+          1,
+          3,
+          2,
+          0
+        ],
+        "cost_after_move": 454,
+        "kick": null,
+        "assignment": [
+          6,
+          8,
+          4,
+          7,
+          9,
+          5,
+          1,
+          3,
+          2,
+          0
+        ],
+        "cost": 454,
+        "best_assignment": [
+          6,
+          8,
+          4,
+          7,
+          9,
+          5,
+          1,
+          3,
+          2,
+          0
+        ],
+        "best_cost": 454,
+        "qaoa": null
+      },
+      {
+        "iteration": 4,
+        "seconds": 0.0005512000061571598,
+        "flights": [
+          2,
+          6,
+          7
+        ],
+        "gates": [
+          4,
+          1,
+          3
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          6,
+          8,
+          4,
+          7,
+          9,
+          5,
+          1,
+          3,
+          2,
+          0
+        ],
+        "candidate_cost": 454,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          6,
+          8,
+          4,
+          7,
+          9,
+          5,
+          1,
+          3,
+          2,
+          0
+        ],
+        "cost_after_move": 454,
+        "kick": null,
+        "assignment": [
+          6,
+          8,
+          4,
+          7,
+          9,
+          5,
+          1,
+          3,
+          2,
+          0
+        ],
+        "cost": 454,
+        "best_assignment": [
+          6,
+          8,
+          4,
+          7,
+          9,
+          5,
+          1,
+          3,
+          2,
+          0
+        ],
+        "best_cost": 454,
+        "qaoa": null
+      },
+      {
+        "iteration": 5,
+        "seconds": 0.0006190999993123114,
+        "flights": [
+          0,
+          4,
+          9
+        ],
+        "gates": [
+          6,
+          9,
+          0
+        ],
+        "proposal": [
+          2,
+          0,
+          1
+        ],
+        "candidate": [
+          0,
+          8,
+          4,
+          7,
+          6,
+          5,
+          1,
+          3,
+          2,
+          9
+        ],
+        "candidate_cost": 448,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          8,
+          4,
+          7,
+          6,
+          5,
+          1,
+          3,
+          2,
+          9
+        ],
+        "cost_after_move": 448,
+        "kick": null,
+        "assignment": [
+          0,
+          8,
+          4,
+          7,
+          6,
+          5,
+          1,
+          3,
+          2,
+          9
+        ],
+        "cost": 448,
+        "best_assignment": [
+          0,
+          8,
+          4,
+          7,
+          6,
+          5,
+          1,
+          3,
+          2,
+          9
+        ],
+        "best_cost": 448,
+        "qaoa": null
+      },
+      {
+        "iteration": 6,
+        "seconds": 0.0006852999795228243,
+        "flights": [
+          2,
+          3,
+          4
+        ],
+        "gates": [
+          4,
+          7,
+          6
+        ],
+        "proposal": [
+          2,
+          1,
+          0
+        ],
+        "candidate": [
+          0,
+          8,
+          6,
+          7,
+          4,
+          5,
+          1,
+          3,
+          2,
+          9
+        ],
+        "candidate_cost": 436,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          8,
+          6,
+          7,
+          4,
+          5,
+          1,
+          3,
+          2,
+          9
+        ],
+        "cost_after_move": 436,
+        "kick": null,
+        "assignment": [
+          0,
+          8,
+          6,
+          7,
+          4,
+          5,
+          1,
+          3,
+          2,
+          9
+        ],
+        "cost": 436,
+        "best_assignment": [
+          0,
+          8,
+          6,
+          7,
+          4,
+          5,
+          1,
+          3,
+          2,
+          9
+        ],
+        "best_cost": 436,
+        "qaoa": null
+      },
+      {
+        "iteration": 7,
+        "seconds": 0.0007472999859601259,
+        "flights": [
+          1,
+          3,
+          4
+        ],
+        "gates": [
+          8,
+          7,
+          4
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          8,
+          6,
+          7,
+          4,
+          5,
+          1,
+          3,
+          2,
+          9
+        ],
+        "candidate_cost": 436,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          8,
+          6,
+          7,
+          4,
+          5,
+          1,
+          3,
+          2,
+          9
+        ],
+        "cost_after_move": 436,
+        "kick": null,
+        "assignment": [
+          0,
+          8,
+          6,
+          7,
+          4,
+          5,
+          1,
+          3,
+          2,
+          9
+        ],
+        "cost": 436,
+        "best_assignment": [
+          0,
+          8,
+          6,
+          7,
+          4,
+          5,
+          1,
+          3,
+          2,
+          9
+        ],
+        "best_cost": 436,
+        "qaoa": null
+      },
+      {
+        "iteration": 8,
+        "seconds": 0.0008346000104211271,
+        "flights": [
+          1,
+          4,
+          9
+        ],
+        "gates": [
+          8,
+          4,
+          9
+        ],
+        "proposal": [
+          1,
+          2,
+          0
+        ],
+        "candidate": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          1,
+          3,
+          2,
+          8
+        ],
+        "candidate_cost": 418,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          1,
+          3,
+          2,
+          8
+        ],
+        "cost_after_move": 418,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          1,
+          3,
+          2,
+          8
+        ],
+        "cost": 418,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          1,
+          3,
+          2,
+          8
+        ],
+        "best_cost": 418,
+        "qaoa": null
+      },
+      {
+        "iteration": 9,
+        "seconds": 0.0008963000145740807,
+        "flights": [
+          2,
+          4,
+          8
+        ],
+        "gates": [
+          6,
+          9,
+          2
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          1,
+          3,
+          2,
+          8
+        ],
+        "candidate_cost": 418,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          1,
+          3,
+          2,
+          8
+        ],
+        "cost_after_move": 418,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          1,
+          3,
+          2,
+          8
+        ],
+        "cost": 418,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          1,
+          3,
+          2,
+          8
+        ],
+        "best_cost": 418,
+        "qaoa": null
+      },
+      {
+        "iteration": 10,
+        "seconds": 0.0009783999994397163,
+        "flights": [
+          1,
+          6,
+          8
+        ],
+        "gates": [
+          4,
+          1,
+          2
+        ],
+        "proposal": [
+          0,
+          2,
+          1
+        ],
+        "candidate": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "candidate_cost": 408,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost_after_move": 408,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost": 408,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 11,
+        "seconds": 0.0010704000014811754,
+        "flights": [
+          0,
+          4,
+          5
+        ],
+        "gates": [
+          0,
+          9,
+          5
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "candidate_cost": 408,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost_after_move": 408,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost": 408,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 12,
+        "seconds": 0.0011510999756865203,
+        "flights": [
+          0,
+          7,
+          8
+        ],
+        "gates": [
+          0,
+          3,
+          1
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "candidate_cost": 408,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost_after_move": 408,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost": 408,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 13,
+        "seconds": 0.001214299991261214,
+        "flights": [
+          2,
+          5,
+          7
+        ],
+        "gates": [
+          6,
+          5,
+          3
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "candidate_cost": 408,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost_after_move": 408,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost": 408,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 14,
+        "seconds": 0.0012956000282429159,
+        "flights": [
+          3,
+          5,
+          8
+        ],
+        "gates": [
+          7,
+          5,
+          1
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "candidate_cost": 408,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost_after_move": 408,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost": 408,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 15,
+        "seconds": 0.0014313000137917697,
+        "flights": [
+          1,
+          6,
+          7
+        ],
+        "gates": [
+          4,
+          2,
+          3
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "candidate_cost": 408,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost_after_move": 408,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost": 408,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 16,
+        "seconds": 0.0014956999802961946,
+        "flights": [
+          0,
+          4,
+          6
+        ],
+        "gates": [
+          0,
+          9,
+          2
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "candidate_cost": 408,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost_after_move": 408,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost": 408,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 17,
+        "seconds": 0.0015786000294610858,
+        "flights": [
+          1,
+          2,
+          8
+        ],
+        "gates": [
+          4,
+          6,
+          1
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "candidate_cost": 408,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost_after_move": 408,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost": 408,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 18,
+        "seconds": 0.0016401000320911407,
+        "flights": [
+          6,
+          7,
+          8
+        ],
+        "gates": [
+          2,
+          3,
+          1
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "candidate_cost": 408,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost_after_move": 408,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost": 408,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 19,
+        "seconds": 0.0017157000256702304,
+        "flights": [
+          1,
+          5,
+          9
+        ],
+        "gates": [
+          4,
+          5,
+          8
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "candidate_cost": 408,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost_after_move": 408,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost": 408,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 20,
+        "seconds": 0.0017894000047817826,
+        "flights": [
+          1,
+          2,
+          9
+        ],
+        "gates": [
+          4,
+          6,
+          8
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "candidate_cost": 408,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost_after_move": 408,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost": 408,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 21,
+        "seconds": 0.0018482999876141548,
+        "flights": [
+          2,
+          7,
+          8
+        ],
+        "gates": [
+          6,
+          3,
+          1
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "candidate_cost": 408,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost_after_move": 408,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost": 408,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 22,
+        "seconds": 0.001935300009790808,
+        "flights": [
+          4,
+          6,
+          8
+        ],
+        "gates": [
+          9,
+          2,
+          1
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "candidate_cost": 408,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "cost_after_move": 408,
+        "kick": {
+          "flights": [
+            2,
+            5,
+            8,
+            9
+          ]
+        },
+        "assignment": [
+          0,
+          4,
+          5,
+          7,
+          9,
+          8,
+          2,
+          3,
+          6,
+          1
+        ],
+        "cost": 450,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 23,
+        "seconds": 0.0020145000307820737,
+        "flights": [
+          3,
+          4,
+          5
+        ],
+        "gates": [
+          7,
+          9,
+          8
+        ],
+        "proposal": [
+          0,
+          2,
+          1
+        ],
+        "candidate": [
+          0,
+          4,
+          5,
+          7,
+          8,
+          9,
+          2,
+          3,
+          6,
+          1
+        ],
+        "candidate_cost": 440,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          5,
+          7,
+          8,
+          9,
+          2,
+          3,
+          6,
+          1
+        ],
+        "cost_after_move": 440,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          5,
+          7,
+          8,
+          9,
+          2,
+          3,
+          6,
+          1
+        ],
+        "cost": 440,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 24,
+        "seconds": 0.002089700021315366,
+        "flights": [
+          1,
+          6,
+          8
+        ],
+        "gates": [
+          4,
+          2,
+          6
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          5,
+          7,
+          8,
+          9,
+          2,
+          3,
+          6,
+          1
+        ],
+        "candidate_cost": 440,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          5,
+          7,
+          8,
+          9,
+          2,
+          3,
+          6,
+          1
+        ],
+        "cost_after_move": 440,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          5,
+          7,
+          8,
+          9,
+          2,
+          3,
+          6,
+          1
+        ],
+        "cost": 440,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 25,
+        "seconds": 0.0021516000269912183,
+        "flights": [
+          4,
+          6,
+          7
+        ],
+        "gates": [
+          8,
+          2,
+          3
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          5,
+          7,
+          8,
+          9,
+          2,
+          3,
+          6,
+          1
+        ],
+        "candidate_cost": 440,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          5,
+          7,
+          8,
+          9,
+          2,
+          3,
+          6,
+          1
+        ],
+        "cost_after_move": 440,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          5,
+          7,
+          8,
+          9,
+          2,
+          3,
+          6,
+          1
+        ],
+        "cost": 440,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 26,
+        "seconds": 0.002210100006777793,
+        "flights": [
+          0,
+          3,
+          6
+        ],
+        "gates": [
+          0,
+          7,
+          2
+        ],
+        "proposal": [
+          0,
+          2,
+          1
+        ],
+        "candidate": [
+          0,
+          4,
+          5,
+          2,
+          8,
+          9,
+          7,
+          3,
+          6,
+          1
+        ],
+        "candidate_cost": 432,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          5,
+          2,
+          8,
+          9,
+          7,
+          3,
+          6,
+          1
+        ],
+        "cost_after_move": 432,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          5,
+          2,
+          8,
+          9,
+          7,
+          3,
+          6,
+          1
+        ],
+        "cost": 432,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 27,
+        "seconds": 0.0022680999827571213,
+        "flights": [
+          0,
+          4,
+          6
+        ],
+        "gates": [
+          0,
+          8,
+          7
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          5,
+          2,
+          8,
+          9,
+          7,
+          3,
+          6,
+          1
+        ],
+        "candidate_cost": 432,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          5,
+          2,
+          8,
+          9,
+          7,
+          3,
+          6,
+          1
+        ],
+        "cost_after_move": 432,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          5,
+          2,
+          8,
+          9,
+          7,
+          3,
+          6,
+          1
+        ],
+        "cost": 432,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 28,
+        "seconds": 0.0023244000039994717,
+        "flights": [
+          3,
+          6,
+          8
+        ],
+        "gates": [
+          2,
+          7,
+          6
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          5,
+          2,
+          8,
+          9,
+          7,
+          3,
+          6,
+          1
+        ],
+        "candidate_cost": 432,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          5,
+          2,
+          8,
+          9,
+          7,
+          3,
+          6,
+          1
+        ],
+        "cost_after_move": 432,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          5,
+          2,
+          8,
+          9,
+          7,
+          3,
+          6,
+          1
+        ],
+        "cost": 432,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 29,
+        "seconds": 0.0023990999907255173,
+        "flights": [
+          4,
+          5,
+          9
+        ],
+        "gates": [
+          8,
+          9,
+          1
+        ],
+        "proposal": [
+          2,
+          1,
+          0
+        ],
+        "candidate": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 414,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 414,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 414,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 30,
+        "seconds": 0.002473000029567629,
+        "flights": [
+          5,
+          6,
+          8
+        ],
+        "gates": [
+          9,
+          7,
+          6
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 414,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 414,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 414,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 31,
+        "seconds": 0.0025479000178165734,
+        "flights": [
+          1,
+          8,
+          9
+        ],
+        "gates": [
+          4,
+          6,
+          8
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 414,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 414,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 414,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 32,
+        "seconds": 0.0026068000006489456,
+        "flights": [
+          0,
+          1,
+          2
+        ],
+        "gates": [
+          0,
+          4,
+          5
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 414,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 414,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 414,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 33,
+        "seconds": 0.002681099984329194,
+        "flights": [
+          0,
+          1,
+          4
+        ],
+        "gates": [
+          0,
+          4,
+          1
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 414,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 414,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 414,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 34,
+        "seconds": 0.0027410000329837203,
+        "flights": [
+          4,
+          5,
+          6
+        ],
+        "gates": [
+          1,
+          9,
+          7
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 414,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 414,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 414,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 35,
+        "seconds": 0.00282990001142025,
+        "flights": [
+          3,
+          4,
+          5
+        ],
+        "gates": [
+          2,
+          1,
+          9
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 414,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 414,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 414,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 36,
+        "seconds": 0.002891200012527406,
+        "flights": [
+          1,
+          6,
+          9
+        ],
+        "gates": [
+          4,
+          7,
+          8
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 414,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 414,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 414,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 37,
+        "seconds": 0.002951800008304417,
+        "flights": [
+          1,
+          2,
+          7
+        ],
+        "gates": [
+          4,
+          5,
+          3
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 414,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 414,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 414,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 38,
+        "seconds": 0.003039599978365004,
+        "flights": [
+          5,
+          7,
+          8
+        ],
+        "gates": [
+          9,
+          3,
+          6
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 414,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 414,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 414,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 39,
+        "seconds": 0.003116199979558587,
+        "flights": [
+          3,
+          6,
+          7
+        ],
+        "gates": [
+          2,
+          7,
+          3
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 414,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 414,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 414,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 40,
+        "seconds": 0.0031771999783813953,
+        "flights": [
+          0,
+          4,
+          7
+        ],
+        "gates": [
+          0,
+          1,
+          3
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 414,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 414,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          5,
+          2,
+          1,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 414,
+        "best_assignment": [
+          0,
+          4,
+          6,
+          7,
+          9,
+          5,
+          2,
+          3,
+          1,
+          8
+        ],
+        "best_cost": 408,
+        "qaoa": null
+      },
+      {
+        "iteration": 41,
+        "seconds": 0.0032376000308431685,
+        "flights": [
+          2,
+          4,
+          7
+        ],
+        "gates": [
+          5,
+          1,
+          3
+        ],
+        "proposal": [
+          1,
+          0,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          1,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 398,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          1,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 398,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          1,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 398,
+        "best_assignment": [
+          0,
+          4,
+          1,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "best_cost": 398,
+        "qaoa": null
+      },
+      {
+        "iteration": 42,
+        "seconds": 0.0033143999753519893,
+        "flights": [
+          1,
+          2,
+          7
+        ],
+        "gates": [
+          4,
+          1,
+          3
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          1,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 398,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          1,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 398,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          1,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 398,
+        "best_assignment": [
+          0,
+          4,
+          1,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "best_cost": 398,
+        "qaoa": null
+      },
+      {
+        "iteration": 43,
+        "seconds": 0.003399799985345453,
+        "flights": [
+          3,
+          4,
+          9
+        ],
+        "gates": [
+          2,
+          5,
+          8
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          1,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 398,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          1,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 398,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          1,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 398,
+        "best_assignment": [
+          0,
+          4,
+          1,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "best_cost": 398,
+        "qaoa": null
+      },
+      {
+        "iteration": 44,
+        "seconds": 0.0034629000001586974,
+        "flights": [
+          3,
+          7,
+          8
+        ],
+        "gates": [
+          2,
+          3,
+          6
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          0,
+          4,
+          1,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 398,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          0,
+          4,
+          1,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 398,
+        "kick": null,
+        "assignment": [
+          0,
+          4,
+          1,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 398,
+        "best_assignment": [
+          0,
+          4,
+          1,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "best_cost": 398,
+        "qaoa": null
+      },
+      {
+        "iteration": 45,
+        "seconds": 0.0035238999989815056,
+        "flights": [
+          0,
+          2,
+          7
+        ],
+        "gates": [
+          0,
+          1,
+          3
+        ],
+        "proposal": [
+          1,
+          0,
+          2
+        ],
+        "candidate": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 394,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 394,
+        "kick": null,
+        "assignment": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 394,
+        "best_assignment": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "best_cost": 394,
+        "qaoa": null
+      },
+      {
+        "iteration": 46,
+        "seconds": 0.003612699976656586,
+        "flights": [
+          3,
+          4,
+          7
+        ],
+        "gates": [
+          2,
+          5,
+          3
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 394,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 394,
+        "kick": null,
+        "assignment": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 394,
+        "best_assignment": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "best_cost": 394,
+        "qaoa": null
+      },
+      {
+        "iteration": 47,
+        "seconds": 0.0036742999800480902,
+        "flights": [
+          1,
+          3,
+          6
+        ],
+        "gates": [
+          4,
+          2,
+          7
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 394,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 394,
+        "kick": null,
+        "assignment": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 394,
+        "best_assignment": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "best_cost": 394,
+        "qaoa": null
+      },
+      {
+        "iteration": 48,
+        "seconds": 0.0037629000144079328,
+        "flights": [
+          2,
+          6,
+          8
+        ],
+        "gates": [
+          0,
+          7,
+          6
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 394,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 394,
+        "kick": null,
+        "assignment": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 394,
+        "best_assignment": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "best_cost": 394,
+        "qaoa": null
+      },
+      {
+        "iteration": 49,
+        "seconds": 0.0038530000019818544,
+        "flights": [
+          5,
+          6,
+          7
+        ],
+        "gates": [
+          9,
+          7,
+          3
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 394,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 394,
+        "kick": null,
+        "assignment": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 394,
+        "best_assignment": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "best_cost": 394,
+        "qaoa": null
+      },
+      {
+        "iteration": 50,
+        "seconds": 0.003924200020264834,
+        "flights": [
+          1,
+          3,
+          4
+        ],
+        "gates": [
+          4,
+          2,
+          5
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 394,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 394,
+        "kick": null,
+        "assignment": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 394,
+        "best_assignment": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "best_cost": 394,
+        "qaoa": null
+      },
+      {
+        "iteration": 51,
+        "seconds": 0.003999000007752329,
+        "flights": [
+          4,
+          6,
+          8
+        ],
+        "gates": [
+          5,
+          7,
+          6
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 394,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 394,
+        "kick": null,
+        "assignment": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 394,
+        "best_assignment": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "best_cost": 394,
+        "qaoa": null
+      },
+      {
+        "iteration": 52,
+        "seconds": 0.0040889999945648015,
+        "flights": [
+          0,
+          2,
+          4
+        ],
+        "gates": [
+          1,
+          0,
+          5
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 394,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 394,
+        "kick": null,
+        "assignment": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 394,
+        "best_assignment": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "best_cost": 394,
+        "qaoa": null
+      },
+      {
+        "iteration": 53,
+        "seconds": 0.004187899990938604,
+        "flights": [
+          3,
+          6,
+          7
+        ],
+        "gates": [
+          2,
+          7,
+          3
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 394,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 394,
+        "kick": null,
+        "assignment": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 394,
+        "best_assignment": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "best_cost": 394,
+        "qaoa": null
+      },
+      {
+        "iteration": 54,
+        "seconds": 0.004276800027582794,
+        "flights": [
+          2,
+          6,
+          8
+        ],
+        "gates": [
+          0,
+          7,
+          6
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "candidate_cost": 394,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost_after_move": 394,
+        "kick": null,
+        "assignment": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "cost": 394,
+        "best_assignment": [
+          1,
+          4,
+          0,
+          2,
+          5,
+          9,
+          7,
+          3,
+          6,
+          8
+        ],
+        "best_cost": 394,
+        "qaoa": null
+      },
+      {
+        "iteration": 55,
+        "seconds": 0.004348699992988259,
+        "flights": [
+          1,
+          4,
+          9
+        ],
+        "gates": [
+          4,
+          5,
+          8
+        ],
+        "proposal": [
+          1,
+          2,
+          0
+        ],
+        "candidate": [
+          1,
+          5,
+          0,
+          2,
+          8,
+          9,
+          7,
+          3,
+          6,
+          4
+        ],
+        "candidate_cost": 392,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          1,
+          5,
+          0,
+          2,
+          8,
+          9,
+          7,
+          3,
+          6,
+          4
+        ],
+        "cost_after_move": 392,
+        "kick": null,
+        "assignment": [
+          1,
+          5,
+          0,
+          2,
+          8,
+          9,
+          7,
+          3,
+          6,
+          4
+        ],
+        "cost": 392,
+        "best_assignment": [
+          1,
+          5,
+          0,
+          2,
+          8,
+          9,
+          7,
+          3,
+          6,
+          4
+        ],
+        "best_cost": 392,
+        "qaoa": null
+      },
+      {
+        "iteration": 56,
+        "seconds": 0.004418399999849498,
+        "flights": [
+          2,
+          3,
+          8
+        ],
+        "gates": [
+          0,
+          2,
+          6
+        ],
+        "proposal": [
+          1,
+          0,
+          2
+        ],
+        "candidate": [
+          1,
+          5,
+          2,
+          0,
+          8,
+          9,
+          7,
+          3,
+          6,
+          4
+        ],
+        "candidate_cost": 388,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          1,
+          5,
+          2,
+          0,
+          8,
+          9,
+          7,
+          3,
+          6,
+          4
+        ],
+        "cost_after_move": 388,
+        "kick": null,
+        "assignment": [
+          1,
+          5,
+          2,
+          0,
+          8,
+          9,
+          7,
+          3,
+          6,
+          4
+        ],
+        "cost": 388,
+        "best_assignment": [
+          1,
+          5,
+          2,
+          0,
+          8,
+          9,
+          7,
+          3,
+          6,
+          4
+        ],
+        "best_cost": 388,
+        "qaoa": null
+      },
+      {
+        "iteration": 57,
+        "seconds": 0.004488000005949289,
+        "flights": [
+          5,
+          7,
+          9
+        ],
+        "gates": [
+          9,
+          3,
+          4
+        ],
+        "proposal": [
+          2,
+          1,
+          0
+        ],
+        "candidate": [
+          1,
+          5,
+          2,
+          0,
+          8,
+          4,
+          7,
+          3,
+          6,
+          9
+        ],
+        "candidate_cost": 380,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          1,
+          5,
+          2,
+          0,
+          8,
+          4,
+          7,
+          3,
+          6,
+          9
+        ],
+        "cost_after_move": 380,
+        "kick": null,
+        "assignment": [
+          1,
+          5,
+          2,
+          0,
+          8,
+          4,
+          7,
+          3,
+          6,
+          9
+        ],
+        "cost": 380,
+        "best_assignment": [
+          1,
+          5,
+          2,
+          0,
+          8,
+          4,
+          7,
+          3,
+          6,
+          9
+        ],
+        "best_cost": 380,
+        "qaoa": null
+      },
+      {
+        "iteration": 58,
+        "seconds": 0.004580400011036545,
+        "flights": [
+          1,
+          3,
+          8
+        ],
+        "gates": [
+          5,
+          0,
+          6
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          1,
+          5,
+          2,
+          0,
+          8,
+          4,
+          7,
+          3,
+          6,
+          9
+        ],
+        "candidate_cost": 380,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          1,
+          5,
+          2,
+          0,
+          8,
+          4,
+          7,
+          3,
+          6,
+          9
+        ],
+        "cost_after_move": 380,
+        "kick": null,
+        "assignment": [
+          1,
+          5,
+          2,
+          0,
+          8,
+          4,
+          7,
+          3,
+          6,
+          9
+        ],
+        "cost": 380,
+        "best_assignment": [
+          1,
+          5,
+          2,
+          0,
+          8,
+          4,
+          7,
+          3,
+          6,
+          9
+        ],
+        "best_cost": 380,
+        "qaoa": null
+      },
+      {
+        "iteration": 59,
+        "seconds": 0.004669699992518872,
+        "flights": [
+          0,
+          6,
+          7
+        ],
+        "gates": [
+          1,
+          7,
+          3
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          1,
+          5,
+          2,
+          0,
+          8,
+          4,
+          7,
+          3,
+          6,
+          9
+        ],
+        "candidate_cost": 380,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          1,
+          5,
+          2,
+          0,
+          8,
+          4,
+          7,
+          3,
+          6,
+          9
+        ],
+        "cost_after_move": 380,
+        "kick": null,
+        "assignment": [
+          1,
+          5,
+          2,
+          0,
+          8,
+          4,
+          7,
+          3,
+          6,
+          9
+        ],
+        "cost": 380,
+        "best_assignment": [
+          1,
+          5,
+          2,
+          0,
+          8,
+          4,
+          7,
+          3,
+          6,
+          9
+        ],
+        "best_cost": 380,
+        "qaoa": null
+      },
+      {
+        "iteration": 60,
+        "seconds": 0.004768399987369776,
+        "flights": [
+          2,
+          7,
+          8
+        ],
+        "gates": [
+          2,
+          3,
+          6
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          1,
+          5,
+          2,
+          0,
+          8,
+          4,
+          7,
+          3,
+          6,
+          9
+        ],
+        "candidate_cost": 380,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          1,
+          5,
+          2,
+          0,
+          8,
+          4,
+          7,
+          3,
+          6,
+          9
+        ],
+        "cost_after_move": 380,
+        "kick": null,
+        "assignment": [
+          1,
+          5,
+          2,
+          0,
+          8,
+          4,
+          7,
+          3,
+          6,
+          9
+        ],
+        "cost": 380,
+        "best_assignment": [
+          1,
+          5,
+          2,
+          0,
+          8,
+          4,
+          7,
+          3,
+          6,
+          9
+        ],
+        "best_cost": 380,
+        "qaoa": null
+      }
+    ],
+    "measured_seconds": 0.007887299987487495,
+    "cpu_seconds": 0.0,
+    "rss_before_bytes": 110628864,
+    "peak_rss_bytes": 111034368,
+    "peak_rss_increase_bytes": 405504,
+    "rss_sample_interval_seconds": 0.005,
+    "rss_samples": 2,
+    "peak_process_rss_bytes": 111050752
+  },
+  "completed_at": "2026-10-25T12:25:46+00:00",
+  "environment": {
+    "python": "3.13.7",
+    "os": "Windows-11-10.0.26300-SP0",
+    "thread_environment": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "RAYON_NUM_THREADS": "1",
+      "QISKIT_PARALLEL": "FALSE"
+    },
+    "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+    "logical_cpus": 32,
+    "ram_bytes": 16779833344,
+    "versions": {
+      "qiskit": "2.6.1",
+      "qiskit-aer": "0.18.0",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "psutil": "7.2.2"
+    }
+  }
+}

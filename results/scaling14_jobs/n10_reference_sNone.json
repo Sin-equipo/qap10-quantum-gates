@@ -1,0 +1,98 @@
+{
+  "spec": {
+    "n": 10,
+    "method": "reference",
+    "seed": null,
+    "time_limit": 1800,
+    "lns_config": {
+      "k": 3,
+      "iterations": 60,
+      "reps": 2,
+      "maxiter": 60,
+      "shots": 512,
+      "stall_limit": 12,
+      "kick": 4,
+      "training_simulator": "permutation_subspace"
+    }
+  },
+  "solver_source_sha256": "6dea059ae5020af2ed357ccad230a4630882118bf319af9fd92e825003a546be",
+  "instance_sha256": "229a1328a797724eb6d1d6a25ee99962281ffc74aa2a8b0da37c2eb6f633847b",
+  "extension_seed": 20261025,
+  "result": {
+    "method": "branch_bound_gilmore_lawler",
+    "n": 10,
+    "status": "optimal",
+    "certified": true,
+    "optimum": 340,
+    "cost": 340,
+    "assignment": [
+      2,
+      6,
+      3,
+      0,
+      8,
+      4,
+      5,
+      1,
+      7,
+      9
+    ],
+    "feasible": true,
+    "lower_bound": 340,
+    "optimal_count": 1,
+    "optimal_assignments": [
+      [
+        2,
+        6,
+        3,
+        0,
+        8,
+        4,
+        5,
+        1,
+        7,
+        9
+      ]
+    ],
+    "nodes": 1100,
+    "leaf_permutations": 18,
+    "pruned_nodes": 934,
+    "permutations_in_space": 3628800,
+    "seconds": 0.03376680001383647,
+    "warm_start_seconds": 0.013109999999869615,
+    "initial_upper_bound": 364,
+    "count_all_optima": true,
+    "cache_subsets": 430,
+    "time_limit_seconds": 1800,
+    "measured_seconds": 0.03387829998973757,
+    "cpu_seconds": 0.03125,
+    "rss_before_bytes": 110280704,
+    "peak_rss_bytes": 110952448,
+    "peak_rss_increase_bytes": 671744,
+    "rss_sample_interval_seconds": 0.005,
+    "rss_samples": 4,
+    "peak_process_rss_bytes": 110968832
+  },
+  "completed_at": "2026-10-25T12:24:39+00:00",
+  "environment": {
+    "python": "3.13.7",
+    "os": "Windows-11-10.0.26300-SP0",
+    "thread_environment": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "RAYON_NUM_THREADS": "1",
+      "QISKIT_PARALLEL": "FALSE"
+    },
+    "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+    "logical_cpus": 32,
+    "ram_bytes": 16779833344,
+    "versions": {
+      "qiskit": "2.6.1",
+      "qiskit-aer": "0.18.0",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "psutil": "7.2.2"
+    }
+  }
+}

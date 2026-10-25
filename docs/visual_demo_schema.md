@@ -26,6 +26,22 @@ Su costo es `sum(F[i][k] * D[a[i]][a[k]] for i < k)`, igual a `QAPInstance.cost`
 
 Subinstancia N = primeras N filas y columnas de F y D (la geometría de las primeras N puertas).
 
+## Ampliación final: `results/scaling14.json`
+
+La app conserva este contrato histórico y carga adicionalmente `results/scaling14.json` cuando su campo `complete` es `true`.
+Lo genera `python scaling14_study.py`. Las referencias y corridas nuevas de N=10…14 sustituyen las trazas históricas de esos tamaños en la vista principal; N=1…9 y QAOA directo N=3/4 mantienen sus datos anteriores. El estudio histórico N=10 con 150 iteraciones conserva su tabla propia.
+
+- `instance`: matrices 14×14; QAP10 original ocupa el bloque principal 10×10. N=11…14 son ampliaciones sintéticas anidadas, con semilla de datos 20261025 y la misma cuadrícula de cuatro columnas.
+- `references`: por tamaño, estado de optimalidad, costo, cota inferior final, asignación, número de óptimos, nodos y tiempos del exacto Gilmore–Lawler. Nunca son entradas ni puntos de partida del híbrido.
+- `rows`, `summary`: óptimos, gaps por instancia, medianas, mejores costos, aciertos, factibilidad, tiempo, RSS y configuración.
+- `lns_runs`: N=10…14 × tres subsolvers × cinco semillas, con el mismo formato de eventos anterior. Cada evento QAOA añade `training_simulator` y `subspace_verification_max_probability_error`.
+- `measurement`, `environment`, `solver_source_sha256`: protocolo de memoria/tiempo, controles de hilos, versiones y hash de fuentes.
+- `results/scaling14_jobs/`: los 106 jobs individuales (cinco referencias exactas, enumeración N=10 y cien corridas de cuatro métodos), con especificación y mediciones sin agregar.
+
+El entrenamiento nuevo simula exactamente las seis permutaciones factibles de cada subproblema de K=3. Después, **cada llamada** verifica la distribución con el circuito completo de nueve qubits en Aer (error máximo permitido 1e−8) y obtiene sus 512 shots con SamplerV2. La animación reproduce eventos medidos, no inventa optimización mientras caminan pasajeros. Esta aceleración clásica de la simulación y sus límites se explican en [`scaling14_results.md`](scaling14_results.md).
+
+`app/demo_data.py` normaliza ambos archivos y expone un catálogo de N=1…14 con `reference_method`, `synthetic` y `study_seeds` por instancia. La UI identifica la ampliación sintética y la referencia por ramificación y poda; permite seleccionar las cinco semillas nuevas.
+
 ## `lns_runs[]` · N=4…10 × {`exact`, `qaoa`, `random`}, semilla 0
 
 `id` (`lns_n{N}_{subsolver}_s0`), `n`, `subsolver`, `seed`, `config` (k=3, iterations=60, reps=2, maxiter=60, shots=512, stall_limit=12, kick=4), `start_assignment`, `start_cost`, `final_assignment`, `final_cost` (= mejor encontrado), `kicks`, `seconds` (cálculo real), `qaoa_calls`, `qaoa_subproblem_hit_rate`, `events`.

@@ -1,0 +1,5383 @@
+{
+  "spec": {
+    "n": 11,
+    "method": "qaoa",
+    "seed": 1,
+    "time_limit": 1800,
+    "lns_config": {
+      "k": 3,
+      "iterations": 60,
+      "reps": 2,
+      "maxiter": 60,
+      "shots": 512,
+      "stall_limit": 12,
+      "kick": 4,
+      "training_simulator": "permutation_subspace"
+    }
+  },
+  "solver_source_sha256": "6dea059ae5020af2ed357ccad230a4630882118bf319af9fd92e825003a546be",
+  "instance_sha256": "75d2c746990f997e822aeee7939cbdd1c9bbb821b9f3f06b18233c00d6ed27bb",
+  "extension_seed": 20261025,
+  "result": {
+    "id": "lns_n11_qaoa_s1",
+    "kind": "lns",
+    "n": 11,
+    "subsolver": "qaoa",
+    "seed": 1,
+    "config": {
+      "k": 3,
+      "iterations": 60,
+      "reps": 2,
+      "maxiter": 60,
+      "shots": 512,
+      "stall_limit": 12,
+      "kick": 4,
+      "training_simulator": "permutation_subspace"
+    },
+    "start_assignment": [
+      9,
+      1,
+      3,
+      7,
+      4,
+      5,
+      8,
+      6,
+      10,
+      2,
+      0
+    ],
+    "start_cost": 626,
+    "final_assignment": [
+      5,
+      1,
+      2,
+      9,
+      8,
+      4,
+      7,
+      6,
+      3,
+      0,
+      10
+    ],
+    "final_cost": 426,
+    "kicks": 0,
+    "best_tracking": "including_kicks",
+    "seconds": 47.735169899999164,
+    "qaoa_calls": 60,
+    "qaoa_subproblem_hit_rate": 0.8833333333333333,
+    "events": [
+      {
+        "iteration": 1,
+        "seconds": 0.24714639998273924,
+        "flights": [
+          1,
+          8,
+          10
+        ],
+        "gates": [
+          1,
+          10,
+          0
+        ],
+        "proposal": [
+          0,
+          2,
+          1
+        ],
+        "candidate": [
+          9,
+          1,
+          3,
+          7,
+          4,
+          5,
+          8,
+          6,
+          0,
+          2,
+          10
+        ],
+        "candidate_cost": 558,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          9,
+          1,
+          3,
+          7,
+          4,
+          5,
+          8,
+          6,
+          0,
+          2,
+          10
+        ],
+        "cost_after_move": 558,
+        "kick": null,
+        "assignment": [
+          9,
+          1,
+          3,
+          7,
+          4,
+          5,
+          8,
+          6,
+          0,
+          2,
+          10
+        ],
+        "cost": 558,
+        "best_assignment": [
+          9,
+          1,
+          3,
+          7,
+          4,
+          5,
+          8,
+          6,
+          0,
+          2,
+          10
+        ],
+        "best_cost": 558,
+        "qaoa": {
+          "seed": 449228,
+          "qubits": 9,
+          "p_optimal": 0.9996611179784074,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.051071699999738485,
+          "sample_seconds": 0.0112379000056535,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 3.1086244689504383e-15
+        }
+      },
+      {
+        "iteration": 2,
+        "seconds": 0.4497282999800518,
+        "flights": [
+          4,
+          8,
+          9
+        ],
+        "gates": [
+          4,
+          0,
+          2
+        ],
+        "proposal": [
+          0,
+          2,
+          1
+        ],
+        "candidate": [
+          9,
+          1,
+          3,
+          7,
+          4,
+          5,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "candidate_cost": 534,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          9,
+          1,
+          3,
+          7,
+          4,
+          5,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "cost_after_move": 534,
+        "kick": null,
+        "assignment": [
+          9,
+          1,
+          3,
+          7,
+          4,
+          5,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "cost": 534,
+        "best_assignment": [
+          9,
+          1,
+          3,
+          7,
+          4,
+          5,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "best_cost": 534,
+        "qaoa": {
+          "seed": 714806,
+          "qubits": 9,
+          "p_optimal": 0.3706783092189243,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.03656410000985488,
+          "sample_seconds": 0.008548600017093122,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 4.496403249731884e-15
+        }
+      },
+      {
+        "iteration": 3,
+        "seconds": 0.6605129999807104,
+        "flights": [
+          0,
+          5,
+          9
+        ],
+        "gates": [
+          9,
+          5,
+          0
+        ],
+        "proposal": [
+          1,
+          0,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          3,
+          7,
+          4,
+          9,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "candidate_cost": 526,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          3,
+          7,
+          4,
+          9,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "cost_after_move": 526,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          3,
+          7,
+          4,
+          9,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "cost": 526,
+        "best_assignment": [
+          5,
+          1,
+          3,
+          7,
+          4,
+          9,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "best_cost": 526,
+        "qaoa": {
+          "seed": 62757,
+          "qubits": 9,
+          "p_optimal": 0.9999999123012978,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.03634109999984503,
+          "sample_seconds": 0.007602399971801788,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 1.2656542480726785e-14
+        }
+      },
+      {
+        "iteration": 4,
+        "seconds": 0.8718538000248373,
+        "flights": [
+          2,
+          6,
+          8
+        ],
+        "gates": [
+          3,
+          8,
+          2
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          3,
+          7,
+          4,
+          9,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "candidate_cost": 526,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          3,
+          7,
+          4,
+          9,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "cost_after_move": 526,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          3,
+          7,
+          4,
+          9,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "cost": 526,
+        "best_assignment": [
+          5,
+          1,
+          3,
+          7,
+          4,
+          9,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "best_cost": 526,
+        "qaoa": {
+          "seed": 629470,
+          "qubits": 9,
+          "p_optimal": 0.9993413509532527,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.036134099995251745,
+          "sample_seconds": 0.007356000016443431,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 2.4424906541753444e-15
+        }
+      },
+      {
+        "iteration": 5,
+        "seconds": 1.0940992999821901,
+        "flights": [
+          1,
+          4,
+          10
+        ],
+        "gates": [
+          1,
+          4,
+          10
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          3,
+          7,
+          4,
+          9,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "candidate_cost": 526,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          3,
+          7,
+          4,
+          9,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "cost_after_move": 526,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          3,
+          7,
+          4,
+          9,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "cost": 526,
+        "best_assignment": [
+          5,
+          1,
+          3,
+          7,
+          4,
+          9,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "best_cost": 526,
+        "qaoa": {
+          "seed": 999227,
+          "qubits": 9,
+          "p_optimal": 0.005175238190589478,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.042737300042063,
+          "sample_seconds": 0.008770900021772832,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 2.4424906541753444e-15
+        }
+      },
+      {
+        "iteration": 6,
+        "seconds": 1.3084336000028998,
+        "flights": [
+          2,
+          3,
+          5
+        ],
+        "gates": [
+          3,
+          7,
+          9
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          3,
+          7,
+          4,
+          9,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "candidate_cost": 526,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          3,
+          7,
+          4,
+          9,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "cost_after_move": 526,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          3,
+          7,
+          4,
+          9,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "cost": 526,
+        "best_assignment": [
+          5,
+          1,
+          3,
+          7,
+          4,
+          9,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "best_cost": 526,
+        "qaoa": {
+          "seed": 338484,
+          "qubits": 9,
+          "p_optimal": 0.6338688043334942,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.04279639996821061,
+          "sample_seconds": 0.007740600034594536,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 2.3592239273284576e-16
+        }
+      },
+      {
+        "iteration": 7,
+        "seconds": 1.5084109000163153,
+        "flights": [
+          1,
+          4,
+          9
+        ],
+        "gates": [
+          1,
+          4,
+          0
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          3,
+          7,
+          4,
+          9,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "candidate_cost": 526,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          3,
+          7,
+          4,
+          9,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "cost_after_move": 526,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          3,
+          7,
+          4,
+          9,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "cost": 526,
+        "best_assignment": [
+          5,
+          1,
+          3,
+          7,
+          4,
+          9,
+          8,
+          6,
+          2,
+          0,
+          10
+        ],
+        "best_cost": 526,
+        "qaoa": {
+          "seed": 158357,
+          "qubits": 9,
+          "p_optimal": 0.17150248084305897,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.03593049995834008,
+          "sample_seconds": 0.00823320000199601,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 1.1102230246251565e-15
+        }
+      },
+      {
+        "iteration": 8,
+        "seconds": 1.7196635999716818,
+        "flights": [
+          3,
+          7,
+          10
+        ],
+        "gates": [
+          7,
+          6,
+          10
+        ],
+        "proposal": [
+          1,
+          2,
+          0
+        ],
+        "candidate": [
+          5,
+          1,
+          3,
+          6,
+          4,
+          9,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 508,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          3,
+          6,
+          4,
+          9,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 508,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          3,
+          6,
+          4,
+          9,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost": 508,
+        "best_assignment": [
+          5,
+          1,
+          3,
+          6,
+          4,
+          9,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 508,
+        "qaoa": {
+          "seed": 363635,
+          "qubits": 9,
+          "p_optimal": 0.5760547892116273,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.03813470003660768,
+          "sample_seconds": 0.0073299999930895865,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 4.440892098500626e-16
+        }
+      },
+      {
+        "iteration": 9,
+        "seconds": 2.4634896999923512,
+        "flights": [
+          2,
+          4,
+          9
+        ],
+        "gates": [
+          3,
+          4,
+          0
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          3,
+          6,
+          4,
+          9,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 508,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          3,
+          6,
+          4,
+          9,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 508,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          3,
+          6,
+          4,
+          9,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost": 508,
+        "best_assignment": [
+          5,
+          1,
+          3,
+          6,
+          4,
+          9,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 508,
+        "qaoa": {
+          "seed": 231401,
+          "qubits": 9,
+          "p_optimal": 0.30427670661687367,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.04296819999581203,
+          "sample_seconds": 0.037276299961376935,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 6.938893903907228e-16
+        }
+      },
+      {
+        "iteration": 10,
+        "seconds": 3.3465527999796905,
+        "flights": [
+          1,
+          8,
+          9
+        ],
+        "gates": [
+          1,
+          2,
+          0
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          3,
+          6,
+          4,
+          9,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 508,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          3,
+          6,
+          4,
+          9,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 508,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          3,
+          6,
+          4,
+          9,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost": 508,
+        "best_assignment": [
+          5,
+          1,
+          3,
+          6,
+          4,
+          9,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 508,
+        "qaoa": {
+          "seed": 303181,
+          "qubits": 9,
+          "p_optimal": 0.6149802920664506,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.12111880001612008,
+          "sample_seconds": 0.030211100005544722,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 9.2148511043888e-15
+        }
+      },
+      {
+        "iteration": 11,
+        "seconds": 4.250033300020732,
+        "flights": [
+          0,
+          4,
+          5
+        ],
+        "gates": [
+          5,
+          4,
+          9
+        ],
+        "proposal": [
+          2,
+          0,
+          1
+        ],
+        "candidate": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 486,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 486,
+        "kick": null,
+        "assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost": 486,
+        "best_assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 486,
+        "qaoa": {
+          "seed": 691192,
+          "qubits": 9,
+          "p_optimal": 0.6071429408028806,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.17474639997817576,
+          "sample_seconds": 0.03800580004462972,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 6.772360450213455e-15
+        }
+      },
+      {
+        "iteration": 12,
+        "seconds": 5.235591100004967,
+        "flights": [
+          0,
+          7,
+          8
+        ],
+        "gates": [
+          9,
+          10,
+          2
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 486,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 486,
+        "kick": null,
+        "assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost": 486,
+        "best_assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 486,
+        "qaoa": {
+          "seed": 275107,
+          "qubits": 9,
+          "p_optimal": 3.417178712062683e-21,
+          "subproblem_optimum_found": false,
+          "train_seconds": 0.2129667999688536,
+          "sample_seconds": 0.03423819999443367,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 7.549516567451064e-15
+        }
+      },
+      {
+        "iteration": 13,
+        "seconds": 6.1680763000040315,
+        "flights": [
+          3,
+          6,
+          8
+        ],
+        "gates": [
+          6,
+          8,
+          2
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 486,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 486,
+        "kick": null,
+        "assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost": 486,
+        "best_assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 486,
+        "qaoa": {
+          "seed": 817119,
+          "qubits": 9,
+          "p_optimal": 0.4084572181185369,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.1664468999952078,
+          "sample_seconds": 0.032322100014425814,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 1.9984014443252818e-15
+        }
+      },
+      {
+        "iteration": 14,
+        "seconds": 7.050074199971277,
+        "flights": [
+          3,
+          5,
+          9
+        ],
+        "gates": [
+          6,
+          4,
+          0
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 486,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 486,
+        "kick": null,
+        "assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost": 486,
+        "best_assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 486,
+        "qaoa": {
+          "seed": 28445,
+          "qubits": 9,
+          "p_optimal": 0.9999999052755815,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.16365329996915534,
+          "sample_seconds": 0.03893029998289421,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 1.6431300764452317e-14
+        }
+      },
+      {
+        "iteration": 15,
+        "seconds": 7.878134099999443,
+        "flights": [
+          1,
+          6,
+          8
+        ],
+        "gates": [
+          1,
+          8,
+          2
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 486,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 486,
+        "kick": null,
+        "assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost": 486,
+        "best_assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 486,
+        "qaoa": {
+          "seed": 919277,
+          "qubits": 9,
+          "p_optimal": 0.1740708820365092,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.15355869999621063,
+          "sample_seconds": 0.028033599955961108,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 3.219646771412954e-15
+        }
+      },
+      {
+        "iteration": 16,
+        "seconds": 8.813203700003214,
+        "flights": [
+          0,
+          4,
+          7
+        ],
+        "gates": [
+          9,
+          5,
+          10
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 486,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 486,
+        "kick": null,
+        "assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost": 486,
+        "best_assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 486,
+        "qaoa": {
+          "seed": 991783,
+          "qubits": 9,
+          "p_optimal": 0.5601100328779112,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.17541529994923621,
+          "sample_seconds": 0.03848569997353479,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 6.8833827526759706e-15
+        }
+      },
+      {
+        "iteration": 17,
+        "seconds": 9.72338260000106,
+        "flights": [
+          2,
+          4,
+          9
+        ],
+        "gates": [
+          3,
+          5,
+          0
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 486,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 486,
+        "kick": null,
+        "assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost": 486,
+        "best_assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 486,
+        "qaoa": {
+          "seed": 559376,
+          "qubits": 9,
+          "p_optimal": 0.999999994426158,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.1763535999925807,
+          "sample_seconds": 0.03564989997539669,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 6.217248937900877e-15
+        }
+      },
+      {
+        "iteration": 18,
+        "seconds": 10.61817470000824,
+        "flights": [
+          7,
+          8,
+          10
+        ],
+        "gates": [
+          10,
+          2,
+          7
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 486,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 486,
+        "kick": null,
+        "assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost": 486,
+        "best_assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 486,
+        "qaoa": {
+          "seed": 654009,
+          "qubits": 9,
+          "p_optimal": 0.09155610419830582,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.14945289999013767,
+          "sample_seconds": 0.033224400016479194,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 2.7755575615628914e-16
+        }
+      },
+      {
+        "iteration": 19,
+        "seconds": 11.480286900012288,
+        "flights": [
+          3,
+          7,
+          10
+        ],
+        "gates": [
+          6,
+          10,
+          7
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 486,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 486,
+        "kick": null,
+        "assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost": 486,
+        "best_assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 486,
+        "qaoa": {
+          "seed": 181689,
+          "qubits": 9,
+          "p_optimal": 0.9999267377308091,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.16269570001168177,
+          "sample_seconds": 0.03134049999061972,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 7.105427357601002e-15
+        }
+      },
+      {
+        "iteration": 20,
+        "seconds": 12.347693199990317,
+        "flights": [
+          2,
+          3,
+          10
+        ],
+        "gates": [
+          3,
+          6,
+          7
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 486,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 486,
+        "kick": null,
+        "assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost": 486,
+        "best_assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 486,
+        "qaoa": {
+          "seed": 785291,
+          "qubits": 9,
+          "p_optimal": 0.5966228491036779,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.1844582000048831,
+          "sample_seconds": 0.026953900000080466,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 6.5503158452884236e-15
+        }
+      },
+      {
+        "iteration": 21,
+        "seconds": 13.212099500000477,
+        "flights": [
+          3,
+          8,
+          10
+        ],
+        "gates": [
+          6,
+          2,
+          7
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 486,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 486,
+        "kick": null,
+        "assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost": 486,
+        "best_assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 486,
+        "qaoa": {
+          "seed": 420924,
+          "qubits": 9,
+          "p_optimal": 0.23677720634286997,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.15920759999426082,
+          "sample_seconds": 0.039596399990841746,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 9.43689570931383e-16
+        }
+      },
+      {
+        "iteration": 22,
+        "seconds": 14.113439699984156,
+        "flights": [
+          4,
+          5,
+          7
+        ],
+        "gates": [
+          5,
+          4,
+          10
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 486,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 486,
+        "kick": null,
+        "assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost": 486,
+        "best_assignment": [
+          9,
+          1,
+          3,
+          6,
+          5,
+          4,
+          8,
+          10,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 486,
+        "qaoa": {
+          "seed": 925625,
+          "qubits": 9,
+          "p_optimal": 0.710006600217482,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.13107970001874492,
+          "sample_seconds": 0.03346030000830069,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 4.551914400963142e-15
+        }
+      },
+      {
+        "iteration": 23,
+        "seconds": 15.052848200022709,
+        "flights": [
+          4,
+          5,
+          6
+        ],
+        "gates": [
+          5,
+          4,
+          8
+        ],
+        "proposal": [
+          1,
+          2,
+          0
+        ],
+        "candidate": [
+          9,
+          1,
+          3,
+          6,
+          4,
+          8,
+          5,
+          10,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 484,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          9,
+          1,
+          3,
+          6,
+          4,
+          8,
+          5,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 484,
+        "kick": null,
+        "assignment": [
+          9,
+          1,
+          3,
+          6,
+          4,
+          8,
+          5,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost": 484,
+        "best_assignment": [
+          9,
+          1,
+          3,
+          6,
+          4,
+          8,
+          5,
+          10,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 484,
+        "qaoa": {
+          "seed": 779174,
+          "qubits": 9,
+          "p_optimal": 2.9630326677644256e-07,
+          "subproblem_optimum_found": false,
+          "train_seconds": 0.16439400002127513,
+          "sample_seconds": 0.0279370000353083,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 8.43769498715119e-15
+        }
+      },
+      {
+        "iteration": 24,
+        "seconds": 15.923746399988886,
+        "flights": [
+          1,
+          6,
+          9
+        ],
+        "gates": [
+          1,
+          5,
+          0
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          9,
+          1,
+          3,
+          6,
+          4,
+          8,
+          5,
+          10,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 484,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          9,
+          1,
+          3,
+          6,
+          4,
+          8,
+          5,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 484,
+        "kick": null,
+        "assignment": [
+          9,
+          1,
+          3,
+          6,
+          4,
+          8,
+          5,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost": 484,
+        "best_assignment": [
+          9,
+          1,
+          3,
+          6,
+          4,
+          8,
+          5,
+          10,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 484,
+        "qaoa": {
+          "seed": 489391,
+          "qubits": 9,
+          "p_optimal": 0.6124703538754651,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.15565910004079342,
+          "sample_seconds": 0.03549889998976141,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 6.772360450213455e-15
+        }
+      },
+      {
+        "iteration": 25,
+        "seconds": 16.895011399989016,
+        "flights": [
+          5,
+          6,
+          8
+        ],
+        "gates": [
+          8,
+          5,
+          2
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          9,
+          1,
+          3,
+          6,
+          4,
+          8,
+          5,
+          10,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 484,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          9,
+          1,
+          3,
+          6,
+          4,
+          8,
+          5,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 484,
+        "kick": null,
+        "assignment": [
+          9,
+          1,
+          3,
+          6,
+          4,
+          8,
+          5,
+          10,
+          2,
+          0,
+          7
+        ],
+        "cost": 484,
+        "best_assignment": [
+          9,
+          1,
+          3,
+          6,
+          4,
+          8,
+          5,
+          10,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 484,
+        "qaoa": {
+          "seed": 743520,
+          "qubits": 9,
+          "p_optimal": 0.6808818224046963,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.20156340004177764,
+          "sample_seconds": 0.03814189997501671,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 6.217248937900877e-15
+        }
+      },
+      {
+        "iteration": 26,
+        "seconds": 17.816233500023372,
+        "flights": [
+          0,
+          3,
+          7
+        ],
+        "gates": [
+          9,
+          6,
+          10
+        ],
+        "proposal": [
+          0,
+          2,
+          1
+        ],
+        "candidate": [
+          9,
+          1,
+          3,
+          10,
+          4,
+          8,
+          5,
+          6,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 462,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          9,
+          1,
+          3,
+          10,
+          4,
+          8,
+          5,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 462,
+        "kick": null,
+        "assignment": [
+          9,
+          1,
+          3,
+          10,
+          4,
+          8,
+          5,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost": 462,
+        "best_assignment": [
+          9,
+          1,
+          3,
+          10,
+          4,
+          8,
+          5,
+          6,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 462,
+        "qaoa": {
+          "seed": 864901,
+          "qubits": 9,
+          "p_optimal": 0.26683348053672123,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.17253539996454492,
+          "sample_seconds": 0.029053199978079647,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 7.66053886991358e-15
+        }
+      },
+      {
+        "iteration": 27,
+        "seconds": 18.717756300000474,
+        "flights": [
+          0,
+          4,
+          6
+        ],
+        "gates": [
+          9,
+          4,
+          5
+        ],
+        "proposal": [
+          2,
+          1,
+          0
+        ],
+        "candidate": [
+          5,
+          1,
+          3,
+          10,
+          4,
+          8,
+          9,
+          6,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 458,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          3,
+          10,
+          4,
+          8,
+          9,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 458,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          3,
+          10,
+          4,
+          8,
+          9,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost": 458,
+        "best_assignment": [
+          5,
+          1,
+          3,
+          10,
+          4,
+          8,
+          9,
+          6,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 458,
+        "qaoa": {
+          "seed": 543490,
+          "qubits": 9,
+          "p_optimal": 0.07898022464447817,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.17384310002671555,
+          "sample_seconds": 0.02670879999641329,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 1.1102230246251565e-15
+        }
+      },
+      {
+        "iteration": 28,
+        "seconds": 19.573863499972504,
+        "flights": [
+          3,
+          6,
+          9
+        ],
+        "gates": [
+          10,
+          9,
+          0
+        ],
+        "proposal": [
+          1,
+          0,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 456,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 456,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost": 456,
+        "best_assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 456,
+        "qaoa": {
+          "seed": 726588,
+          "qubits": 9,
+          "p_optimal": 0.4373163970594857,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.15473990002647042,
+          "sample_seconds": 0.02852710004663095,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 2.0539125955565396e-15
+        }
+      },
+      {
+        "iteration": 29,
+        "seconds": 20.49606049997965,
+        "flights": [
+          4,
+          5,
+          9
+        ],
+        "gates": [
+          4,
+          8,
+          0
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 456,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 456,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost": 456,
+        "best_assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 456,
+        "qaoa": {
+          "seed": 784892,
+          "qubits": 9,
+          "p_optimal": 0.18806609885411915,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.17303269996773452,
+          "sample_seconds": 0.03537789999973029,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 4.884981308350689e-15
+        }
+      },
+      {
+        "iteration": 30,
+        "seconds": 21.402022599999327,
+        "flights": [
+          3,
+          7,
+          10
+        ],
+        "gates": [
+          9,
+          6,
+          7
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 456,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 456,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost": 456,
+        "best_assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 456,
+        "qaoa": {
+          "seed": 530866,
+          "qubits": 9,
+          "p_optimal": 0.9999551759495328,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.18380430003162473,
+          "sample_seconds": 0.03017739998176694,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 2.4424906541753444e-15
+        }
+      },
+      {
+        "iteration": 31,
+        "seconds": 22.338534599984996,
+        "flights": [
+          1,
+          9,
+          10
+        ],
+        "gates": [
+          1,
+          0,
+          7
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 456,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 456,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost": 456,
+        "best_assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 456,
+        "qaoa": {
+          "seed": 310566,
+          "qubits": 9,
+          "p_optimal": 0.14818331403694263,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.18232700001681224,
+          "sample_seconds": 0.03312689997255802,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 7.216449660063518e-15
+        }
+      },
+      {
+        "iteration": 32,
+        "seconds": 23.159477000008337,
+        "flights": [
+          0,
+          1,
+          3
+        ],
+        "gates": [
+          5,
+          1,
+          9
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 456,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 456,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost": 456,
+        "best_assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 456,
+        "qaoa": {
+          "seed": 199503,
+          "qubits": 9,
+          "p_optimal": 0.17208104607761804,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.16359209996880963,
+          "sample_seconds": 0.033596299996133894,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 2.7755575615628914e-15
+        }
+      },
+      {
+        "iteration": 33,
+        "seconds": 24.140726700017694,
+        "flights": [
+          0,
+          1,
+          4
+        ],
+        "gates": [
+          5,
+          1,
+          4
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 456,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 456,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost": 456,
+        "best_assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 456,
+        "qaoa": {
+          "seed": 598261,
+          "qubits": 9,
+          "p_optimal": 0.7134109451917843,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.19273879996035248,
+          "sample_seconds": 0.0316280999686569,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 7.66053886991358e-15
+        }
+      },
+      {
+        "iteration": 34,
+        "seconds": 25.032293699972797,
+        "flights": [
+          4,
+          6,
+          7
+        ],
+        "gates": [
+          4,
+          10,
+          6
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 456,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 456,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost": 456,
+        "best_assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 456,
+        "qaoa": {
+          "seed": 6853,
+          "qubits": 9,
+          "p_optimal": 0.04321103973040002,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.16786360001424327,
+          "sample_seconds": 0.029314099985640496,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 4.3298697960381105e-15
+        }
+      },
+      {
+        "iteration": 35,
+        "seconds": 25.911169499973767,
+        "flights": [
+          4,
+          5,
+          7
+        ],
+        "gates": [
+          4,
+          8,
+          6
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 456,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 456,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost": 456,
+        "best_assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 456,
+        "qaoa": {
+          "seed": 241166,
+          "qubits": 9,
+          "p_optimal": 0.5376627516573044,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.1631548999575898,
+          "sample_seconds": 0.02792079997016117,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 6.661338147750939e-16
+        }
+      },
+      {
+        "iteration": 36,
+        "seconds": 26.85513899999205,
+        "flights": [
+          4,
+          5,
+          7
+        ],
+        "gates": [
+          4,
+          8,
+          6
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 456,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 456,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost": 456,
+        "best_assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 456,
+        "qaoa": {
+          "seed": 400732,
+          "qubits": 9,
+          "p_optimal": 0.9998330279398543,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.2074741999967955,
+          "sample_seconds": 0.03747600002679974,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 4.6629367034256575e-15
+        }
+      },
+      {
+        "iteration": 37,
+        "seconds": 27.615500000014435,
+        "flights": [
+          1,
+          2,
+          3
+        ],
+        "gates": [
+          1,
+          3,
+          9
+        ],
+        "proposal": [
+          1,
+          0,
+          2
+        ],
+        "candidate": [
+          5,
+          3,
+          1,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 488,
+        "outcome": "reject",
+        "accepted": false,
+        "assignment_after_move": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 456,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost": 456,
+        "best_assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 456,
+        "qaoa": {
+          "seed": 873208,
+          "qubits": 9,
+          "p_optimal": 6.293030120824676e-07,
+          "subproblem_optimum_found": false,
+          "train_seconds": 0.08498670003609732,
+          "sample_seconds": 0.02847319998545572,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 1.0397329427546537e-19
+        }
+      },
+      {
+        "iteration": 38,
+        "seconds": 28.528014499985147,
+        "flights": [
+          3,
+          7,
+          10
+        ],
+        "gates": [
+          9,
+          6,
+          7
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 456,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 456,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost": 456,
+        "best_assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 456,
+        "qaoa": {
+          "seed": 385719,
+          "qubits": 9,
+          "p_optimal": 0.6611470687886833,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.18390860001090914,
+          "sample_seconds": 0.036946000007446855,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 2.7755575615628914e-15
+        }
+      },
+      {
+        "iteration": 39,
+        "seconds": 29.441003100015223,
+        "flights": [
+          6,
+          7,
+          10
+        ],
+        "gates": [
+          10,
+          6,
+          7
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "candidate_cost": 456,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost_after_move": 456,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "cost": 456,
+        "best_assignment": [
+          5,
+          1,
+          3,
+          9,
+          4,
+          8,
+          10,
+          6,
+          2,
+          0,
+          7
+        ],
+        "best_cost": 456,
+        "qaoa": {
+          "seed": 373628,
+          "qubits": 9,
+          "p_optimal": 0.7182061614605862,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.166699499997776,
+          "sample_seconds": 0.028478400025051087,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 2.55351295663786e-15
+        }
+      },
+      {
+        "iteration": 40,
+        "seconds": 30.29806290002307,
+        "flights": [
+          0,
+          2,
+          8
+        ],
+        "gates": [
+          5,
+          3,
+          2
+        ],
+        "proposal": [
+          0,
+          2,
+          1
+        ],
+        "candidate": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "candidate_cost": 452,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "cost_after_move": 452,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "cost": 452,
+        "best_assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "best_cost": 452,
+        "qaoa": {
+          "seed": 296869,
+          "qubits": 9,
+          "p_optimal": 0.9999999917067395,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.13286479999078438,
+          "sample_seconds": 0.029811899992637336,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 4.884981308350689e-15
+        }
+      },
+      {
+        "iteration": 41,
+        "seconds": 31.14198309998028,
+        "flights": [
+          2,
+          5,
+          10
+        ],
+        "gates": [
+          2,
+          8,
+          7
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "candidate_cost": 452,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "cost_after_move": 452,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "cost": 452,
+        "best_assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "best_cost": 452,
+        "qaoa": {
+          "seed": 928609,
+          "qubits": 9,
+          "p_optimal": 0.0017629020861848186,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.16900419996818528,
+          "sample_seconds": 0.0307106000254862,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 8.881784197001252e-15
+        }
+      },
+      {
+        "iteration": 42,
+        "seconds": 32.01167300000088,
+        "flights": [
+          4,
+          5,
+          8
+        ],
+        "gates": [
+          4,
+          8,
+          3
+        ],
+        "proposal": [
+          1,
+          0,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          2,
+          9,
+          8,
+          4,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "candidate_cost": 454,
+        "outcome": "reject",
+        "accepted": false,
+        "assignment_after_move": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "cost_after_move": 452,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "cost": 452,
+        "best_assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "best_cost": 452,
+        "qaoa": {
+          "seed": 960011,
+          "qubits": 9,
+          "p_optimal": 4.779593703338298e-10,
+          "subproblem_optimum_found": false,
+          "train_seconds": 0.14953460003016517,
+          "sample_seconds": 0.0244747000397183,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 1.709743457922741e-14
+        }
+      },
+      {
+        "iteration": 43,
+        "seconds": 32.78696569998283,
+        "flights": [
+          3,
+          9,
+          10
+        ],
+        "gates": [
+          9,
+          0,
+          7
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "candidate_cost": 452,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "cost_after_move": 452,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "cost": 452,
+        "best_assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "best_cost": 452,
+        "qaoa": {
+          "seed": 779551,
+          "qubits": 9,
+          "p_optimal": 0.5721832556913314,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.14144179999129847,
+          "sample_seconds": 0.02869740000460297,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 7.549516567451064e-15
+        }
+      },
+      {
+        "iteration": 44,
+        "seconds": 33.599826999998186,
+        "flights": [
+          1,
+          6,
+          9
+        ],
+        "gates": [
+          1,
+          10,
+          0
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "candidate_cost": 452,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "cost_after_move": 452,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "cost": 452,
+        "best_assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "best_cost": 452,
+        "qaoa": {
+          "seed": 650829,
+          "qubits": 9,
+          "p_optimal": 0.9993980290720685,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.16387570003280416,
+          "sample_seconds": 0.02883080003084615,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 6.661338147750939e-16
+        }
+      },
+      {
+        "iteration": 45,
+        "seconds": 34.443169499980286,
+        "flights": [
+          2,
+          3,
+          7
+        ],
+        "gates": [
+          2,
+          9,
+          6
+        ],
+        "proposal": [
+          0,
+          2,
+          1
+        ],
+        "candidate": [
+          5,
+          1,
+          2,
+          6,
+          4,
+          8,
+          10,
+          9,
+          3,
+          0,
+          7
+        ],
+        "candidate_cost": 492,
+        "outcome": "reject",
+        "accepted": false,
+        "assignment_after_move": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "cost_after_move": 452,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "cost": 452,
+        "best_assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "best_cost": 452,
+        "qaoa": {
+          "seed": 303950,
+          "qubits": 9,
+          "p_optimal": 3.553024460398778e-05,
+          "subproblem_optimum_found": false,
+          "train_seconds": 0.1670356999966316,
+          "sample_seconds": 0.028386999969370663,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 6.661338147750939e-15
+        }
+      },
+      {
+        "iteration": 46,
+        "seconds": 35.24004639999475,
+        "flights": [
+          2,
+          7,
+          9
+        ],
+        "gates": [
+          2,
+          6,
+          0
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "candidate_cost": 452,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "cost_after_move": 452,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "cost": 452,
+        "best_assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "best_cost": 452,
+        "qaoa": {
+          "seed": 406609,
+          "qubits": 9,
+          "p_optimal": 0.5866744857603512,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.1715645000222139,
+          "sample_seconds": 0.03148980002151802,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 7.882583474838611e-15
+        }
+      },
+      {
+        "iteration": 47,
+        "seconds": 36.156422599975485,
+        "flights": [
+          2,
+          3,
+          8
+        ],
+        "gates": [
+          2,
+          9,
+          3
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "candidate_cost": 452,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "cost_after_move": 452,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "cost": 452,
+        "best_assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          10,
+          6,
+          3,
+          0,
+          7
+        ],
+        "best_cost": 452,
+        "qaoa": {
+          "seed": 386500,
+          "qubits": 9,
+          "p_optimal": 0.0014811257626235904,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.18416549998801202,
+          "sample_seconds": 0.028970999992452562,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 2.4424906541753444e-15
+        }
+      },
+      {
+        "iteration": 48,
+        "seconds": 36.948975200008135,
+        "flights": [
+          6,
+          9,
+          10
+        ],
+        "gates": [
+          10,
+          0,
+          7
+        ],
+        "proposal": [
+          2,
+          1,
+          0
+        ],
+        "candidate": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "candidate_cost": 444,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost_after_move": 444,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost": 444,
+        "best_assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "best_cost": 444,
+        "qaoa": {
+          "seed": 232392,
+          "qubits": 9,
+          "p_optimal": 0.5873683039880592,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.16655949997948483,
+          "sample_seconds": 0.018699900014325976,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 4.107825191113079e-15
+        }
+      },
+      {
+        "iteration": 49,
+        "seconds": 37.781197700009216,
+        "flights": [
+          3,
+          6,
+          7
+        ],
+        "gates": [
+          9,
+          7,
+          6
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "candidate_cost": 444,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost_after_move": 444,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost": 444,
+        "best_assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "best_cost": 444,
+        "qaoa": {
+          "seed": 929134,
+          "qubits": 9,
+          "p_optimal": 0.9999999786035477,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.13812989997677505,
+          "sample_seconds": 0.04028819996165112,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 1.9984014443252818e-15
+        }
+      },
+      {
+        "iteration": 50,
+        "seconds": 38.78938069997821,
+        "flights": [
+          3,
+          4,
+          6
+        ],
+        "gates": [
+          9,
+          4,
+          7
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "candidate_cost": 444,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost_after_move": 444,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost": 444,
+        "best_assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "best_cost": 444,
+        "qaoa": {
+          "seed": 131607,
+          "qubits": 9,
+          "p_optimal": 0.49270050138899446,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.2180674999835901,
+          "sample_seconds": 0.032438999973237514,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 5.440092820663267e-15
+        }
+      },
+      {
+        "iteration": 51,
+        "seconds": 39.705057099985424,
+        "flights": [
+          1,
+          4,
+          6
+        ],
+        "gates": [
+          1,
+          4,
+          7
+        ],
+        "proposal": [
+          2,
+          1,
+          0
+        ],
+        "candidate": [
+          5,
+          7,
+          2,
+          9,
+          4,
+          8,
+          1,
+          6,
+          3,
+          0,
+          10
+        ],
+        "candidate_cost": 490,
+        "outcome": "reject",
+        "accepted": false,
+        "assignment_after_move": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost_after_move": 444,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost": 444,
+        "best_assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "best_cost": 444,
+        "qaoa": {
+          "seed": 990690,
+          "qubits": 9,
+          "p_optimal": 8.455360025910647e-05,
+          "subproblem_optimum_found": false,
+          "train_seconds": 0.18085449998034164,
+          "sample_seconds": 0.037851099972613156,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 3.9968028886505635e-15
+        }
+      },
+      {
+        "iteration": 52,
+        "seconds": 40.62888059997931,
+        "flights": [
+          3,
+          4,
+          6
+        ],
+        "gates": [
+          9,
+          4,
+          7
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "candidate_cost": 444,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost_after_move": 444,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost": 444,
+        "best_assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "best_cost": 444,
+        "qaoa": {
+          "seed": 883855,
+          "qubits": 9,
+          "p_optimal": 0.07606552353970135,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.17562829999951646,
+          "sample_seconds": 0.034864300047047436,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 5.10702591327572e-15
+        }
+      },
+      {
+        "iteration": 53,
+        "seconds": 41.53772259998368,
+        "flights": [
+          3,
+          4,
+          10
+        ],
+        "gates": [
+          9,
+          4,
+          10
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "candidate_cost": 444,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost_after_move": 444,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost": 444,
+        "best_assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "best_cost": 444,
+        "qaoa": {
+          "seed": 827774,
+          "qubits": 9,
+          "p_optimal": 0.5940127847037759,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.1820511000114493,
+          "sample_seconds": 0.0327646000077948,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 5.88418203051333e-15
+        }
+      },
+      {
+        "iteration": 54,
+        "seconds": 42.44590579997748,
+        "flights": [
+          0,
+          2,
+          9
+        ],
+        "gates": [
+          5,
+          2,
+          0
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "candidate_cost": 444,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost_after_move": 444,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost": 444,
+        "best_assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "best_cost": 444,
+        "qaoa": {
+          "seed": 408502,
+          "qubits": 9,
+          "p_optimal": 0.5915540239889676,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.13783479999983683,
+          "sample_seconds": 0.03038159996503964,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 9.880984919163893e-15
+        }
+      },
+      {
+        "iteration": 55,
+        "seconds": 43.340832100016996,
+        "flights": [
+          3,
+          7,
+          8
+        ],
+        "gates": [
+          9,
+          6,
+          3
+        ],
+        "proposal": [
+          1,
+          0,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          2,
+          6,
+          4,
+          8,
+          7,
+          9,
+          3,
+          0,
+          10
+        ],
+        "candidate_cost": 500,
+        "outcome": "reject",
+        "accepted": false,
+        "assignment_after_move": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost_after_move": 444,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost": 444,
+        "best_assignment": [
+          5,
+          1,
+          2,
+          9,
+          4,
+          8,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "best_cost": 444,
+        "qaoa": {
+          "seed": 351786,
+          "qubits": 9,
+          "p_optimal": 6.770578384392713e-09,
+          "subproblem_optimum_found": false,
+          "train_seconds": 0.1718560000299476,
+          "sample_seconds": 0.031010899983812124,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 7.771561172376096e-15
+        }
+      },
+      {
+        "iteration": 56,
+        "seconds": 44.273022899986245,
+        "flights": [
+          1,
+          4,
+          5
+        ],
+        "gates": [
+          1,
+          4,
+          8
+        ],
+        "proposal": [
+          0,
+          2,
+          1
+        ],
+        "candidate": [
+          5,
+          1,
+          2,
+          9,
+          8,
+          4,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "candidate_cost": 426,
+        "outcome": "improve",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          2,
+          9,
+          8,
+          4,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost_after_move": 426,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          2,
+          9,
+          8,
+          4,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost": 426,
+        "best_assignment": [
+          5,
+          1,
+          2,
+          9,
+          8,
+          4,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "best_cost": 426,
+        "qaoa": {
+          "seed": 460730,
+          "qubits": 9,
+          "p_optimal": 0.999999948916146,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.14814170001773164,
+          "sample_seconds": 0.032244599948171526,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 9.325873406851315e-15
+        }
+      },
+      {
+        "iteration": 57,
+        "seconds": 45.13053059997037,
+        "flights": [
+          1,
+          4,
+          7
+        ],
+        "gates": [
+          1,
+          8,
+          6
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          2,
+          9,
+          8,
+          4,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "candidate_cost": 426,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          2,
+          9,
+          8,
+          4,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost_after_move": 426,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          2,
+          9,
+          8,
+          4,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost": 426,
+        "best_assignment": [
+          5,
+          1,
+          2,
+          9,
+          8,
+          4,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "best_cost": 426,
+        "qaoa": {
+          "seed": 775292,
+          "qubits": 9,
+          "p_optimal": 0.7163153383944425,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.18493629997828975,
+          "sample_seconds": 0.03765900002326816,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 6.772360450213455e-15
+        }
+      },
+      {
+        "iteration": 58,
+        "seconds": 45.977115000016056,
+        "flights": [
+          5,
+          6,
+          8
+        ],
+        "gates": [
+          4,
+          7,
+          3
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          2,
+          9,
+          8,
+          4,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "candidate_cost": 426,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          2,
+          9,
+          8,
+          4,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost_after_move": 426,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          2,
+          9,
+          8,
+          4,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost": 426,
+        "best_assignment": [
+          5,
+          1,
+          2,
+          9,
+          8,
+          4,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "best_cost": 426,
+        "qaoa": {
+          "seed": 110695,
+          "qubits": 9,
+          "p_optimal": 0.389089954446822,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.17516729998169467,
+          "sample_seconds": 0.025653199991211295,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 3.9968028886505635e-15
+        }
+      },
+      {
+        "iteration": 59,
+        "seconds": 46.80050710000796,
+        "flights": [
+          2,
+          3,
+          7
+        ],
+        "gates": [
+          2,
+          9,
+          6
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          2,
+          9,
+          8,
+          4,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "candidate_cost": 426,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          2,
+          9,
+          8,
+          4,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost_after_move": 426,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          2,
+          9,
+          8,
+          4,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost": 426,
+        "best_assignment": [
+          5,
+          1,
+          2,
+          9,
+          8,
+          4,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "best_cost": 426,
+        "qaoa": {
+          "seed": 845502,
+          "qubits": 9,
+          "p_optimal": 0.37169595698114316,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.14660290000028908,
+          "sample_seconds": 0.03602399997180328,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 1.3877787807814457e-15
+        }
+      },
+      {
+        "iteration": 60,
+        "seconds": 47.735162500001024,
+        "flights": [
+          0,
+          1,
+          8
+        ],
+        "gates": [
+          5,
+          1,
+          3
+        ],
+        "proposal": [
+          0,
+          1,
+          2
+        ],
+        "candidate": [
+          5,
+          1,
+          2,
+          9,
+          8,
+          4,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "candidate_cost": 426,
+        "outcome": "equal",
+        "accepted": true,
+        "assignment_after_move": [
+          5,
+          1,
+          2,
+          9,
+          8,
+          4,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost_after_move": 426,
+        "kick": null,
+        "assignment": [
+          5,
+          1,
+          2,
+          9,
+          8,
+          4,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "cost": 426,
+        "best_assignment": [
+          5,
+          1,
+          2,
+          9,
+          8,
+          4,
+          7,
+          6,
+          3,
+          0,
+          10
+        ],
+        "best_cost": 426,
+        "qaoa": {
+          "seed": 49317,
+          "qubits": 9,
+          "p_optimal": 0.6070846678539563,
+          "subproblem_optimum_found": true,
+          "train_seconds": 0.16900059999898076,
+          "sample_seconds": 0.03134920005686581,
+          "training_simulator": "permutation_subspace",
+          "subspace_verification_max_probability_error": 5.88418203051333e-15
+        }
+      }
+    ],
+    "measured_seconds": 47.74873240001034,
+    "cpu_seconds": 45.046875,
+    "rss_before_bytes": 110837760,
+    "peak_rss_bytes": 124743680,
+    "peak_rss_increase_bytes": 13905920,
+    "rss_sample_interval_seconds": 0.005,
+    "rss_samples": 4048,
+    "peak_process_rss_bytes": 124755968
+  },
+  "completed_at": "2026-10-25T12:30:51+00:00",
+  "environment": {
+    "python": "3.13.7",
+    "os": "Windows-11-10.0.26300-SP0",
+    "thread_environment": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "RAYON_NUM_THREADS": "1",
+      "QISKIT_PARALLEL": "FALSE"
+    },
+    "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+    "logical_cpus": 32,
+    "ram_bytes": 16779833344,
+    "versions": {
+      "qiskit": "2.6.1",
+      "qiskit-aer": "0.18.0",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "psutil": "7.2.2"
+    }
+  }
+}

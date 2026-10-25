@@ -46,3 +46,35 @@ def load_qap10() -> QAPInstance:
     path = Path(__file__).resolve().parents[2] / "data" / "qap10_matrices.json"
     raw = json.loads(path.read_text(encoding="utf-8"))
     return QAPInstance(np.asarray(raw["flows"], dtype=int), np.asarray(raw["distances"], dtype=int))
+
+
+EXTENSION_SEED = 20261025
+EXTENSION_MAX_N = 14
+
+
+def extended_qap14() -> QAPInstance:
+    """Nested, synthetic extension; the leading 10x10 blocks remain QAP10.
+
+    New flows are independent draws from the 45 original off-diagonal flows
+    (including zeros). Gates continue the original four-column Manhattan grid.
+    The seed defines the instance, independently of solver seeds and results.
+    """
+    base = load_qap10()
+    n = EXTENSION_MAX_N
+    flows = np.zeros((n, n), dtype=int)
+    flows[:base.n, :base.n] = base.flows
+    population = base.flows[np.triu_indices(base.n, 1)]
+    rng = np.random.default_rng(EXTENSION_SEED)
+    for k in range(base.n, n):
+        for i in range(k):
+            flows[i, k] = flows[k, i] = int(rng.choice(population))
+    gates = np.arange(n)
+    distances = 2 * (abs(gates[:, None] // 4 - gates[None, :] // 4)
+                     + abs(gates[:, None] % 4 - gates[None, :] % 4))
+    return QAPInstance(flows, distances, "qap10-extension14")
+
+
+def load_instance(n: int) -> QAPInstance:
+    """Original QAP10 up to N=10; nested synthetic extension at N=11..14."""
+    base = load_qap10() if n <= 10 else extended_qap14()
+    return base.subinstance(n)

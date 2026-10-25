@@ -1,0 +1,72 @@
+{
+  "spec": {
+    "n": 14,
+    "method": "scipy_faq",
+    "seed": 3,
+    "time_limit": 1800,
+    "lns_config": {
+      "k": 3,
+      "iterations": 60,
+      "reps": 2,
+      "maxiter": 60,
+      "shots": 512,
+      "stall_limit": 12,
+      "kick": 4,
+      "training_simulator": "permutation_subspace"
+    }
+  },
+  "solver_source_sha256": "6dea059ae5020af2ed357ccad230a4630882118bf319af9fd92e825003a546be",
+  "instance_sha256": "fa74ac1e23327d94f9e11049c3125ac303b7ac928ea684ceeae9d993eb60cc23",
+  "extension_seed": 20261025,
+  "result": {
+    "assignment": [
+      9,
+      10,
+      11,
+      0,
+      2,
+      1,
+      4,
+      8,
+      7,
+      6,
+      12,
+      5,
+      13,
+      3
+    ],
+    "cost": 764,
+    "feasible": true,
+    "scipy_objective": 1528.0,
+    "measured_seconds": 0.0013574999757111073,
+    "cpu_seconds": 0.015625,
+    "rss_before_bytes": 110587904,
+    "peak_rss_bytes": 110845952,
+    "peak_rss_increase_bytes": 258048,
+    "rss_sample_interval_seconds": 0.005,
+    "rss_samples": 2,
+    "peak_process_rss_bytes": 110862336
+  },
+  "completed_at": "2026-10-25T12:52:31+00:00",
+  "environment": {
+    "python": "3.13.7",
+    "os": "Windows-11-10.0.26300-SP0",
+    "thread_environment": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "RAYON_NUM_THREADS": "1",
+      "QISKIT_PARALLEL": "FALSE"
+    },
+    "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+    "logical_cpus": 32,
+    "ram_bytes": 16779833344,
+    "versions": {
+      "qiskit": "2.6.1",
+      "qiskit-aer": "0.18.0",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "psutil": "7.2.2"
+    }
+  }
+}

@@ -1,5 +1,7 @@
 # Corroboración y escalamiento · N=1…10
 
+**Extensión final disponible:** [`scaling14_results.md`](scaling14_results.md) documenta N=10…14, con cinco semillas por tamaño, referencia exacta por ramificación y poda y memoria/tiempo medidos. N>10 es una ampliación sintética que preserva QAP10. Este documento conserva la campaña histórica de tres semillas; sus tiempos no se combinan con los de la campaña nueva.
+
 Reproducir: `python scaling_study.py` (≈12 min) y luego `python tools/plot_scaling.py`.
 Datos: `results/scaling.csv` y `results/scaling.json`. Cada N usa las primeras N filas y columnas de QAP10, como pide el reto para los controles.
 

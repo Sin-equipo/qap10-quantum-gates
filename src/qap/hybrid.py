@@ -67,7 +67,7 @@ def _exact_sub(sub: QAPInstance) -> tuple[tuple[int, ...], int]:
 def lns(instance: QAPInstance, *, subsolver: str = "qaoa", k: int = 3, iterations: int = 60,
         seed: int = 0, reps: int = 2, maxiter: int = 60, shots: int = 512,
         start: list[int] | None = None, stall_limit: int = 12, kick: int = 4,
-        trace: bool = False) -> dict:
+        trace: bool = False, training_simulator: str = "aer") -> dict:
     """Run LNS from a seeded random start; accept equal-or-better moves.
 
     After ``stall_limit`` iterations without improvement, ``kick`` random flights
@@ -108,7 +108,7 @@ def lns(instance: QAPInstance, *, subsolver: str = "qaoa", k: int = 3, iteration
         else:
             call_seed = int(sub_rng.integers(1_000_000))
             result = solve_qaoa(sub, mixer="perm", reps=reps, maxiter=maxiter, shots=shots,
-                                seed=call_seed)
+                                seed=call_seed, training_simulator=training_simulator)
             # Perm mixer: every sample is a valid permutation, so no repair is needed.
             choice = tuple(result["raw_best_assignment"])
             qaoa_calls += 1
@@ -118,7 +118,9 @@ def lns(instance: QAPInstance, *, subsolver: str = "qaoa", k: int = 3, iteration
             qaoa_info = {"seed": call_seed, "qubits": k * k, "p_optimal": result["p_optimal"],
                          "subproblem_optimum_found": bool(hit),
                          "train_seconds": result["train_seconds"],
-                         "sample_seconds": result["sample_seconds"]}
+                         "sample_seconds": result["sample_seconds"],
+                         "training_simulator": training_simulator,
+                         "subspace_verification_max_probability_error": result["subspace_verification_max_probability_error"]}
         candidate = list(current)
         for a, flight in enumerate(flights):
             candidate[flight] = gates[choice[a]]

@@ -29,4 +29,4 @@ Este documento registra el primer intento. Los pasos que dejaba abiertos ya est�
 - Escalamiento N=1…10 y límites de cada método: [`scaling_results.md`](scaling_results.md).
 - Visualización de asignaciones y aportes flujo × distancia: la demo `app/app.py`.
 
-Queda pendiente la prueba `N>=14` de la final, con vecindarios que mantengan un componente Qiskit justificable; no se simula un statevector de `N²` qubits.
+La prueba `N>=14` de la final está documentada en [`scaling14_results.md`](scaling14_results.md), con vecindarios de tres vuelos, nueve qubits por llamada y referencia óptima certificada; no se simula un statevector de `N²` qubits.

@@ -16,6 +16,7 @@ variational angles live on a sensible scale regardless of the penalty.
 from __future__ import annotations
 
 from collections import Counter
+from functools import lru_cache
 from itertools import permutations
 from time import perf_counter
 
@@ -128,6 +129,7 @@ def _assignment_index(assignment: tuple[int, ...], n: int) -> int:
     return sum(1 << (i * n + j) for i, j in enumerate(assignment))
 
 
+@lru_cache(maxsize=256)
 def _swap_term(n: int, i: int, k: int, j: int, ell: int) -> SparsePauliOp:
     """Hermitian swap |x_ij x_kl> <-> |x_il x_kj|: flights i, k exchange gates j, l."""
     n_qubits = n * n
@@ -194,6 +196,47 @@ def _objective(probs: np.ndarray, energies: np.ndarray, order: np.ndarray, alpha
     return float(weights @ energies[order] / alpha)
 
 
+@lru_cache(maxsize=4)
+def _permutation_swaps(n: int) -> tuple:
+    """Indices touched by each exact four-qubit exchange, in circuit order."""
+    perms = list(permutations(range(n)))
+    index = {p: i for i, p in enumerate(perms)}
+    terms = []
+    for i in range(n):
+        for k in range(i + 1, n):
+            for j in range(n):
+                for ell in range(j + 1, n):
+                    left, right = [], []
+                    for a, p in enumerate(perms):
+                        if p[i] == j and p[k] == ell:
+                            swapped = list(p)
+                            swapped[i], swapped[k] = swapped[k], swapped[i]
+                            left.append(a)
+                            right.append(index[tuple(swapped)])
+                    terms.append((np.asarray(left, dtype=int), np.asarray(right, dtype=int)))
+    return tuple(terms)
+
+
+def _permutation_state(n: int, reps: int, start: tuple[int, ...],
+                       energies: np.ndarray, scale: float, params: np.ndarray) -> np.ndarray:
+    """Exact simulation of the same circuit restricted to its N! valid states.
+
+    e^(-i beta swap) on a connected pair has entries cos(beta), -i sin(beta).
+    The cost diagonal may differ by a global phase, which does not affect
+    probabilities. This is a classical simulation optimization, not a change
+    to QAOA and not execution on quantum hardware.
+    """
+    state = np.zeros(len(energies), dtype=complex)
+    state[list(permutations(range(n))).index(start)] = 1
+    for layer in range(reps):
+        state *= np.exp(-1j * params[reps + layer] * energies / scale)
+        c, s = np.cos(params[layer]), -1j * np.sin(params[layer])
+        for left, right in _permutation_swaps(n):
+            a, b = state[left].copy(), state[right].copy()
+            state[left], state[right] = c * a + s * b, s * a + c * b
+    return state
+
+
 def _resources(qc: QuantumCircuit, seed: int) -> dict:
     """Logical and transpiled size of the ansatz on a generic device."""
     backend = GenericBackendV2(num_qubits=qc.num_qubits, seed=seed)
@@ -215,7 +258,7 @@ def solve_qaoa(instance: QAPInstance, *, seed: int = 7, shots: int = 2048,
                reps: int = 1, maxiter: int = 150, penalty: float | None = None,
                penalty_factor: float = 1.0, alpha: float = 1.0, mixer: str = "x",
                normalize: bool = True, resources: bool = False,
-               return_samples: bool = False) -> dict:
+               return_samples: bool = False, training_simulator: str = "aer") -> dict:
     """Run a QAOA experiment on Aer; intentionally limited to N <= 4 (16 qubits).
 
     The optimiser sees the exact statevector expectation (or CVaR); the final
@@ -223,6 +266,10 @@ def solve_qaoa(instance: QAPInstance, *, seed: int = 7, shots: int = 2048,
     ``return_samples=True`` adds every shot in read-out order (see ``_decode``).
     """
     n = instance.n
+    if training_simulator not in ("aer", "permutation_subspace"):
+        raise ValueError("training_simulator debe ser aer o permutation_subspace")
+    if training_simulator == "permutation_subspace" and mixer != "perm":
+        raise ValueError("El subespacio de permutaciones requiere el mezclador perm")
     if n > MAX_N:
         raise ValueError(f"QAOA statevector está limitado a N<={MAX_N} ({MAX_N**2} qubits)")
     if mixer not in {"x", "xy", "perm"}:
@@ -248,18 +295,30 @@ def solve_qaoa(instance: QAPInstance, *, seed: int = 7, shots: int = 2048,
     order = np.argsort(energies)
 
     simulator = AerSimulator(method="statevector", seed_simulator=seed)
-    trainable = qc.copy()
-    trainable.save_statevector()
-    trainable = transpile(trainable, simulator)
+    reduced = training_simulator == "permutation_subspace"
+    if not reduced:
+        trainable = qc.copy()
+        trainable.save_statevector()
+        trainable = transpile(trainable, simulator)
+    perm_indices = np.asarray([_assignment_index(p, n) for p in perms])
+    perm_energies = energies[perm_indices]
     history: list[float] = []
 
     def probabilities(params: np.ndarray) -> np.ndarray:
+        if reduced:
+            probs = np.zeros(1 << n_qubits)
+            probs[perm_indices] = np.abs(_permutation_state(n, reps, start, perm_energies, scale, params)) ** 2
+            return probs
         bound = trainable.assign_parameters(params)
         state = simulator.run(bound).result().get_statevector()
         return np.abs(np.asarray(state)) ** 2
 
     def objective(params: np.ndarray) -> float:
-        value = _objective(probabilities(params), energies, order, alpha)
+        if reduced:
+            probs = np.abs(_permutation_state(n, reps, start, perm_energies, scale, params)) ** 2
+            value = _objective(probs, perm_energies, np.argsort(perm_energies), alpha)
+        else:
+            value = _objective(probabilities(params), energies, order, alpha)
         history.append(value)
         return value
 
@@ -272,9 +331,22 @@ def solve_qaoa(instance: QAPInstance, *, seed: int = 7, shots: int = 2048,
     train_seconds = perf_counter() - tic
 
     probs = probabilities(result.x)
-    measured = qc.assign_parameters(result.x)
+    subspace_verification_error = None
+    if reduced:
+        # Every accelerated call is checked against an actual full Aer circuit.
+        compiled = transpile(qc.assign_parameters(result.x), simulator)
+        check_circuit = compiled.copy()
+        check_circuit.save_statevector()
+        state = simulator.run(check_circuit).result().get_statevector()
+        actual_probs = np.abs(np.asarray(state)) ** 2
+        subspace_verification_error = float(np.max(np.abs(probs - actual_probs)))
+        if subspace_verification_error > 1e-8:
+            raise AssertionError(f"El subespacio no reproduce Aer: {subspace_verification_error}")
+        probs = actual_probs
+    measured = compiled.copy() if reduced else qc.assign_parameters(result.x)
     measured.measure_all()
-    measured = transpile(measured, simulator)
+    if not reduced:
+        measured = transpile(measured, simulator)
     sampler = SamplerV2(seed=seed)
     tic = perf_counter()
     bit_array = sampler.run([measured], shots=shots).result()[0].data.meas
@@ -303,6 +375,8 @@ def solve_qaoa(instance: QAPInstance, *, seed: int = 7, shots: int = 2048,
         "n": n,
         "qubits": n_qubits,
         "mixer": mixer,
+        "training_simulator": training_simulator,
+        "subspace_verification_max_probability_error": subspace_verification_error,
         "start_assignment": list(start) if start is not None else None,
         "start_cost": int(perm_costs[start]) if start is not None else None,
         "reps": reps,
